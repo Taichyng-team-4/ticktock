@@ -1,0 +1,16 @@
+{
+  "name": "jstoolchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tailwind-watch": "tailwindcss -i css/input.css -o ../static/css/tailwind-output.css --watch",
+    "tailwind": "tailwindcss -i css/input.css -o ../static/css/tailwind-output.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.2"
+  }
+}
