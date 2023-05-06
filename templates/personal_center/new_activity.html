@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">   
+    <title>設定活動資料</title>
+</head>
+<body class="bg-background">
+    <nav class="h-10 bg-primary font-bold flex items-center">
+        <div class="px-10">
+            <h1 class="menu_logo">Ticktock</h1>
+        </div>
+    </nav>
+    <div class="main m-12 flex justify-center flex-col items-center">
+        <h3 class="text-center py-5">設定活動資料</h3>
+        <div class="flex flex-row">
+            <p class="px-5">組織名稱</p>
+            <p>XXX</p>
+        </div>
+        <div class="step1 flex flex-row ">
+            <div class="flex flex-col">
+                <div class="py-5">
+                    <label for="activity_name">活動名稱</label>
+                    <input type="text" name="activity_name" id="activity_name">
+                </div>
+                <div>
+                    <p class="activity_data py-5">活動舉辦時間</p>
+                    <div class="flex flex-row py-5">
+                        <label for="start_data">開始時間</label>
+                        <input type="date" name="start_data" id="start_data">
+                    </div>
+                    <div class="flex flex-row py-5">
+                        <label for="end_data">結束時間</label>
+                        <input type="date" name="end_data" id="end_data">
+                    </div>
+                    <div class="py-5">
+                        <label for="people_num">活動人數</label>
+                        <input type="number" name="people_num">
+                    </div>
+                    <div class="py-5">
+                        <label for="way">活動形式</label>
+                        <select>
+                            <option value="1">XXX</option>
+                            <option value="2">XXX</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="py-5">
+                    <label for="place">活動地點</label>
+                    <input type="text" name="place" id="place">
+                </div>
+                <div class="py-5">
+                    <label for="address">活動地址</label>
+                    <input type="text" name="address" id="address">
+                </div>
+                <div>
+                    <!-- <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">上一步</button> -->
+                    <button class="to_step2 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">下一步</button>
+                </div>
+            </div>
+            <div class="px-5">
+                <p>活動圖片</p>
+                <input type="file" name="activity_photo" id="activity_photo">
+            </div>
+        </div>
+        <div class="step2 flex flex-col hidden">
+            <div class="py-5">
+                <p>活動簡介(填入100字以內的活動描述介紹你的活動吧!)</p>
+                <textarea name="" id="" cols="100" rows="10"></textarea>
+            </div>
+            <div class="py-5">
+                <p>描述</p>
+                <textarea name="" id="" cols="100" rows="10"></textarea>
+            </div>
+            <div class="flex flex-row">
+                <button class="to_step1 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">上一步</button>
+                <button class="to_step3 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">下一步</button>
+            </div>
+        </div>
+        
+        <div class="step3 flex flex-col hidden">
+            <p>場地座位分配圖</p>
+            <div class="py-5">
+                <input type="file" name="venue_map" id="venue_map">
+            </div>
+            <div class="py-5">
+                <p>票種設定</p>
+                <table class="table-auto w-full border-b border-gray30">
+                    <thead>
+                    <tr>
+                        <th>票種名稱</th>
+                        <th>區域</th>
+                        <th>販售時間</th>
+                        <th>價格</th>
+                        <th>數量</th>
+                        <th>設定</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-gray30 text-center">
+                            <td class="px-2">一般票</td>
+                            <td class="px-2">A區</td>
+                            <td class="px-2">2023/01/02~2023/02/01</td>
+                            <td class="px-2">TW300</td>
+                            <td class="px-2">100</td>
+                            <td class="px-2">
+                                <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">編輯</button>
+                                <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">刪除</button>        
+                            </td>
+                        </tr>
+                        <tr class="border-t border-gray30 text-center">
+                            <td class="px-2">一般票</td>
+                            <td class="px-2">A區</td>
+                            <td class="px-2">2023/01/02~2023/02/01</td>
+                            <td class="px-2">TW300</td>
+                            <td class="px-2">100</td>
+                            <td class="px-2">
+                                <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">編輯</button>
+                                <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">刪除</button>        
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="add_ticket border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">新增</button>        
+                            
+            </div>
+            <div class="flex flex-row">
+                <button class="to_step2 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">上一步</button>
+                <button class="to_step4 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">下一步</button>
+            </div>
+        </div>
+        <div class="step4 flex flex-col hidden">
+            <div>
+                <p>收集資料類型</p>
+                <ul>
+                    <li class="flex justify-between">
+                        <p>個人資訊</p>
+                        <p>必填</p>
+                    </li>
+                    <li class="flex justify-between">
+                        <div>
+                            <input type="checkbox" name="name" id="name">
+                            <label for="name">姓名</label>    
+                        </div>
+                        <input type="checkbox" name="name_required" id="name_required">
+                    </li>
+                    <li class="flex justify-between">
+                        <div>
+                            <input type="checkbox" name="email" id="email">
+                            <label for="email">Email</label>    
+                        </div>
+                        <input type="checkbox" name="email_required" id="email_required">
+                    </li>
+                    <li class="flex justify-between">
+                        <div>
+                            <input type="checkbox" name="phone" id="phone">
+                            <label for="phone">手機</label>    
+                        </div>
+                        <input type="checkbox" name="phone_required" id="phone_required">
+                    </li>
+                    <li class="flex justify-between">
+                        <div>
+                            <input type="checkbox" name="gender" id="gender">
+                            <label for="gender">性別</label>    
+                        </div>
+                        <input type="checkbox" name="gender_required" id="gender_required">
+                    </li>
+                    <li class="flex justify-between">
+                        <div>
+                            <input type="checkbox" name="age" id="age">
+                            <label for="age">年齡</label>    
+                        </div>
+                        <input type="checkbox" name="age_required" id="age_required">
+                    </li>
+                </ul>
+            </div>
+            <div class="flex flex-col ">
+                <p>報名資料修改期限</p>
+                <div>
+                    <input type="radio" name="alter_data" id="yes">
+                    <label for="yes">聯絡人可以隨時自行修改報名資料,以符合最新狀況</label>
+                </div>
+                <div>
+                    <input type="radio" name="alter_data" id="no">
+                    <label for="no">聯絡人在指定時間後將無法自行修改報名資料</label>
+                </div>    
+            </div>
+            <div class="flex flex-row">
+                <button class="to_step3 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">上一步</button>
+                <button class="to_step5 border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">下一步</button>
+            </div>
+        </div>
+    </div>
+
+<div class="add_ticket_block absolute top-0 left-0 w-full h-full bg-gray30/[30%] hidden">
+    <div class="w-2/4 bg-white p-5 rounded absolute top-28 left-0 right-0 m-auto">
+        <h4 class="font-bold p-2">新增票種</h4>
+        <div class="flex flex-row">
+            <div class="flex flex-col px-2">
+                <label for="ticket_name">票種名稱</label>
+                <input type="text" name="ticket_name" id="ticket_name" class="bg-gray30">
+            </div>
+            <div class="flex flex-col px-2">
+                <label for="price">價格</label>
+                <input type="text" name="price" id="price" class="bg-gray30">
+            </div>
+            <div class="flex flex-col px-2">
+                <label for="sales_quantity">販售數量</label>
+                <input type="text" name="sales_quantity" id="sales_quantity" class="bg-gray30">
+            </div>
+        </div>
+        <div class="flex flex-row">
+            <div class="flex flex-col px-2">
+                <p>販售時間</p>
+                <div>
+                    <input type="date" name="start_data" id="start_data" class="bg-gray30 px-2">
+                    <input type="date" name="end_data" id="end_data" class="bg-gray30 px-2">
+                </div>
+            </div>
+            <div class="flex flex-col px-2">
+                <label for="price">區域</label>
+                <input type="text" name="price" id="price" class="bg-gray30">
+            </div>
+        </div>
+        <div class="py-5">
+            <p>1.您可以單獨指定開始或結束時間。如果沒有指定結束時間,會販售到活動結束時間。</p>
+            <p>2.每次最少/最多可以購買幾張票,預設是 1 張,最多 10 張。</p>
+        </div>
+        <button class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary">新增</button>        
+        <button class="add_ticket_clear border border-secondary text-secondary mx-2 px-2 py-1 rounded hover:text-white hover:bg-secondary">取消</button>        
+
+    </div>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="../../static/js/user.js"></script>
+</body>
+</html>

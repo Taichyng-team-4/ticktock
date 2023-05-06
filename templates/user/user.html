@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">   
+    <title>訂單管理</title>
+</head>
+<body class="bg-background">
+    <nav class="h-10 bg-primary font-bold flex items-center">
+        <div class="px-10">
+            <h1 class="menu_logo">Ticktock</h1>
+        </div>
+    </nav>
+    <div class="container px-10 mt-10 flex flex-nowrap">
+        <div class="side w-1/6">
+            <div class="user_img p-5 bg-white rounded">
+                <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                <h3 class="p-2 font-bold text-center text-2xl">Zoey</h3>
+            </div>
+            <div class="mt-5 bg-white rounded">
+                <ul>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
+                        <a href="user.html" class="block">訂單管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="profile.html" class="block">帳號管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="news.html" class="block">訊息管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="orgs.html" class="block">組織管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main ml-5 mb-5 w-5/6 bg-white">
+            <ul class="flex flex-nowrap items-center">
+                <li class="p-5 font-bold text-primary border-b-4 cursor-pointer hover:bg-primary/[15%]">已報名</li>
+                <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">已取消</li>
+                <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">退票紀錄</li>
+                <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">已結束</li>
+            </ul>
+            <div class="text-right p-5">
+                <input type="date" name="" id="" class="bg-gray30 px-5 rounded">
+            </div>
+            <div class="activity p-5">
+                <div class="bg-gray30 rounded flex flex-nowrap">
+                    <div class="w-56 h-56 p-3">
+                        <img src="https://picsum.photos/200/200" class="w-full">
+                    </div>
+                    <div class="p-3 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+                            <p class=" py-3">2023/3/23-2023/6/30</p>
+                        </div>
+                        <p>訂單編號 <span class="font-bold">E456789123</span></p>
+                    </div>
+                    <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+                        <div class="p-3 border border-gray40 px-20 py-12 font-bold">
+                            NT 6000
+                        </div>
+                        <div class="p-3 flex items-center">
+                            <span class="arrow material-icons" data-arrow="0">
+                                arrow_drop_down
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket hidden">
+                    <table class="table-auto w-full border-x border-b border-gray30">
+                        <thead>
+                          <tr>
+                            <th>票號</th>
+                            <th>區域</th>
+                            <th>票種</th>
+                            <th>座位</th>
+                            <th>有效期限</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            
+            <div class="activity p-5">
+                <div class="bg-gray30 rounded flex flex-nowrap">
+                    <div class="w-56 h-56 p-3">
+                        <img src="https://picsum.photos/200/200" class="w-full">
+                    </div>
+                    <div class="p-3 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+                            <p class=" py-3">2023/3/23-2023/6/30</p>
+                        </div>
+                        <p>訂單編號 <span class="font-bold">E456789123</span></p>
+                    </div>
+                    <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+                        <div class="p-3 border border-gray40 px-20 py-12 font-bold">
+                            NT 6000
+                        </div>
+                        <div class="p-3 flex items-center">
+                            <span class="arrow material-icons" data-arrow="0">
+                                arrow_drop_down
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket hidden">
+                    <table class="table-auto w-full border-x border-b border-gray30">
+                        <thead>
+                          <tr>
+                            <th>票號</th>
+                            <th>區域</th>
+                            <th>票種</th>
+                            <th>座位</th>
+                            <th>有效期限</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+            
+            <div class="activity p-5">
+                <div class="bg-gray30 rounded flex flex-nowrap">
+                    <div class="w-56 h-56 p-3">
+                        <img src="https://picsum.photos/200/200" class="w-full">
+                    </div>
+                    <div class="p-3 flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+                            <p class=" py-3">2023/3/23-2023/6/30</p>
+                        </div>
+                        <p>訂單編號 <span class="font-bold">E456789123</span></p>
+                    </div>
+                    <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+                        <div class="p-3 border border-gray40 px-20 py-12 font-bold">
+                            NT 6000
+                        </div>
+                        <div class="p-3 flex items-center">
+                            <span class="arrow material-icons" data-arrow="0">
+                                arrow_drop_down
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket hidden">
+                    <table class="table-auto w-full border-x border-b border-gray30">
+                        <thead>
+                          <tr>
+                            <th>票號</th>
+                            <th>區域</th>
+                            <th>票種</th>
+                            <th>座位</th>
+                            <th>有效期限</th>
+                            <th>狀態</th>
+                            <th>操作</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="border-t border-gray30 text-center">
+                                <td>123456</td>
+                                <td>A</td>
+                                <td>早鳥票</td>
+                                <td>33</td>
+                                <td>2023/1/1~2023/2/1</td>
+                                <td>未舉行</td>
+                                <td class="flex items-center justify-center">
+                                    <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                                        delete
+                                    </span>
+                                    <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                                        confirmation_number
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="../../static/js/user.js"></script>
+</body>
+</html>

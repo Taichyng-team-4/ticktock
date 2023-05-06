@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">   
+    <title>訂單管理</title>
+</head>
+<body class="bg-background">
+    <nav class="h-10 bg-primary font-bold flex items-center">
+        <div class="px-10">
+            <h1 class="menu_logo">Ticktock</h1>
+        </div>
+    </nav>
+    <div class="container px-10 mt-10 flex flex-nowrap">
+        <div class="side w-1/6">
+            <div class="user_img p-5 bg-white rounded">
+                <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                <h3 class="p-2 font-bold text-center text-2xl">Zoey</h3>
+            </div>
+            <div class="mt-5 bg-white rounded">
+                <ul>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="user.html" class="block">訂單管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="profile.html" class="block">帳號管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                        <a href="news.html" class="block">訊息管理</a>
+                    </li>
+                    <li class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
+                        <a href="orgs.html" class="block">組織管理</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main ml-5 mb-5 w-5/6 bg-white">
+            <div class="p-6 flex justify-between">
+                <h3 class="text-2xl font-bold">組織管理</h3>
+                <a href="../personal_center/new_org.html" class="px-5 py-1 border border-primary text-primary">新建組資</a>
+            </div>
+           <div class="p-6">
+            <table class="table-auto w-full border-x border-b border-gray30">
+                <thead>
+                  <tr class="bg-gray30">
+                    <th>組織名稱</th>
+                    <th>信箱</th>
+                    <th>電話</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-t border-gray30 text-center">
+                        <td>組織一</td>
+                        <td>test@gmail.com</td>
+                        <td>0566993877</td>
+                        <td class="flex items-center justify-center">
+                            <span class="material-icons pr-1 text-gray40 cursor-pointer">
+                                delete
+                            </span>
+                            <a href="../personal_center/account.html">
+                                <span class="material-icons pr-1 text-gray40 cursor-pointer">
+                                    edit
+                                </span>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+           </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="../../static/js/user.js"></script>
+</body>
+</html>
