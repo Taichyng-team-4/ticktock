@@ -8,16 +8,20 @@
     <link rel="stylesheet" href="../../static/css/tailwind-output.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
     <title>註冊</title>
     <style>
-select {
-/* color: gray; */
-}
+        select {
+            /* color: gray; */
+        }
 
-select:invalid {
-  color: gray;
-}
-
+        select:invalid {
+            color: gray;
+        }
     </style>
 </head>
 
@@ -73,7 +77,7 @@ select:invalid {
                 <select
                     class="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     name="birth-month" id="userSex" required v-model="gender">
-                    <option  value="" selected disabled hidden>生理性別</option>
+                    <option value="" selected disabled hidden>生理性別</option>
                     <option value="male">男</option>
                     <option value="female">女</option>
                 </select>
@@ -90,7 +94,6 @@ select:invalid {
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../../static/js/datepicker.js"></script>
-
     <!-- 載入 Vue Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
     <!-- 載入 VeeValidate -->
@@ -100,10 +103,10 @@ select:invalid {
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <!-- Vue 起手式 -->
-    <script>
-        // API Host Path
-        const apiHostPath = 'http://127.0.0.1:5000/api/v1';
-
+    <script type="module">
+        // API Config
+        import config from '../../static/js/config.js'
+        const registerAPI = config.registerAPI;
         const app = Vue.createApp({
             data() {
                 return {
@@ -118,8 +121,6 @@ select:invalid {
             methods: {
                 registerClick() {
                     console.log('Register Clicked...');
-                    // Register API
-                    const registerAPI = `${apiHostPath}/auths/signup`;
 
                     // todo : 驗證輸入資料功能
                     // todo : datetime picker 綁定功能
@@ -129,8 +130,7 @@ select:invalid {
 
                     // 組合 Request Body 資訊
                     const requestBody = {
-                        "firstName": this.userName,
-                        "lastName": this.userName,
+                        "name": this.userName,
                         "gender": this.gender,
                         "birth": this.birthday,
                         "country": 'Taiwan',
@@ -142,6 +142,14 @@ select:invalid {
 
                     // 顯示 送出 資料
                     console.log('registerAPI post :', requestBody);
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: 'Processing...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
 
                     // Post to Register API
                     axios.post(registerAPI, requestBody)
@@ -149,7 +157,19 @@ select:invalid {
                             // 成功
                             console.log('axios.post then res :');
                             console.log(res);
-                            // todo : 顯示成功訊息，跳轉到首頁
+                            // 顯示 登入成功 Dialog
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '您已經註冊帳戶成功!',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                // 轉頁面到登入頁                            
+                                if (result.isConfirmed) {
+                                    window.location.href = 'login.html'
+                                }
+                            });                            
                         })
                         .catch((err) => {
                             // 失敗
@@ -157,21 +177,29 @@ select:invalid {
                             console.log(err);
                             console.log(err.response);
                             // todo : 顯示錯誤訊息，註冊失敗，請重新註冊
+                            // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '註冊失敗，請檢查您的輸入資訊！',
+                                allowOutsideClick: false,
+                                icon: 'error',
+                            });
+
                         });
 
                 },
-                // // 初始化 測試資料 方便快輸入資訊
-                // initTestData() {
-                //     this.userName = 'ChinAn Lin';
-                //     this.gender = 'male';
-                //     this.birthday = '1988/12/25';
-                //     this.email = 'chinan1112@gmail.com';
-                //     this.password = '1qaz2wsx';
-                //     this.confirmPassword = '1qaz2wsx';
-                // }
+                // 初始化 測試資料 方便快輸入資訊
+                initTestData() {
+                    this.userName = 'ChinAn Lin';
+                    this.gender = 'male';
+                    this.birthday = '1988/12/25';
+                    this.email = 'linchinan12@gmail.com';
+                    this.password = '1qaz2wsx';
+                    this.confirmPassword = '1qaz2wsx';
+                }
             },
             mounted() {
-                // this.initTestData();
+                this.initTestData();
             }
         });
         // 綁定 VeeValidate 進入 全域物件
