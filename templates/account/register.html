@@ -26,253 +26,281 @@
 </head>
 
 <body>
-    <!-- 未登入 -->
-    <nav class="bg-navbar ">
-        <div class="container mx-auto px-6 py-3">
-            <div class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
-                <div class="flex items-center">
-                    <div>
-                        <a class="text-gray-800 text-xl font-bold hover:text-gray-700"
-                            href="../home/home.html">Ticktock</a>
+    <div id="app">
+        <!-- NavBar -->
+        <nav class="bg-navbar ">
+            <div class="container mx-auto px-6 py-3">
+                <div class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div>
+                            <a class="text-gray-800 text-xl font-bold hover:text-gray-700" href="#"
+                                @click.prevent="homeClick">Ticktock</a>
+                        </div>
+                        <div class="relative ml-3 flex items-center bg-white rounded-lg">
+                            <div class=" left-0">
+                                <button type="submit" class="text-black py-1 px-2 rounded-lg ">
+                                    <span class="material-icons">
+                                        search
+                                    </span>
+                                </button>
+                            </div>
+                            <input type="text" class=" py-1 px-2 pl-3 rounded-lg  focus:outline-none"
+                                placeholder="  Search">
+                        </div>
                     </div>
-                    <div class="relative ml-3 flex items-center bg-white rounded-lg">
-                        <div class=" left-0">
-                            <button type="submit" class="text-black py-1 px-2 rounded-lg ">
-                                <span class="material-icons">
-                                    search
+                    <div>
+                    </div>
+                    <div>
+                        <div class="hidden md:block">
+                            <ul class="flex space-x-4 text-nav  items-center">
+                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick">登入</a>
+                                </li>
+                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick">註冊</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="md:hidden flex items-center">
+                            <button class="outline-none mobile-menu-button">
+                                <span class="material-icons pr-1 text-gray40 cursor-pointer">
+                                    menu
                                 </span>
                             </button>
                         </div>
-                        <input type="text" class=" py-1 px-2 pl-3 rounded-lg  focus:outline-none"
-                            placeholder="  Search">
                     </div>
                 </div>
-                <div>
+                <div class="hidden mobile-menu">
+                    <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
+                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick">登入</a></li>
+                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick">註冊</a></li>
+                    </ul>
                 </div>
-                <div>
-                    <div class="hidden md:block">
-                        <ul class="flex space-x-4 text-nav  items-center">
-                            <li><a href="../account/login.html" class=" hover:text-gray-200">登入</a></li>
-                            <li><a href="../account/register.html" class=" hover:text-gray-200">註冊</a></li>
-                        </ul>
+            </div>
+        </nav>
+        <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
+                <div class="-mx-3">
+                    <p class="text-center mb-3">建立 Ticktock 帳號</p>
+
+                </div>
+                <!-- User Name -->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3">
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="username" type="text" placeholder="使用者名稱" v-model="userName">
                     </div>
-
-                    <div class="md:hidden flex items-center">
-                        <button class="outline-none mobile-menu-button">
-                            <span class="material-icons pr-1 text-gray40 cursor-pointer">
-                                menu
-                            </span>
-                        </button>
+                </div>
+                <!-- email -->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3">
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="userEmail" type="text" placeholder="Email" v-model="email">
                     </div>
                 </div>
-            </div>
-            <div class="hidden mobile-menu">
-                <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
-                    <li><a href="../account/login.html" class=" hover:text-gray-200">登入</a></li>
-                    <li><a href="../account/register.html" class=" hover:text-gray-200">註冊</a></li>
-                </ul>
-            </div>
-        </div>
+                <!-- 密碼 -->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3">
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="password" type="password" placeholder="密碼" v-model="password">
+                    </div>
+                </div>
+                <!-- 再次確認密碼 -->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3">
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="reconfirmPassword" type="password" placeholder="再次確認密碼" v-model="confirmPassword">
+                    </div>
+                </div>
+                <!--出生年月-->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3">
+                        <input
+                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            type="date" type="text" placeholder="出生年月日" v-model="birthday">
+                    </div>
+                </div>
+                <!--性別-->
+                <div class="-mx-3 md:flex">
+                    <div class="md:w-full px-3 mb-3">
+                        <select
+                            class="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            name="birth-month" id="userSex" required v-model="gender">
+                            <option value="" selected disabled hidden>生理性別</option>
+                            <option value="male">男</option>
+                            <option value="female">女</option>
+                        </select>
+                    </div>
+                </div>
+                <button
+                    class="bg-green400 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="button" @click.prevent="registerClick">
+                    註冊
+                </button>
+                <div class="flex justify-center items-center mt-4">
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                        href="#" @click.prevent="switchForgetPasswordClick">
+                        忘記密碼?
+                    </a>
+                </div>
+                <hr>
+                <button
+                    class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="button">
+                    <a href="#" @click.prevent="switchLoginClick">登入</a>
 
-    </nav>
-    <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-        <div id="app" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
-            <div class="-mx-3">
-                <p class="text-center mb-3">建立 Ticktock 帳號</p>
-
+                </button>
             </div>
-            <!-- User Name -->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3">
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="username" type="text" placeholder="使用者名稱" v-model="userName">
-                </div>
-            </div>
-            <!-- email -->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3">
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="userEmail" type="text" placeholder="Email" v-model="email">
-                </div>
-            </div>
-            <!-- 密碼 -->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3">
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="password" type="password" placeholder="密碼" v-model="password">
-                </div>
-            </div>
-            <!-- 再次確認密碼 -->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3">
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        id="reconfirmPassword" type="password" placeholder="再次確認密碼" v-model="confirmPassword">
-                </div>
-            </div>
-            <!--出生年月-->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3">
-                    <input
-                        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                        type="date" type="text" placeholder="出生年月日" v-model="birthday">
-                </div>
-            </div>
-            <!--性別-->
-            <div class="-mx-3 md:flex">
-                <div class="md:w-full px-3 mb-3">
-                    <select
-                        class="w-full border border-gray-400 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                        name="birth-month" id="userSex" required v-model="gender">
-                        <option value="" selected disabled hidden>生理性別</option>
-                        <option value="male">男</option>
-                        <option value="female">女</option>
-                    </select>
-                </div>
-            </div>
-            <button
-                class="bg-green400 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button" @click.prevent="registerClick">
-                註冊
-            </button>
-            <div class="flex justify-center items-center mt-4">
-                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-                    href="../account/password.html">
-                    忘記密碼?
-                </a>
-            </div>
-            <hr>
-            <button
-                class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                type="button">
-                <a href="../account/login.html">登入</a>
-
-            </button>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-        
-        <script src="../../static/js/nav.js"></script>
+    <script src="../../static/js/nav.js"></script>
 
-        <!-- 載入 Vue Core -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
-        <!-- 載入 VeeValidate -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
-        <!-- axios -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-        <!-- Vue 起手式 -->
-        <script type="module">
-            // API Config
-            import config from '../../static/js/config.js'
-            const registerAPI = config.registerAPI;
-            const app = Vue.createApp({
-                data() {
-                    return {
-                        userName: '',
-                        email: '',
-                        password: '',
-                        confirmPassword: '',
-                        birthday: '',
-                        gender: '',
-                    };
-                },
-                methods: {
-                    registerClick() {
-                        console.log('Register Clicked...');
+    <!-- 載入 Vue Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+    <!-- 載入 VeeValidate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <!-- Vue 起手式 -->
+    <script type="module">
+        import navbar from '../../static/components/navbar.vue'
+        // API Config
+        import config from '../../static/js/config.js'
+        const registerAPI = config.registerAPI;
+        const app = Vue.createApp({
+            data() {
+                return {
+                    userName: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    birthday: '',
+                    gender: '',
+                };
+            },
+            methods: {
+                registerClick() {
+                    console.log('Register Clicked...');
 
-                        // todo : 驗證輸入資料功能
-                        // todo : datetime picker 綁定功能
+                    // todo : 驗證輸入資料功能
+                    // todo : datetime picker 綁定功能
 
-                        // For Test
-                        this.birthday = '1988/12/25';
+                    // For Test
+                    this.birthday = '1988/12/25';
 
-                        // 組合 Request Body 資訊
-                        const requestBody = {
-                            "name": this.userName,
-                            "gender": this.gender,
-                            "birth": this.birthday,
-                            "country": 'Taiwan',
-                            "phone": '09123456789',
-                            "email": this.email,
-                            "password": this.password,
-                            "passwordConfirm": this.confirmPassword
-                        }
+                    // 組合 Request Body 資訊
+                    const requestBody = {
+                        "name": this.userName,
+                        "gender": this.gender,
+                        "birth": this.birthday,
+                        "country": 'Taiwan',
+                        "phone": '09123456789',
+                        "email": this.email,
+                        "password": this.password,
+                        "passwordConfirm": this.confirmPassword
+                    }
 
-                        // 顯示 送出 資料
-                        console.log('registerAPI post :', requestBody);
-                        // 顯示 processing dialog
-                        Swal.fire({
-                            title: 'Processing...',
-                            allowOutsideClick: false,
-                            onBeforeOpen: () => {
-                                Swal.showLoading();
-                            },
-                        });
+                    // 顯示 送出 資料
+                    console.log('registerAPI post :', requestBody);
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: 'Processing...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
 
-                        // Post to Register API
-                        axios.post(registerAPI, requestBody)
-                            .then((res) => {
-                                // 成功
-                                console.log('axios.post then res :');
-                                console.log(res);
-                                // 顯示 登入成功 Dialog
-                                Swal.fire({
-                                    title: 'Success!',
-                                    text: '您已經註冊帳戶成功!',
-                                    icon: 'success',
-                                    showCancelButton: false,
-                                    confirmButtonText: 'OK',
-                                }).then((result) => {
-                                    // 轉頁面到登入頁                            
-                                    if (result.isConfirmed) {
-                                        window.location.href = 'login.html'
-                                    }
-                                });
-                            })
-                            .catch((err) => {
-                                // 失敗
-                                console.log('axios.post catch error :');
-                                console.log(err);
-                                console.log(err.response);
-                                // todo : 顯示錯誤訊息，註冊失敗，請重新註冊
-                                // 顯示錯誤訊息
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: '註冊失敗，請檢查您的輸入資訊！',
-                                    allowOutsideClick: false,
-                                    icon: 'error',
-                                });
-
+                    // Post to Register API
+                    axios.post(registerAPI, requestBody)
+                        .then((res) => {
+                            // 成功
+                            console.log('axios.post then res :');
+                            console.log(res);
+                            // 顯示 登入成功 Dialog
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '您已經註冊帳戶成功!',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                // 轉頁面到登入頁                            
+                                if (result.isConfirmed) {
+                                    window.location.href = 'login.html'
+                                }
+                            });
+                        })
+                        .catch((err) => {
+                            // 失敗
+                            console.log('axios.post catch error :');
+                            console.log(err);
+                            console.log(err.response);
+                            // todo : 顯示錯誤訊息，註冊失敗，請重新註冊
+                            // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '註冊失敗，請檢查您的輸入資訊！',
+                                allowOutsideClick: false,
+                                icon: 'error',
                             });
 
-                    },
-                    // 初始化 測試資料 方便快輸入資訊
-                    initTestData() {
-                        this.userName = 'ChinAn Lin';
-                        this.gender = 'male';
-                        this.birthday = '1988/12/25';
-                        this.email = 'linchinan12@gmail.com';
-                        this.password = '1qaz2wsx';
-                        this.confirmPassword = '1qaz2wsx';
-                    }
+                        });
+
                 },
-                mounted() {
-                    this.initTestData();
+                // 點擊 Ticktock 回首頁 功能
+                homeClick() {
+                    console.log('homeClick() ...');
+                    window.location.replace('../home/home.html');
+                },
+                // 點擊 搜尋按鈕
+                searchClick() {
+                    console.log('searchClick() ...');
+                    // todo: 搜尋功能 ...
+                },
+                // 切換到 登入頁面
+                switchLoginClick() {
+                    console.log('switchLoginClick() ...');
+                    window.location.replace('login.html');
+                },
+                // 切換到 註冊頁面
+                switchRegisterClick() {
+                    console.log('switchRegisterClick() ...');
+                    window.location.replace('register.html');
+                },
+                // 切換到 忘記密碼頁面
+                switchForgetPasswordClick() {
+                    console.log('switchForgetPasswordClick() ...');
+                    window.location.replace('password.html');
+                },
+                // 初始化 測試資料 方便快輸入資訊
+                initTestData() {
+                    this.userName = 'ChinAn Lin';
+                    this.gender = 'male';
+                    this.birthday = '1988/12/25';
+                    this.email = 'linchinan12@gmail.com';
+                    this.password = '1qaz2wsx';
+                    this.confirmPassword = '1qaz2wsx';
                 }
-            });
-            // 綁定 VeeValidate 進入 全域物件
-            app.component('VForm', VeeValidate.Form);
-            app.component('VField', VeeValidate.Field);
-            app.component('ErrorMessage', VeeValidate.ErrorMessage);
-            // 將 Vue 綁定到 <div id="app"> 上面
-            app.mount('#app');
-        </script>
+            },
+            mounted() {
+                this.initTestData();
+            }
+        });
+        // 綁定 VeeValidate 進入 全域物件
+        app.component('VForm', VeeValidate.Form);
+        app.component('VField', VeeValidate.Field);
+        app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        // 將 Vue 綁定到 <div id="app"> 上面
+        app.mount('#app');
+    </script>
 </body>
 
 </html>
