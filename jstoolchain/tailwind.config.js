@@ -9,6 +9,7 @@ module.exports = {
       gray50:'#222222',
       gray40:'#717171',
       gray30: '#dddddd',
+      gray20: '#F3F3F3',
       background: '#f3f3f3',
       green400:'#a3e635',
       navbar: '#8CBDB9',

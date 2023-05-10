@@ -119,3 +119,11 @@ $('.to_step4').on('click', ()=>{
     $('.step5').addClass('hidden')
     $('.step4').removeClass('hidden')
 })
+//取票退票
+$('.check_in').on('click', ()=>{
+    console.log('r')
+    $('.ticket_management_block').removeClass('hidden')
+})
+$('.ticket_management_clear').on('click', ()=>{
+    $('.ticket_management_block').addClass('hidden')
+})
