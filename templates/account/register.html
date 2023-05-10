@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/tailwind-output.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
     <link rel="stylesheet" href="../../jstoolchain/css/nav.css">
     <title>註冊</title>
     <style>
@@ -68,6 +73,7 @@
                 </ul>
             </div>
         </div>
+
     </nav>
     <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
         <div id="app" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
@@ -133,8 +139,8 @@
                 註冊
             </button>
             <div class="flex justify-center items-center mt-4">
-                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="../account/password.html"
-                    >
+                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+                    href="../account/password.html">
                     忘記密碼?
                 </a>
             </div>
@@ -143,104 +149,130 @@
                 class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button">
                 <a href="../account/login.html">登入</a>
-                
+
             </button>
         </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-    <script src="../../static/js/nav.js"></script>
+        
+        <script src="../../static/js/nav.js"></script>
 
-    <!-- 載入 Vue Core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
-    <!-- 載入 VeeValidate -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
-    <!-- axios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <!-- Vue 起手式 -->
-    <script>
-        // API Host Path
-        const apiHostPath = 'http://127.0.0.1:5000/api/v1';
+        <!-- 載入 Vue Core -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+        <!-- 載入 VeeValidate -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+        <!-- axios -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <!-- Vue 起手式 -->
+        <script type="module">
+            // API Config
+            import config from '../../static/js/config.js'
+            const registerAPI = config.registerAPI;
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        userName: '',
+                        email: '',
+                        password: '',
+                        confirmPassword: '',
+                        birthday: '',
+                        gender: '',
+                    };
+                },
+                methods: {
+                    registerClick() {
+                        console.log('Register Clicked...');
 
-        const app = Vue.createApp({
-            data() {
-                return {
-                    userName: '',
-                    email: '',
-                    password: '',
-                    confirmPassword: '',
-                    birthday: '',
-                    gender: '',
-                };
-            },
-            methods: {
-                registerClick() {
-                    console.log('Register Clicked...');
-                    // Register API
-                    const registerAPI = `${apiHostPath}/auths/signup`;
+                        // todo : 驗證輸入資料功能
+                        // todo : datetime picker 綁定功能
 
-                    // todo : 驗證輸入資料功能
-                    // todo : datetime picker 綁定功能
+                        // For Test
+                        this.birthday = '1988/12/25';
 
-                    // For Test
-                    this.birthday = '1988/12/25';
+                        // 組合 Request Body 資訊
+                        const requestBody = {
+                            "name": this.userName,
+                            "gender": this.gender,
+                            "birth": this.birthday,
+                            "country": 'Taiwan',
+                            "phone": '09123456789',
+                            "email": this.email,
+                            "password": this.password,
+                            "passwordConfirm": this.confirmPassword
+                        }
 
-                    // 組合 Request Body 資訊
-                    const requestBody = {
-                        "firstName": this.userName,
-                        "lastName": this.userName,
-                        "gender": this.gender,
-                        "birth": this.birthday,
-                        "country": 'Taiwan',
-                        "phone": '09123456789',
-                        "email": this.email,
-                        "password": this.password,
-                        "passwordConfirm": this.confirmPassword
-                    }
-
-                    // 顯示 送出 資料
-                    console.log('registerAPI post :', requestBody);
-
-                    // Post to Register API
-                    axios.post(registerAPI, requestBody)
-                        .then((res) => {
-                            // 成功
-                            console.log('axios.post then res :');
-                            console.log(res);
-                            // todo : 顯示成功訊息，跳轉到首頁
-                        })
-                        .catch((err) => {
-                            // 失敗
-                            console.log('axios.post catch error :');
-                            console.log(err);
-                            console.log(err.response);
-                            // todo : 顯示錯誤訊息，註冊失敗，請重新註冊
+                        // 顯示 送出 資料
+                        console.log('registerAPI post :', requestBody);
+                        // 顯示 processing dialog
+                        Swal.fire({
+                            title: 'Processing...',
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
                         });
 
+                        // Post to Register API
+                        axios.post(registerAPI, requestBody)
+                            .then((res) => {
+                                // 成功
+                                console.log('axios.post then res :');
+                                console.log(res);
+                                // 顯示 登入成功 Dialog
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: '您已經註冊帳戶成功!',
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    confirmButtonText: 'OK',
+                                }).then((result) => {
+                                    // 轉頁面到登入頁                            
+                                    if (result.isConfirmed) {
+                                        window.location.href = 'login.html'
+                                    }
+                                });
+                            })
+                            .catch((err) => {
+                                // 失敗
+                                console.log('axios.post catch error :');
+                                console.log(err);
+                                console.log(err.response);
+                                // todo : 顯示錯誤訊息，註冊失敗，請重新註冊
+                                // 顯示錯誤訊息
+                                Swal.fire({
+                                    title: 'Error!',
+                                    text: '註冊失敗，請檢查您的輸入資訊！',
+                                    allowOutsideClick: false,
+                                    icon: 'error',
+                                });
+
+                            });
+
+                    },
+                    // 初始化 測試資料 方便快輸入資訊
+                    initTestData() {
+                        this.userName = 'ChinAn Lin';
+                        this.gender = 'male';
+                        this.birthday = '1988/12/25';
+                        this.email = 'linchinan12@gmail.com';
+                        this.password = '1qaz2wsx';
+                        this.confirmPassword = '1qaz2wsx';
+                    }
                 },
-                // // 初始化 測試資料 方便快輸入資訊
-                // initTestData() {
-                //     this.userName = 'ChinAn Lin';
-                //     this.gender = 'male';
-                //     this.birthday = '1988/12/25';
-                //     this.email = 'chinan1112@gmail.com';
-                //     this.password = '1qaz2wsx';
-                //     this.confirmPassword = '1qaz2wsx';
-                // }
-            },
-            mounted() {
-                // this.initTestData();
-            }
-        });
-        // 綁定 VeeValidate 進入 全域物件
-        app.component('VForm', VeeValidate.Form);
-        app.component('VField', VeeValidate.Field);
-        app.component('ErrorMessage', VeeValidate.ErrorMessage);
-        // 將 Vue 綁定到 <div id="app"> 上面
-        app.mount('#app');
-    </script>
+                mounted() {
+                    this.initTestData();
+                }
+            });
+            // 綁定 VeeValidate 進入 全域物件
+            app.component('VForm', VeeValidate.Form);
+            app.component('VField', VeeValidate.Field);
+            app.component('ErrorMessage', VeeValidate.ErrorMessage);
+            // 將 Vue 綁定到 <div id="app"> 上面
+            app.mount('#app');
+        </script>
 </body>
 
 </html>

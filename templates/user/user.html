@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../static/css/tailwind-output.css"> 
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">   
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>訂單管理</title>
 </head>
+
 <body class="bg-background">
     <nav class="h-10 bg-primary font-bold flex items-center">
         <div class="px-10">
@@ -23,7 +24,8 @@
             </div>
             <div class="mt-5 bg-white rounded">
                 <ul>
-                    <li class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
+                    <li
+                        class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
                         <a href="user.html" class="block">訂單管理</a>
                     </li>
                     <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
@@ -74,15 +76,15 @@
                 <div class="ticket hidden">
                     <table class="table-auto w-full border-x border-b border-gray30">
                         <thead>
-                          <tr>
-                            <th>票號</th>
-                            <th>區域</th>
-                            <th>票種</th>
-                            <th>座位</th>
-                            <th>有效期限</th>
-                            <th>狀態</th>
-                            <th>操作</th>
-                          </tr>
+                            <tr>
+                                <th>票號</th>
+                                <th>區域</th>
+                                <th>票種</th>
+                                <th>座位</th>
+                                <th>有效期限</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr class="border-t border-gray30 text-center">
@@ -118,10 +120,10 @@
                                 </td>
                             </tr>
                         </tbody>
-                      </table>
+                    </table>
                 </div>
             </div>
-            
+
             <div class="activity p-5">
                 <div class="bg-gray30 rounded flex flex-nowrap">
                     <div class="w-56 h-56 p-3">
@@ -148,15 +150,15 @@
                 <div class="ticket hidden">
                     <table class="table-auto w-full border-x border-b border-gray30">
                         <thead>
-                          <tr>
-                            <th>票號</th>
-                            <th>區域</th>
-                            <th>票種</th>
-                            <th>座位</th>
-                            <th>有效期限</th>
-                            <th>狀態</th>
-                            <th>操作</th>
-                          </tr>
+                            <tr>
+                                <th>票號</th>
+                                <th>區域</th>
+                                <th>票種</th>
+                                <th>座位</th>
+                                <th>有效期限</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr class="border-t border-gray30 text-center">
@@ -192,10 +194,10 @@
                                 </td>
                             </tr>
                         </tbody>
-                      </table>
+                    </table>
                 </div>
             </div>
-            
+
             <div class="activity p-5">
                 <div class="bg-gray30 rounded flex flex-nowrap">
                     <div class="w-56 h-56 p-3">
@@ -222,15 +224,15 @@
                 <div class="ticket hidden">
                     <table class="table-auto w-full border-x border-b border-gray30">
                         <thead>
-                          <tr>
-                            <th>票號</th>
-                            <th>區域</th>
-                            <th>票種</th>
-                            <th>座位</th>
-                            <th>有效期限</th>
-                            <th>狀態</th>
-                            <th>操作</th>
-                          </tr>
+                            <tr>
+                                <th>票號</th>
+                                <th>區域</th>
+                                <th>票種</th>
+                                <th>座位</th>
+                                <th>有效期限</th>
+                                <th>狀態</th>
+                                <th>操作</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr class="border-t border-gray30 text-center">
@@ -266,12 +268,58 @@
                                 </td>
                             </tr>
                         </tbody>
-                      </table>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
+    <div class="ticket_management_block absolute top-0 left-0 w-full h-full bg-gray30/[30%] hidden">
+        <div class="w-1/2 bg-white p-5 rounded absolute top-28 left-0 right-0 m-auto">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl mb-5">世界巡迴《破蛋者》BALLBRE</h3>
+                <span class="ticket_management_clear material-icons cursor-pointer">
+                    clear
+                </span>
+            </div>
+            <div class="bg-white grid grid-cols-1 xs:grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                <div class="p-5 flex border w-full relative">
+                    <div>
+                        <h3 class="font-bold text-2xl mb-5">退票管理</h3>
+                        <p class="flex items-center my-4">
+                            <span>
+                                親愛的顧客您好，退票須收取手續費10%，請先問是否退票?
+                            </span>
+                        </p>
+                        <br>
+                        <div class="absolute bottom-0 right-0 p-5">
+                            <button class="text-xl">取消</button>
+                            <button class="text-xl text-green600">確定</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-5 flex border w-full relative">
+                    <div>
+                        <h3 class="font-bold text-2xl mb-5">取票</h3>
+                        <p class="flex items-center">
+                            <img src="../../static/img/QRcode_image.png" alt="QRcode_image"
+                                class="w-full rounded-lg mb-4 ">
+                        </p>
+                        <div class=" bottom-0 p-5 text-center w-full">
+                            <span class="mr-1">
+                                QRCODE
+                            </span>
+                        </div>
+                    </div>
+                   
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="../../static/js/user.js"></script>
 </body>
+
 </html>

@@ -7,6 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../static/css/tailwind-output.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
     <title>登入</title>
 </head>
 
@@ -110,10 +115,13 @@
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <!-- Vue 起手式 -->
-    <script>
-        // API Host Path
-        const apiHostPath = 'http://127.0.0.1:5000/api/v1';
-        const loginAPI = `${apiHostPath}/auths/login`;
+    <script type="module">
+        // 公用程式 utilities
+        import utilities from '../../static/js/utilities.js'
+        // API Config
+        import config from '../../static/js/config.js'
+        const loginAPI = config.loginAPI;
+
         const app = Vue.createApp({
             data() {
                 return {
@@ -136,19 +144,51 @@
                     console.log(`loginAPI => ${loginAPI}`);
                     console.log(requestBody);
 
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: 'Processing...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+ 
                     axios.post(loginAPI, requestBody)
                         .then((res) => {
                             // 登入 成功
                             console.log('login 成功');
                             console.log(res);
-                            // Todo : 記錄 JWT 進入 local storage 
-                            // Todo : 轉頁面
+                            // 記錄 JWT 進入 local storage 
+                            utilities.setJwtToken(res.data.token);
+                            // 顯示 登入成功 Dialog
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'You have logged in successfully.',
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                // 轉頁面到首頁                            
+                                if (result.isConfirmed) {
+                                    window.location.href = '../home/home.html'
+                                }
+                            });
+                            
                         }).catch((err) => {
                             // 登入 失敗
                             console.log('login 失敗');
                             console.log(err);
                             console.log(err.response);
                             // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Failed to login. Please check your email and password.',
+                                allowOutsideClick: false,
+                                icon: 'error',
+                            });
+                        })
+                        .finally(() => {
+                            Swal.hideLoading();
                         });
 
 
@@ -162,7 +202,7 @@
                     window.location.replace('password.html');
                 },
                 initTestData() {
-                    this.account = 'chinan1112@gmail.com';
+                    this.account = 'linchinan12@gmail.com';
                     this.password = '1qaz2wsx';
                 }
             },
