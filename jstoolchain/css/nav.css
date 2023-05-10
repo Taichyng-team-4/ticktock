@@ -81,4 +81,19 @@
       text-align: left;
     }
   }
+  input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 针对 Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* 针对 IE11 */
+input[type="number"]::-ms-clear {
+  display: none;
+}
   
