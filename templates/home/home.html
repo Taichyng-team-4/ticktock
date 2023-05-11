@@ -54,9 +54,9 @@
                     <div>
                         <div class="hidden md:block">
                             <ul class="flex space-x-4 text-nav  items-center">
-                                <li><a href="#" class=" hover:text-gray-200" >登入</a>
+                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick" >登入</a>
                                 </li>
-                                <li><a href="#" class=" hover:text-gray-200" >註冊</a>
+                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick" >註冊</a>
                                 </li>
                             </ul>
                         </div>
@@ -72,8 +72,8 @@
                 </div>
                 <div class="hidden mobile-menu">
                     <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
-                        <li><a href="#" class=" hover:text-gray-200" >登入</a></li>
-                        <li><a href="#" class=" hover:text-gray-200" >註冊</a></li>
+                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick" >登入</a></li>
+                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick" >註冊</a></li>
                     </ul>
                 </div>
             </div>
@@ -242,7 +242,8 @@
     <script src="../../static/js/user.js"></script>
 
     <!-- 載入 Vue Core -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script> -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <!-- 載入 VeeValidate -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
@@ -250,11 +251,11 @@
     <!-- axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <!-- Vue 起手式 -->
-    <script type="module">
-        // API Config
-        import config from '../../static/js/config.js'
-
-        const app = Vue.createApp({
+    <script>
+        // // API Config
+        // import config from '../../static/js/config.js'
+        const { createApp } = Vue
+        const app = createApp({
             data() {
                 return {}
             },
@@ -285,7 +286,7 @@
                     window.location.replace('../account/password.html');
                 },
             },
-            mounted : {
+            mounted() {
 
             }
         });
