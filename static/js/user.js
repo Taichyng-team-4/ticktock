@@ -119,3 +119,14 @@ $('.to_step4').on('click', ()=>{
     $('.step5').addClass('hidden')
     $('.step4').removeClass('hidden')
 })
+
+
+// 申請組織
+$('.new_org').on('click', ()=>{
+    $('.new_org_block').removeClass('hidden')
+    $('.orgs').addClass('hidden')
+})
+$('.cancel_org').on('click', ()=>{
+    $('.orgs').removeClass('hidden')
+    $('.new_org_block').addClass('hidden')
+})
