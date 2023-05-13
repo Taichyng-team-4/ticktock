@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../../jstoolchain/css/nav.css">
+
+    <title>活動頁面瀏覽</title>
+</head>
+
+<body class="bg-gray20">
+    <!-- 已登入 -->
+    <nav class="bg-navbar ">
+        <div class="container mx-auto px-6 py-3">
+            <div class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
+                <div class="flex items-center">
+                    <div>
+                        <a class="text-gray-800 text-xl font-bold hover:text-gray-700" href="#">Ticktock</a>
+                    </div>
+                    <div class="relative ml-3 flex items-center bg-white rounded-lg">
+                        <div class=" left-0">
+                            <button type="submit" class="text-black py-1 px-2 rounded-lg ">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                        </div>
+                        <input type="text" class=" py-1 px-2 pl-3 rounded-lg  focus:outline-none"
+                            placeholder="  Search">
+                    </div>
+                </div>
+                <div>
+                </div>
+                <div>
+                    <div class="hidden md:block">
+                        <ul class="flex space-x-4 text-nav  items-center">
+                            <li><a href="#" class=" hover:text-gray-200">訂單查詢</a></li>
+                            <li><a href="#" class=" hover:text-gray-200">建立活動</a></li>
+                            <div class="dropdown">
+                                <button class="dropbtn flex items-center justify-between">選擇組織
+                                    <span class="material-icons">
+                                        arrow_drop_down
+                                    </span>
+                                </button>
+                                <div class="dropdown-content">
+                                    <p class="ml-4">組織列表</p>
+                                    <ul class="ml-3">
+                                        <li><a href="#">Link 1</a></li>
+                                    </ul>
+                                    <a href="#">新增組織</a>
+                                </div>
+                            </div>
+                            <div class="dropdown">
+                                <button class="dropbtn">
+                                    <span class="material-icons">
+                                        account_circle
+                                    </span> </button>
+                                <div class="dropdown-content">
+                                    <a href="#">設定</a>
+                                    <a href="#">登出</a>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div class="md:hidden flex items-center">
+                        <button class="outline-none mobile-menu-button">
+                            <span class="material-icons pr-1 text-gray40 cursor-pointer">
+                                menu
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden mobile-menu">
+                <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
+                    <li><a href="#" class=" hover:text-gray-200">訂單查詢</a></li>
+                    <li><a href="#" class=" hover:text-gray-200">建立活動</a></li>
+                    <div class="dropdown">
+                        <button class="dropbtn flex items-center justify-between">選擇組織
+                            <span class="material-icons">
+                                arrow_drop_down
+                            </span> </button>
+                        <div class="subdropdown-content">
+                            <p class="ml-4">組織列表</p>
+                            <ul class="ml-3">
+                                <li><a href="#">Link 1</a></li>
+                            </ul>
+                            <hr>
+                            <a href="#">新增組織</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <span class="material-icons">
+                                account_circle
+                            </span>
+                            <span class="material-icons">
+                                arrow_drop_down
+                            </span> </button>
+                        <div class="subdropdown-content">
+                            <a href="#">設定</a>
+                            <a href="#">登出</a>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="bg-white mb-10">
+        <div class="container mx-auto max-w-screen-sm px-6 ">
+            <div class=" px-4 py-5 max-w-7xl flex justify-between items-center">
+                <label class="link-secondary text-gray40">1.瀏覽活動</label>
+                <div class="text-center w-1/4">
+                    <hr style=" border: 1px solid grey;">
+                </div>
+                <label class="link-secondary font-bold ">2.選定票卷</label>
+                <div class="text-center w-1/4">
+                    <hr style=" border: 1px solid grey;">
+                </div>
+                <label class="link-secondary text-gray40">3.確認購票資訊</label>
+            </div>
+        </div>
+    </div>
+    <div class="max-w-screen-xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+        <!-- Main Content -->
+        <main class="p-4 sm:p-6">
+
+            <div class="mb-3">
+                <a href="#" class="link-secondary">首頁</a>/
+                <a href="#" class="link-secondary">演唱會</a>/
+                <a href="#" class="link-secondary">POP! POP! POP! 流行音樂互動展</a>
+            </div>
+            <!-- Event Image -->
+            <div class="w-full relative">
+                <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80"
+                    alt="Event Image" class="w-full rounded-lg mb-4">
+                <div class="absolute bottom-0 left-0 p-5 bg-primary">
+                    <h3 class="font-bold text-2xl">告五人第一次世界巡迴演唱會</h3>
+                    <p class="flex items-center">
+                        <span class="material-icons mr-3">
+                            access_time_filled
+                        </span>星期四, 五月 25, 2023
+                    </p>
+                    <p class="flex items-center">
+                        <span class="material-icons mr-3">
+                            place
+                        </span>110台北市信義區信義路五段7號89樓
+                    </p>
+                </div>
+            </div>
+            <div class="container mx-auto max-w-screen-sm px-6">
+
+                <!-- Event Description -->
+                <h1 class="text-3xl mb-2 font-bold py-10">2023年你不能錯過的蔡依林 Jolin 演唱會，現在在各大平台熱烈銷售中，錯過這次機會就在等明年</h1>
+                <p> <span class="material-icons">
+                        diversity_3
+                    </span>活動主辦方:有間文創娛樂有限公司
+                </p>
+                <p class="mt-10 text-gray-700 leading-relaxed mb-6">「POP! POP! POP! 流行音樂互動展」將改變你對聽音樂、看展覽的既定想法。
+                    這裡是“音樂的發聲地”，也是所有音樂起源的開始；一段段歷久不衰的流行金曲，承載著許多人的共同回憶。</p>
+
+                <!-- Event Location and Time -->
+                <p class="text-gray-700 leading-relaxed mb-6">本常設展透過「全民策展」（Co-curation）概念，讓你來決定展覽內容；
+                    也藉由「南方在地」（Locality of the sound）架構，讓你從新認識南方的音樂模樣；
+                    更結合手機載具的科技運用，不管是看、聽、玩、互動、下載及分享，
+                    巧妙地在多樣的場域間，達到「一人一機一境」的互動觀展體驗
+                </p>
+                <h1 class="text-2xl mb-6 font-bold mt-10">聯絡主辦方:</h1>
+                <p class="flex items-center mb-5"> <span class="material-icons mr-3">
+                        local_phone
+                    </span>04-23939-889-2526</p>
+                <p class="flex items-center"> <span class="material-icons mr-3">
+                        local_post_office
+                    </span>starbust@gmail.com</p>
+            </div>
+            <h1 class="text-2xl mb-1 font-bold mt-10">活動場地</h1>
+            <div>
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.955485801612!2d120.28389129678956!3d22.6181374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037fc2013e71%3A0xc61249aec47e0cd1!2z6auY6ZuE5rWB6KGM6Z-z5qiC5Lit5b-D!5e0!3m2!1szh-TW!2stw!4v1683081781562!5m2!1szh-TW!2stw"
+                    width="1200" height="560" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="w-full p-4">
+                <h2 class="text-2xl font-bold">高雄流行音樂中心</h2>
+                <div class="flex items-center">
+                    <span class="material-icons">
+                        place
+                    </span>110台北市信義區信義路五段7號89樓
+                </div>
+            </div>
+            <div class="flex justify-between mb-10">
+                <h1 class="text-2xl mb-1 font-bold mt-10">活動票券</h1>
+
+                <button
+                    class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline flex items-center"
+                    type="button">
+                    前往購票
+                    <span class="material-icons">
+                        arrow_forward
+                    </span>
+                </button>
+            </div>
+            <div class="flex flex-col md:flex-row gap-8 mt-3">
+                <table class="table-auto w-full text-left">
+                    <thead>
+                        <tr class="text-gray40">
+                            <th class="py-2 px-4">票種</th>
+                            <th class="py-2 px-4">販售時間</th>
+                            <th class="py-2 px-4 text-right">售價</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-t border-gray30">
+                            <td class="py-2 px-4">成人票</td>
+                            <td class="py-2 px-4">即日起 ~ 2023/03/30 20:00(+0800)</td>
+                            <td class="py-2 px-4 text-right">NT$ 400</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <div class="w-full bg-gray50 text-white py-16 px-16 mx-auto mt-10">
+        <div class="flex justify-between">
+            <a href="qa.html">常見問題</a>
+            <p>聯絡信箱:service@ticktock.com</p>
+        </div>
+        <h1 class="menu_logo">Ticktock</h1>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../static/js/nav.js"></script>
+</body>
+
+</html>

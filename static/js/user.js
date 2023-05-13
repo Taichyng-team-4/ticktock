@@ -130,3 +130,11 @@ $('.cancel_org').on('click', ()=>{
     $('.orgs').removeClass('hidden')
     $('.new_org_block').addClass('hidden')
 })
+//取票退票
+$('.check_in').on('click', ()=>{
+    console.log('r')
+    $('.ticket_management_block').removeClass('hidden')
+})
+$('.ticket_management_clear').on('click', ()=>{
+    $('.ticket_management_block').addClass('hidden')
+})
