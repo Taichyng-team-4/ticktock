@@ -15,7 +15,7 @@
             <h1 class="menu_logo">Ticktock</h1>
         </div>
     </nav>
-    <div class="container px-10 mt-10 flex flex-nowrap">
+    <div class=" px-10 mt-10 flex flex-nowrap">
         <div class="side w-1/6">
             <div class="user_img p-5 bg-white rounded">
                 <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
@@ -42,17 +42,15 @@
            <h3 class="p-6 text-2xl font-bold">帳號管理</h3>
            <div class="grid grid-cols-2 p-3">
                 <div class="flex flex-col p-3">
-                    <label for="name" class="py-2">名</label>
+                    <label for="name" class="py-2">姓名</label>
                     <input type="text" name="name" id="name" class="bg-gray30 w-3/5">
                 </div>
                 <div class="flex flex-col p-3">
-                    <label for="surname" class="py-2">姓</label>
-                    <input type="text" name="surname" id="surname" class="bg-gray30 w-3/5">
-                </div>
-                <div class="col-span-2 p-3">
-                    <label for="gender" class="pr-2">性別</label>
-                    <input type="radio" name="gender" value="男" class="px-2">男
-                    <input type="radio" name="gender" value="女" class="px-2">女
+                    <label for="gender" class="py-2">性別</label>
+                    <div>
+                        <input type="radio" name="gender" value="男" class="px-2">男
+                        <input type="radio" name="gender" value="女" class="px-2">女
+                    </div>
                 </div>
                 <div class="flex flex-col p-3">
                     <label for="born" class="py-2">出生年月日</label>
