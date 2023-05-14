@@ -1,0 +1,57 @@
+
+<div class="side fixed w-64 bg-background h-[calc(100%-86.4px)] flex flex-col justify-between">
+    <div>
+        <h1 class="text-center text-primary text-2xl p-5">Ticktock</h1>
+        <ul class="subject_personal_center text-center">
+            <li id="account" class=" text-xl text-primary bg-gray30 cursor-pointer">
+            <a href="account.html" class="block p-5">活動列表</a>
+            </li>
+            <li id="new_activity" class=" text-xl hover:bg-gray30/[35%] cursor-pointer">
+            <a href="new_activity.html" class="block p-5">活動刊登</a>
+            </li>
+            <li id="orders" class=" text-xl hover:bg-gray30/[35%] cursor-pointer">
+            <a href="orders.html" class="block p-5">訂單資訊</a>
+            </li>
+            <li id="sales_status" class=" text-xl hover:bg-gray30/[35%] cursor-pointer">
+            <a href="sales_status.html" class="block p-5">活動主控台</a>
+            </li>
+            <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
+                <a href="#" class="block p-5">預覽活動</a>
+            </li>
+            <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
+                <a href="#" class="block p-5">編輯活動</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+        <p class="text-center text-white bg-primary cursor-pointer">
+            <a href="../user/user.html" class="block p-5">離開組織管理</a>
+        </p>
+    </div>
+</div>
+
+
+<script>
+    let url = window.location.href.split('/')
+    let subject_page = url[4]
+    if(subject_page=='personal_center'){
+        let page = url[5].split('.')[0]
+        $('.subject_personal_center li').removeClass('text-primary bg-gray30')
+        $('.subject_personal_center li').addClass('hover:bg-gray30/[35%]')
+        $('.sales_status').addClass('hidden')
+        console.log($('.subject_personal_center li'))
+        if(page=='account'){
+            $('.subject_personal_center #account').addClass('text-primary bg-gray30')
+        }
+        if(page=='new_activity'){
+            $('.subject_personal_center #new_activity').addClass('text-primary bg-gray30')
+        }
+        if(page=='orders'){
+            $('.subject_personal_center #orders').addClass('text-primary bg-gray30')
+        }
+        if(page=='sales_status'){
+            $('.subject_personal_center #sales_status').addClass('text-primary bg-gray30')
+            $('.sales_status').removeClass('hidden')
+        }
+    }
+</script>
