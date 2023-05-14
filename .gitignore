@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 /jstoolchain/node_modules
 /static/css/tailwind-output.css
-=======
 
 .DS_Store
 node_modules
@@ -29,7 +27,3 @@ pnpm-debug.log*
 
 # package lock file
 package-lock.json
-
-/jstoolchain/node_modules
-
->>>>>>> dev
