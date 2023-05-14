@@ -10,49 +10,23 @@
     <title>訂單管理</title>
 </head>
 <body class="bg-background">
-    <nav class="h-10 bg-primary font-bold flex items-center">
-        <div class="px-10">
-            <h1 class="menu_logo">Ticktock</h1>
-        </div>
-    </nav>
-    <div class="container px-10 mt-10 flex flex-nowrap">
-        <div class="side w-1/6">
-            <div class="user_img p-5 bg-white rounded">
-                <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
-                <h3 class="p-2 font-bold text-center text-2xl">Zoey</h3>
-            </div>
-            <div class="mt-5 bg-white rounded">
-                <ul>
-                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-                        <a href="user.html" class="block">訂單管理</a>
-                    </li>
-                    <li class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
-                        <a href="profile.html" class="block">帳號管理</a>
-                    </li>
-                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-                        <a href="news.html" class="block">訊息管理</a>
-                    </li>
-                    <li class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-                        <a href="orgs.html" class="block">組織管理</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+    <div class="header_nav_no_logging"></div>
+    <div class=" px-10 mt-10 flex flex-nowrap">
+        <div class="user_side w-1/6"></div>
+
         <div class="main ml-5 mb-5 w-5/6 bg-white">
            <h3 class="p-6 text-2xl font-bold">帳號管理</h3>
            <div class="grid grid-cols-2 p-3">
                 <div class="flex flex-col p-3">
-                    <label for="name" class="py-2">名</label>
+                    <label for="name" class="py-2">姓名</label>
                     <input type="text" name="name" id="name" class="bg-gray30 w-3/5">
                 </div>
                 <div class="flex flex-col p-3">
-                    <label for="surname" class="py-2">姓</label>
-                    <input type="text" name="surname" id="surname" class="bg-gray30 w-3/5">
-                </div>
-                <div class="col-span-2 p-3">
-                    <label for="gender" class="pr-2">性別</label>
-                    <input type="radio" name="gender" value="男" class="px-2">男
-                    <input type="radio" name="gender" value="女" class="px-2">女
+                    <label for="gender" class="py-2">性別</label>
+                    <div>
+                        <input type="radio" name="gender" value="男" class="px-2">男
+                        <input type="radio" name="gender" value="女" class="px-2">女
+                    </div>
                 </div>
                 <div class="flex flex-col p-3">
                     <label for="born" class="py-2">出生年月日</label>
@@ -71,9 +45,10 @@
                     <input type="text" name="email" id="email" class="bg-gray30 w-3/5">
                 </div>
            </div>
-           <div class="p-6">
+           <div class="p-6 flex justify-between">
                 <button class="change_password bg-secondary px-5 py-3 text-white">變更密碼</button>
-           </div>
+                <button class="store bg-primary px-5 py-3 text-white">儲存</button>
+            </div>
         </div>
     </div>
     <div class="change_password_block absolute top-0 left-0 w-full h-full bg-gray30/[30%] hidden">
@@ -105,6 +80,7 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="../../static/js/layout.js"></script>
     <script src="../../static/js/user.js"></script>
 </body>
 </html>
