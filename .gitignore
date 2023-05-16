@@ -27,6 +27,3 @@ pnpm-debug.log*
 
 # package lock file
 package-lock.json
-
-/jstoolchain/node_modules
-
