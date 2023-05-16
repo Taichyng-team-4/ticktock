@@ -1,0 +1,46 @@
+<div class="side">
+    <div class="user_img p-5 bg-white rounded">
+        <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+        <h3 class="p-2 font-bold text-center text-2xl">Zoey</h3>
+    </div>
+    <div class="mt-5 bg-white rounded">
+        <ul class="subject_user">
+            <li id="user" class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]">
+                <a href="user.html" class="block">訂單管理</a>
+            </li>
+            <li id="profile" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                <a href="profile.html" class="block">帳號管理</a>
+            </li>
+            <li id="news" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                <a href="news.html" class="block">訊息管理</a>
+            </li>
+            <li id="orgs" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
+                <a href="orgs.html" class="block">組織管理</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    let url = window.location.href.split('/')
+    let subject_page = url[4]
+    if(subject_page=='user'){
+        let page = url[5].split('.')[0]
+        $('.subject_user li').removeClass('text-primary border-l-4')
+        console.log($('.subject_user li'))
+        if(page=='user'){
+            console.log('user', $('.subject_user #user'))
+            $('.subject_user #user').addClass('text-primary border-l-4')
+        }
+        if(page=='profile'){
+            console.log('profile', $('.subject_user #profile'))
+            $('.subject_user #profile').addClass('text-primary border-l-4')
+        }
+        if(page=='news'){
+            $('.subject_user #news').addClass('text-primary border-l-4')
+        }
+        if(page=='orgs'){
+            $('.subject_user #orgs').addClass('text-primary border-l-4')
+        }
+    }
+</script>
