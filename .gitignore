@@ -1,7 +1,5 @@
-<<<<<<< HEAD
 /jstoolchain/node_modules
 /static/css/tailwind-output.css
-=======
 
 .DS_Store
 node_modules
@@ -32,4 +30,3 @@ package-lock.json
 
 /jstoolchain/node_modules
 
->>>>>>> dev
