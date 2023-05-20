@@ -29,11 +29,18 @@
     <div id="app">
         <!-- NavBar -->
         <nav_component
+            v-bind:is-login="isLogin"
+            v-bind:token="token"
             v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick"
             v-on:emit-login="switchLoginClick"
             v-on:emit-register="switchRegisterClick"
-        >
-        </nav_component>
+            v-on:emit-order-query="orderQueryClick"
+            v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick"
+            v-on:emit-setting="switchSettingClick"
+            v-on:emit-logout="logoutClick"            
+        ></nav_component>
         <!-- Content -->
 
         <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
@@ -250,7 +257,30 @@
                     // this.email = 'linchinan12@gmail.com';
                     // this.password = '1qaz2wsx';
                     // this.confirmPassword = '1qaz2wsx';
-                }
+                },
+                
+                // 訂單查詢
+                orderQueryClick(token) {
+                    console.log(`orderQueryClick(${token})`);
+                },                
+                // 建立活動
+                createActivityClick(token) {
+                    console.log(`createActivityClick(${token})`);
+                },                
+                // 新增 組織
+                addOrgClick(token) {
+                    console.log(`addOrgClick(${token})`);
+                },
+                // 切換到 設定頁面
+                switchSettingClick(token) {
+                    console.log(`switchSettingClick(${token})`);
+                },
+                // 登出
+                logoutClick(token) {
+                    console.log(`logoutClick(${token})`);
+                },
+
+
             },
             mounted() {
                 this.initTestData();

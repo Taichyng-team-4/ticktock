@@ -2,22 +2,59 @@
 export default {
   data() {
     return {
-
+      searchData: '',
     }
   },
-  methods: {    
+  props: {
+    isLogin: false,
+    token: '',
+    orgs : [],
+  },
+  methods: {
     // 定義內層的 $emit 觸發方法
+    // 回首頁
     homeClick() {
       this.$emit('emit-home');
     },
+    // 搜尋
+    searchClick() {
+      this.$emit('emit-search', this.searchData);
+    },
+    // 回登入頁面
     switchLoginClick() {
       this.$emit('emit-login');
     },
+    // 回註冊頁面
     switchRegisterClick() {
       this.$emit('emit-register');
+    },
+    // 訂單查詢
+    orderQueryClick() {
+      console.log(`orderQueryClick : emit-order-query : ${this.token}`);
+      this.$emit('emit-order-query', this.token);
+    },
+    // 建立活動
+    createActivityClick() {
+      console.log(`createActivityClick : emit-create-activity : ${this.token}`);
+      this.$emit('emit-create-activity', this.token);
+    },
+    // 新增 組織
+    addOrgClick() {
+      console.log(`addOrgClick : emit-add-org : ${this.token}`);
+      this.$emit('emit-add-org', this.token);
+    },
+    // 點擊 登出
+    logoutClick() {
+      console.log(`logoutClick : emit-logout : ${this.token}`);
+      this.$emit('emit-logout', this.token);
+    },
+    // 設定
+    switchSettingClick() {
+      console.log(`switchSettingClick : emit-setting : ${this.token}`);
+      this.$emit('emit-setting', this.token);
     }
   },
-  template : `
+  template: `
   <nav class="bg-navbar ">
     <div class="container mx-auto px-6 py-3">
         <div class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
@@ -35,19 +72,55 @@ export default {
                         </button>
                     </div>
                     <input type="text" class=" py-1 px-2 pl-3 rounded-lg  focus:outline-none"
-                        placeholder="  Search">
+                        placeholder="  Search"
+                        :value="searchData"
+                        @click.prevent="searchClick"
+                        >
                 </div>
             </div>
             <div>
             </div>
             <div>
-                <div class="hidden md:block">
+                <!-- 未登入 -->
+                <div class="hidden md:block" v-if="!isLogin">
                     <ul class="flex space-x-4 text-nav  items-center">
                         <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick" >登入</a>
                         </li>
                         <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick" >註冊</a>
                         </li>
                     </ul>
+                </div>
+
+                <!-- 已登入 -->
+                <div class="hidden md:block" v-if="isLogin">                
+                <ul class="flex space-x-4 text-nav  items-center">
+                    <li><a href="#" class=" hover:text-gray-200" @click.prevent="orderQueryClick" >訂單查詢</a></li>
+                    <li><a href="#" class=" hover:text-gray-200" @click.prevent="createActivityClick" >建立活動</a></li>
+                    <div class="dropdown">
+                        <button class="dropbtn flex items-center justify-between">選擇組織
+                            <span class="material-icons">
+                                arrow_drop_down
+                            </span> 
+                        </button>
+                        <div class="dropdown-content">
+                            <p class="ml-4">組織列表</p>
+                            <ul class="ml-3">
+                                <li><a href="#">Link 1</a></li>
+                            </ul>
+                            <a href="#" @click.prevent="addOrgClick">新增組織</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropbtn">
+                            <span class="material-icons">
+                                account_circle
+                            </span> </button>
+                        <div class="dropdown-content">
+                            <a href="#" @click.prevent="switchSettingClick">設定</a>
+                            <a href="#" @click.prevent="logoutClick">登出</a>
+                        </div>
+                    </div>
+                </ul>
                 </div>
 
                 <div class="md:hidden flex items-center">

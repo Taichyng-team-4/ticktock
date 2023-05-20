@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
     <link rel="stylesheet" href="./css/nav.css">
-    <title>訂單管理</title>
+    <title>首頁</title>
     <style>
         select {
             /* color: gray; */
@@ -30,9 +30,17 @@
     <div id="app">
         <!-- NavBar -->
         <nav_component
+            v-bind:is-login="isLogin"
+            v-bind:token="token"
             v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick"
             v-on:emit-login="switchLoginClick"
             v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick"
+            v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick"
+            v-on:emit-setting="switchSettingClick"
+            v-on:emit-logout="logoutClick"            
         ></nav_component>
         <!-- Content -->
         <div class="container mx-auto px-16 mt-10 flex flex-col justify-center items-center w-full">
@@ -194,6 +202,7 @@
             <h1 class="menu_logo">Ticktock</h1>
 
         </div>
+    
     </div>    
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="./js/user.js"></script>
@@ -210,7 +219,8 @@
     <!-- Vue 起手式 -->
     <script type="module">
         // API Config
-        import config from '../../static/js/config.js'
+        import config from './js/config.js';
+        import utilities from './js/utilities.js';
 
         // Nav Component
         import nav_component from './js/component_nav.js';
@@ -218,7 +228,10 @@
         const { createApp } = Vue
         const app = createApp({
             data() {
-                return {}
+                return {
+                    isLogin : false,
+                    token: '',
+                }
             },
             methods: {
                 // 點擊 Ticktock 回首頁 功能
@@ -227,8 +240,8 @@
                     window.location.replace('index.html');
                 },
                 // 點擊 搜尋按鈕
-                searchClick() {
-                    console.log('searchClick() ...');
+                searchClick(searchData) {
+                    console.log(`searchClick(${searchData}) ...`);
                     // todo: 搜尋功能 ...
                 },
                 // 切換到 登入頁面
@@ -246,8 +259,46 @@
                     console.log('switchForgetPasswordClick() ...');
                     window.location.replace('./account/password.html');
                 },
+
+                // 訂單查詢
+                orderQueryClick(token) {
+                    console.log(`orderQueryClick(${token})`);
+                },                
+                // 建立活動
+                createActivityClick(token) {
+                    console.log(`createActivityClick(${token})`);
+                },                
+                // 新增 組織
+                addOrgClick(token) {
+                    console.log(`addOrgClick(${token})`);
+                },
+                // 切換到 設定頁面
+                switchSettingClick(token) {
+                    console.log(`switchSettingClick(${token})`);
+                },
+                // 登出
+                logoutClick(token) {
+                    console.log(`logoutClick(${token})`);
+                },
+
+
+                // 檢查 是否登入
+                checkLogin() {
+                    const token = utilities.getJwtToken()
+                    if (token != '') {
+                        this.isLogin = true;
+                    } else {
+                        this.isLogin = false;
+                    }
+                    this.token = token;
+                    console.log(` checkLogin() : token : ${this.token}`);
+                    console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                }
             },
             mounted() {
+                // 檢查 是否登入
+                this.checkLogin();
+
               // todo : 取得 banner 資料
               // todo : 取得 系統公告
               // todo : 取得 最新消息
