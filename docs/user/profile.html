@@ -34,8 +34,17 @@
         
         <!-- Content -->
         <div class=" px-10 mt-10 flex flex-nowrap">
-            <div class="user_side w-1/6"></div>
-    
+            <!-- User Side Bar -->
+            <user_side_bar
+                v-bind:token="token"
+                v-bind:img-url="imgUrl"
+                v-bind:user-name="userName"
+                v-on:emit-order="switchOrderManageClick"
+                v-on:emit-profile="switchProfileManageClick"
+                v-on:emit-news="switchNewsManageClick"
+                v-on:emit-orgs="switchOrgMangeClick"
+            ></user_side_bar>
+            <!-- Profile Content -->
             <div class="main ml-5 mb-5 w-5/6 bg-white">
                <h3 class="p-6 text-2xl font-bold">帳號管理</h3>
                <div class="grid grid-cols-2 p-3">
@@ -124,6 +133,7 @@
 
         // Components
         import nav_component from '../js/component_nav.js';
+        import user_side_bar from '../js/component_user_side_bar.js';
         import foot_component from '../js/component_foot.js';
 
         const app = Vue.createApp({
@@ -135,7 +145,8 @@
                     password: '',
                     isLogin : false,
                     token: '',
-
+                    imgUrl: '',
+                    userName : '',
                 };
             },
             methods: {
@@ -210,6 +221,11 @@
                     console.log(` checkLogin() : isLogin : ${this.isLogin}`);
                 },
 
+                // 取得 使用者資訊
+                getUserInfo() {
+                    
+                }
+
                 // 登出功能
                 logoutProcess() {
                     // 跳出 登出中 ...
@@ -224,7 +240,25 @@
                 // 取消
                 cancelClick() {
                     console.log('cancelClick()');
-                }
+                },
+
+                // User Side Bar Methods
+                // 訂單管理
+                switchOrderManageClick() {
+                    console.log('switchOrderManageClick()');
+                },
+                // 帳號管理
+                switchProfileManageClick() {
+                    console.log('User Side Bar switchProfileManageClick()');
+                },
+                // 訊息管理
+                switchNewsManageClick() {
+                    console.log('User Side Bar switchNewsManageClick()');
+                },
+                // 組織管理
+                switchOrgMangeClick() {
+                    console.log('User Side Bar switchOrgMangeClick()');
+                },
 
 
 
@@ -240,6 +274,7 @@
         app.component('ErrorMessage', VeeValidate.ErrorMessage);
         // 設定 Nav Component
         app.component('nav_component', nav_component);
+        app.component('user_side_bar', user_side_bar);
         app.component('foot_component', foot_component);
         // 將 Vue 綁定到 <div id="app"> 上面
         app.mount('#app');
