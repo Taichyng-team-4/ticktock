@@ -94,14 +94,17 @@
         import config from '../js/config.js';
         const loginAPI = config.loginAPI;
 
-        // Nav Component
+        // Components
         import nav_component from '../js/component_nav.js';
+        import foot_component from '../js/component_foot.js';
 
         const app = Vue.createApp({
             data() {
                 return {
                     account: '',
-                    password: ''
+                    password: '',
+                    isLogin : false,
+                    token: '',
                 };
             },
             methods: {
@@ -194,12 +197,7 @@
                     console.log('switchForgetPasswordClick() ...');
                     window.location.replace('password.html');
                 },
-                // 預設 測試資料
-                initTestData() {
-                    // this.account = 'linchinan12@gmail.com';
-                    // this.password = '1qaz2wsx';
-                },
-                
+
                 // 訂單查詢
                 orderQueryClick(token) {
                     console.log(`orderQueryClick(${token})`);
@@ -211,20 +209,31 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
+                    window.location.replace('../user/new_org.html');
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
+                    window.location.replace('../user/profile.html');
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
                 },
 
+                // FQA
+                faqClick() {
+                    console.log('faqClick()');
+                },
+                // Email
+                emailClick() {
+                    console.log('emailClick()');
+                },
+
             },
             // 生命週期 -- Mounted
             mounted() {
-                this.initTestData();
+
             }
         });
         // 綁定 VeeValidate 進入 全域物件
@@ -233,6 +242,7 @@
         app.component('ErrorMessage', VeeValidate.ErrorMessage);
         // 設定 Nav Component
         app.component('nav_component', nav_component);
+        app.component('foot_component', foot_component);
         // 將 Vue 綁定到 <div id="app"> 上面
         app.mount('#app');
 

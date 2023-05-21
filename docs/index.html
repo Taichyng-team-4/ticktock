@@ -194,15 +194,13 @@
                 </div>
             </div>
         </div>
-        <div class="w-full bg-gray50 text-white py-16 px-16 flex justify-between">
-            <div>
-                <a href="qa.html">常見問題</a>
-                <p>聯絡信箱:service@ticktock.com</p>
-            </div>
-            <h1 class="menu_logo">Ticktock</h1>
+        <!-- Foot -->
+        <foot_component
+            v-on:emit-home="homeClick"
+            v-on:emit-faq="faqClick"
+            v-on:emit-email="emailClick"
+        ></foot_component>
 
-        </div>
-    
     </div>    
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <script src="./js/user.js"></script>
@@ -222,8 +220,9 @@
         import config from './js/config.js';
         import utilities from './js/utilities.js';
 
-        // Nav Component
+        // Components
         import nav_component from './js/component_nav.js';
+        import foot_component from './js/component_foot.js';
 
         const { createApp } = Vue
         const app = createApp({
@@ -271,16 +270,26 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
+                    window.location.replace('./user/new_org.html');
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
+                    window.location.replace('./user/profile.html');
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
                 },
 
+                // FQA
+                faqClick() {
+                    console.log('faqClick()');
+                },
+                // Email
+                emailClick() {
+                    console.log('emailClick()');
+                },
 
                 // 檢查 是否登入
                 checkLogin() {
@@ -293,7 +302,15 @@
                     this.token = token;
                     console.log(` checkLogin() : token : ${this.token}`);
                     console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                },
+
+                // 登出功能
+                logoutProcess() {
+                    // 跳出 登出中 ...
+
                 }
+
+
             },
             mounted() {
                 // 檢查 是否登入
@@ -311,6 +328,7 @@
         app.component('ErrorMessage', VeeValidate.ErrorMessage);
         // 設定 Nav Component
         app.component('nav_component', nav_component);
+        app.component('foot_component', foot_component);
 
         // 將 Vue 綁定到 <div id="app"> 上面
         app.mount('#app');

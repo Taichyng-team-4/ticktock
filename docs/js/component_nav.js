@@ -1,59 +1,5 @@
 /** Nav Component **/
 export default {
-  data() {
-    return {
-      searchData: '',
-    }
-  },
-  props: {
-    isLogin: false,
-    token: '',
-    orgs : [],
-  },
-  methods: {
-    // 定義內層的 $emit 觸發方法
-    // 回首頁
-    homeClick() {
-      this.$emit('emit-home');
-    },
-    // 搜尋
-    searchClick() {
-      this.$emit('emit-search', this.searchData);
-    },
-    // 回登入頁面
-    switchLoginClick() {
-      this.$emit('emit-login');
-    },
-    // 回註冊頁面
-    switchRegisterClick() {
-      this.$emit('emit-register');
-    },
-    // 訂單查詢
-    orderQueryClick() {
-      console.log(`orderQueryClick : emit-order-query : ${this.token}`);
-      this.$emit('emit-order-query', this.token);
-    },
-    // 建立活動
-    createActivityClick() {
-      console.log(`createActivityClick : emit-create-activity : ${this.token}`);
-      this.$emit('emit-create-activity', this.token);
-    },
-    // 新增 組織
-    addOrgClick() {
-      console.log(`addOrgClick : emit-add-org : ${this.token}`);
-      this.$emit('emit-add-org', this.token);
-    },
-    // 點擊 登出
-    logoutClick() {
-      console.log(`logoutClick : emit-logout : ${this.token}`);
-      this.$emit('emit-logout', this.token);
-    },
-    // 設定
-    switchSettingClick() {
-      console.log(`switchSettingClick : emit-setting : ${this.token}`);
-      this.$emit('emit-setting', this.token);
-    }
-  },
   template: `
   <nav class="bg-navbar ">
     <div class="container mx-auto px-6 py-3">
@@ -140,6 +86,60 @@ export default {
         </div>
     </div>
   </nav>    
-  `
+  `,
+  data() {
+    return {
+      searchData: '',
+    }
+  },
+  props: {
+    isLogin: false,
+    token: '',
+    orgs : [],
+  },
+  methods: {
+    // 定義內層的 $emit 觸發方法
+    // 回首頁
+    homeClick() {
+      this.$emit('emit-home');
+    },
+    // 搜尋
+    searchClick() {
+      this.$emit('emit-search', this.searchData);
+    },
+    // 回登入頁面
+    switchLoginClick() {
+      this.$emit('emit-login');
+    },
+    // 回註冊頁面
+    switchRegisterClick() {
+      this.$emit('emit-register');
+    },
+    // 訂單查詢
+    orderQueryClick() {
+      console.log(`orderQueryClick : emit-order-query : ${this.token}`);
+      this.$emit('emit-order-query', this.token);
+    },
+    // 建立活動
+    createActivityClick() {
+      console.log(`createActivityClick : emit-create-activity : ${this.token}`);
+      this.$emit('emit-create-activity', this.token);
+    },
+    // 新增 組織
+    addOrgClick() {
+      console.log(`addOrgClick : emit-add-org : ${this.token}`);
+      this.$emit('emit-add-org', this.token);
+    },
+    // 點擊 登出
+    logoutClick() {
+      console.log(`logoutClick : emit-logout : ${this.token}`);
+      this.$emit('emit-logout', this.token);
+    },
+    // 設定
+    switchSettingClick() {
+      console.log(`switchSettingClick : emit-setting : ${this.token}`);
+      this.$emit('emit-setting', this.token);
+    }
+  },
 
 }

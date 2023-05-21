@@ -11,58 +11,74 @@
     <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+    
+    <link rel="stylesheet" href="../css/nav.css">
 
-    <title>忘記密碼</title>
+    <title>新增組織</title>
 </head>
 
-<body>
+<body class="bg-background">
     <div id="app">
         <!-- NavBar -->
-        <nav_component
-            v-bind:is-login="isLogin"
-            v-bind:token="token"
+        <nav_component 
+            v-bind:is-login="isLogin" 
+            v-bind:token="token" 
             v-on:emit-home="homeClick"
-            v-on:emit-search="searchClick"
-            v-on:emit-login="switchLoginClick"
+            v-on:emit-search="searchClick" 
+            v-on:emit-login="switchLoginClick" 
             v-on:emit-register="switchRegisterClick"
-            v-on:emit-order-query="orderQueryClick"
+            v-on:emit-order-query="orderQueryClick" 
             v-on:emit-create-activity="createActivityClick"
-            v-on:emit-add-org="addOrgClick"
-            v-on:emit-setting="switchSettingClick"
-            v-on:emit-logout="logoutClick"            
-        ></nav_component>
+            v-on:emit-add-org="addOrgClick" 
+            v-on:emit-setting="switchSettingClick" 
+            v-on:emit-logout="logoutClick">
+        </nav_component>
         <!-- Content -->
-
-        <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
-                <div class="-mx-3">
-                    <p class="text-center mb-3">忘記密碼</p>
-
+        <div class="main flex items-center justify-center flex-col my-12">
+            <div class="user_img p-5 bg-white border border-gray30 rounded">
+                <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                <h3 class="p-2 font-bold text-center text-2xl"></h3>
+            </div>
+            <div>
+                <h3 class="text-center">填寫組織資料</h3>
+                <div class="py-3">
+                    <label for="">主辦單位名稱</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30"
+                    v-model="orgName"
+                    >
                 </div>
-                <div class="-mx-3 md:flex">
-                    <div class="md:w-full px-3">
-                        <input
-                            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="userEmail" type="text" placeholder="輸入Email" v-model="email">
-                    </div>
+                <div class="py-3">
+                    <label for="">主辦單位信箱</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30"
+                    v-model="orgEmail">
                 </div>
-                <button
-                    class="bg-green400 hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-2"
-                    type="button" @click.prevent="forgetPasswordClick">
-                    寄送新密碼
-                </button>
-                <hr>
-                <button
-                    class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="button">
-                    <a href="#" @click.prevent="switchLoginClick">登入</a>
-
-                </button>
+                <div class="py-3">
+                    <label for="">主辦單位電話號碼</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30"
+                    v-model="orgPhone">
+                </div>
+                <div class="py-3">
+                    <label for="">主辦單位簡介</label>
+                    <!-- <textarea type="text" name="" id="" class="w-full bg-gray30"> -->
+                    <textarea class="w-full bg-gray30 resize rounded-md" 
+                    v-model="orgContent"></textarea>
+                </div>
+                <div class="py-3 grid grid-cols-2 gap-2">
+                    <button
+                        class="border-2 border-primary px-5 py-2 text-primary w-full hover:bg-primary hover:text-white"
+                        @click.prevent="saveClick"
+                        >儲存</button>
+                    <button
+                        class="border-2 border-secondary px-5 py-2 text-secondary w-full hover:bg-secondary hover:text-white"
+                        @click.prevent="cancelClick"
+                        >取消</button>
+                </div>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
 
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <!-- 載入 Vue Core -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
     <!-- 載入 VeeValidate -->
@@ -77,8 +93,8 @@
         import utilities from '../js/utilities.js';
 
         // API Config
-        import config from '../js/config.js'
-        const forgetPasswordAPI = config.forgetPasswordAPI;
+        import config from '../js/config.js';
+        const loginAPI = config.loginAPI;
 
         // Components
         import nav_component from '../js/component_nav.js';
@@ -87,31 +103,16 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    email: '',
+                    orgName : '',
+                    orgPhone: '',
+                    orgContent : '',
+                    password: '',
                     isLogin : false,
                     token: '',
-                }
+
+                };
             },
             methods: {
-                forgetPasswordClick() {
-                    const requestBody = {
-                        "email": this.email
-                    }
-                    console.log('forgetPasswordClick() ...');
-                    console.log(requestBody);
-                    axios.post(forgetPasswordAPI, requestBody)
-                        .then((res) => {
-                            console.log('忘記密碼 執行成功 ...');
-                            console.log(res);
-                            // Todo : 顯示 成功訊息， 轉頁
-                        })
-                        .catch((err) => {
-                            console.log('忘記密碼 執行失敗 ...');
-                            console.log(err);
-                            console.log(err.response);
-                            // Todo : 顯示 錯誤訊息
-                        });
-                },
                 // 點擊 Ticktock 回首頁 功能
                 homeClick() {
                     console.log('homeClick() ...');
@@ -125,34 +126,30 @@
                 // 切換到 登入頁面
                 switchLoginClick() {
                     console.log('switchLoginClick() ...');
-                    window.location.replace('login.html');
+                    window.location.replace('../account/login.html');
                 },
                 // 切換到 註冊頁面
                 switchRegisterClick() {
                     console.log('switchRegisterClick() ...');
-                    window.location.replace('register.html');
+                    window.location.replace('../account/register.html');
                 },
                 // 切換到 忘記密碼頁面
                 switchForgetPasswordClick() {
                     console.log('switchForgetPasswordClick() ...');
-                    window.location.replace('password.html');
+                    window.location.replace('../account/password.html');
                 },
-                initTestData() {
-                    // this.email = 'chinan1112@gmail.com'
-                },
-                
+
                 // 訂單查詢
                 orderQueryClick(token) {
                     console.log(`orderQueryClick(${token})`);
-                },                
+                },
                 // 建立活動
                 createActivityClick(token) {
                     console.log(`createActivityClick(${token})`);
-                },                
+                },
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
-                    window.location.replace('../user/new_org.html');
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
@@ -173,9 +170,41 @@
                     console.log('emailClick()');
                 },
 
+                // 檢查 是否登入
+                checkLogin() {
+                    const token = utilities.getJwtToken()
+                    if (token != '') {
+                        this.isLogin = true;
+                    } else {
+                        this.isLogin = false;
+                    }
+                    this.token = token;
+                    console.log(` checkLogin() : token : ${this.token}`);
+                    console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                },
+
+                // 登出功能
+                logoutProcess() {
+                    // 跳出 登出中 ...
+                    console.log('logoutProcess()');
+                },
+
+                // 儲存
+                saveClick() {
+                    console.log('saveClick()');
+                },
+
+                // 取消
+                cancelClick() {
+                    console.log('cancelClick()');
+                }
+
+
+
             },
+            // 生命週期 -- Mounted
             mounted() {
-                this.initTestData();
+                this.checkLogin();
             }
         });
         // 綁定 VeeValidate 進入 全域物件

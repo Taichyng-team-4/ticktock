@@ -136,12 +136,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <!-- Vue 起手式 -->
     <script type="module">
+        // 公用程式 utilities
+        import utilities from '../js/utilities.js';
+
         // API Config
         import config from '../js/config.js'
         const registerAPI = config.registerAPI;
 
-        // Nav Component
+        // Components
         import nav_component from '../js/component_nav.js';
+        import foot_component from '../js/component_foot.js';
 
         const app = Vue.createApp({
             data() {
@@ -152,6 +156,8 @@
                     confirmPassword: '',
                     birthday: '',
                     gender: '',
+                    isLogin : false,
+                    token: '',
                 };
             },
             methods: {
@@ -270,17 +276,39 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
+                    window.location.replace('../user/new_org.html');
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
+                    window.location.replace('../user/profile.html');
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
                 },
 
+                // FQA
+                faqClick() {
+                    console.log('faqClick()');
+                },
+                // Email
+                emailClick() {
+                    console.log('emailClick()');
+                },
 
+                // 檢查 是否登入
+                checkLogin() {
+                    const token = utilities.getJwtToken()
+                    if (token != '') {
+                        this.isLogin = true;
+                    } else {
+                        this.isLogin = false;
+                    }
+                    this.token = token;
+                    console.log(` checkLogin() : token : ${this.token}`);
+                    console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                },
             },
             mounted() {
                 this.initTestData();
@@ -292,6 +320,7 @@
         app.component('ErrorMessage', VeeValidate.ErrorMessage);
         // 設定 Nav Component
         app.component('nav_component', nav_component);
+        app.component('foot_component', foot_component);
         // 將 Vue 綁定到 <div id="app"> 上面
         app.mount('#app');
     </script>
