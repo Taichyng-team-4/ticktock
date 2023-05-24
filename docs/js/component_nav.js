@@ -143,3 +143,103 @@ export default {
   },
 
 }
+
+{/* <nav class="bg-navbar">
+<div class="container mx-auto px-6 py-3">
+  <div
+    class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center"
+  >
+    <div class="flex items-center">
+      <div>
+        <a
+          class="text-gray-800 text-xl font-bold hover:text-gray-700"
+          href="../index.html"
+          >Ticktock</a
+        >
+      </div>
+      <div class="relative ml-3 flex items-center bg-white rounded-lg">
+        <div class="left-0">
+          <button type="submit" class="text-black py-1 px-2 rounded-lg">
+            <span class="material-icons"> search </span>
+          </button>
+        </div>
+        <input
+          type="text"
+          class="py-1 px-2 pl-3 rounded-lg focus:outline-none"
+          placeholder="  Search"
+        />
+      </div>
+    </div>
+    <div></div>
+    <div>
+      <div class="hidden md:block">
+        <ul class="flex space-x-4 text-nav items-center">
+          <li><a href="#" class="hover:text-gray-200">訂單查詢</a></li>
+          <li><a href="#" class="hover:text-gray-200">建立活動</a></li>
+          <div class="dropdown">
+            <button class="dropbtn flex items-center justify-between">
+              選擇組織
+              <span class="material-icons"> arrow_drop_down </span>
+            </button>
+            <div class="dropdown-content">
+              <p class="ml-4">組織列表</p>
+              <ul class="ml-3">
+                <li><a href="#">Link 1</a></li>
+              </ul>
+              <a href="#">新增組織</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropbtn">
+              <span class="material-icons"> account_circle </span>
+            </button>
+            <div class="dropdown-content">
+              <a href="#">設定</a>
+              <a href="#">登出</a>
+            </div>
+          </div>
+        </ul>
+      </div>
+
+      <div class="md:hidden flex items-center">
+        <button class="outline-none mobile-menu-button">
+          <span class="material-icons pr-1 text-gray40 cursor-pointer">
+            menu
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="hidden mobile-menu">
+    <ul
+      class="text-nav mx-auto px-4 py-3 max-w-7xl justify-between items-center"
+    >
+      <li><a href="#" class="hover:text-gray-200">訂單查詢</a></li>
+      <li><a href="#" class="hover:text-gray-200">建立活動</a></li>
+      <div class="dropdown">
+        <button class="dropbtn flex items-center justify-between">
+          選擇組織 <span class="material-icons"> arrow_drop_down </span>
+        </button>
+        <div class="subdropdown-content">
+          <p class="ml-4">組織列表</p>
+          <ul class="ml-3">
+            <li><a href="#">Link 1</a></li>
+          </ul>
+          <hr />
+          <a href="#">新增組織</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="dropbtn">
+          <span class="material-icons"> account_circle </span>
+          <span class="material-icons"> arrow_drop_down </span>
+        </button>
+        <div class="subdropdown-content">
+          <a href="#">設定</a>
+          <a href="#">登出</a>
+        </div>
+      </div>
+    </ul>
+  </div>
+</div>
+</nav> */}

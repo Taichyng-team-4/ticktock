@@ -9,12 +9,14 @@ const apiHostPath = (isProduction) ? `${productionHostPath}${apiVersion}` : `${l
 const loginAPI = `${apiHostPath}/auths/login`;
 const registerAPI = `${apiHostPath}/auths/signup`;
 const forgetPasswordAPI = `${apiHostPath}/auths/password/forgot`;
+const activityAPI = `${apiHostPath}/activities/`;
 
 const config = {
   apiHostPath,
   loginAPI,
   registerAPI,
-  forgetPasswordAPI
+  forgetPasswordAPI,
+  activityAPI
 };
 
 export default config;
