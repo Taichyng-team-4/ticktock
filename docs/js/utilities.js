@@ -96,6 +96,12 @@ const utilities = {
   },
   toChFormatDate,
   toEnFormatDate,
+  // 執行登出
+  processLogout(homeUrl) {
+    // 移除 JwtToken
+    localStorage.removeItem("jwtToken");
+    window.location.replace(homeUrl);
+  }
 };
 
 export default utilities;

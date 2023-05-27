@@ -11,7 +11,7 @@
     <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-    
+
     <link rel="stylesheet" href="../css/nav.css">
 
     <title>新增組織</title>
@@ -20,58 +20,45 @@
 <body class="bg-background">
     <div id="app">
         <!-- NavBar -->
-        <nav_component 
-            v-bind:is-login="isLogin" 
-            v-bind:token="token" 
-            v-on:emit-home="homeClick"
-            v-on:emit-search="searchClick" 
-            v-on:emit-login="switchLoginClick" 
-            v-on:emit-register="switchRegisterClick"
-            v-on:emit-order-query="orderQueryClick" 
-            v-on:emit-create-activity="createActivityClick"
-            v-on:emit-add-org="addOrgClick" 
-            v-on:emit-setting="switchSettingClick" 
-            v-on:emit-logout="logoutClick">
+        <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
         </nav_component>
         <!-- Content -->
         <div class="main flex items-center justify-center flex-col my-12">
             <div class="user_img p-5 bg-white border border-gray30 rounded">
-                <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                <a href="#" @click.prevent="uploadImageClick">
+                    <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                </a>
                 <h3 class="p-2 font-bold text-center text-2xl"></h3>
             </div>
             <div>
                 <h3 class="text-center">填寫組織資料</h3>
                 <div class="py-3">
                     <label for="">主辦單位名稱</label>
-                    <input type="text" name="" id="" class="w-full bg-gray30"
-                    v-model="orgName"
-                    >
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgName">
                 </div>
                 <div class="py-3">
                     <label for="">主辦單位信箱</label>
-                    <input type="text" name="" id="" class="w-full bg-gray30"
-                    v-model="orgEmail">
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgEmail">
                 </div>
                 <div class="py-3">
                     <label for="">主辦單位電話號碼</label>
-                    <input type="text" name="" id="" class="w-full bg-gray30"
-                    v-model="orgPhone">
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgPhone">
                 </div>
                 <div class="py-3">
                     <label for="">主辦單位簡介</label>
                     <!-- <textarea type="text" name="" id="" class="w-full bg-gray30"> -->
-                    <textarea class="w-full bg-gray30 resize rounded-md" 
-                    v-model="orgContent"></textarea>
+                    <textarea class="w-full bg-gray30 resize rounded-md" v-model="orgContent"></textarea>
                 </div>
                 <div class="py-3 grid grid-cols-2 gap-2">
                     <button
                         class="border-2 border-primary px-5 py-2 text-primary w-full hover:bg-primary hover:text-white"
-                        @click.prevent="saveClick"
-                        >儲存</button>
+                        @click.prevent="saveClick">儲存</button>
                     <button
                         class="border-2 border-secondary px-5 py-2 text-secondary w-full hover:bg-secondary hover:text-white"
-                        @click.prevent="cancelClick"
-                        >取消</button>
+                        @click.prevent="cancelClick">取消</button>
                 </div>
             </div>
         </div>
@@ -100,14 +87,22 @@
         import nav_component from '../js/component_nav.js';
         import foot_component from '../js/component_foot.js';
 
+        // 設定 網頁轉址
+        const homeUrl = '../index.html';
+        const loginUrl = '../account/login.html';
+        const registerUrl = '../account/register.html';
+        const forgetPasswordUrl = '../account/password.html';
+        const newOrgUrl = 'new_org.html';
+        const settingUrl = 'profile.html';
+
         const app = Vue.createApp({
             data() {
                 return {
-                    orgName : '',
+                    orgName: '',
                     orgPhone: '',
-                    orgContent : '',
+                    orgContent: '',
                     password: '',
-                    isLogin : false,
+                    isLogin: false,
                     token: '',
 
                 };
@@ -116,7 +111,7 @@
                 // 點擊 Ticktock 回首頁 功能
                 homeClick() {
                     console.log('homeClick() ...');
-                    window.location.replace('../index.html');
+                    window.location.replace(homeUrl);
                 },
                 // 點擊 搜尋按鈕
                 searchClick(searchData) {
@@ -126,17 +121,17 @@
                 // 切換到 登入頁面
                 switchLoginClick() {
                     console.log('switchLoginClick() ...');
-                    window.location.replace('../account/login.html');
+                    window.location.replace(loginUrl);
                 },
                 // 切換到 註冊頁面
                 switchRegisterClick() {
                     console.log('switchRegisterClick() ...');
-                    window.location.replace('../account/register.html');
+                    window.location.replace(registerUrl);
                 },
                 // 切換到 忘記密碼頁面
                 switchForgetPasswordClick() {
                     console.log('switchForgetPasswordClick() ...');
-                    window.location.replace('../account/password.html');
+                    window.location.replace(forgetPasswordUrl);
                 },
 
                 // 訂單查詢
@@ -150,15 +145,17 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
+                    window.location.replace(newOrgUrl);
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
-                    window.location.replace('../user/profile.html');
+                    window.location.replace(settingUrl);
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
+                    utilities.processLogout(homeUrl);
                 },
 
                 // FQA
@@ -177,28 +174,61 @@
                         this.isLogin = true;
                     } else {
                         this.isLogin = false;
+                        this.getUserProfile();
                     }
                     this.token = token;
                     console.log(` checkLogin() : token : ${this.token}`);
                     console.log(` checkLogin() : isLogin : ${this.isLogin}`);
                 },
 
+                // 取得 User Profile
+                getUserProfile() {
+
+                },
+
                 // 登出功能
                 logoutProcess() {
                     // 跳出 登出中 ...
                     console.log('logoutProcess()');
+
                 },
 
                 // 儲存
                 saveClick() {
                     console.log('saveClick()');
+
+
+
+
                 },
 
                 // 取消
                 cancelClick() {
                     console.log('cancelClick()');
-                }
+                },
 
+                // User Side Bar Methods
+                // 訂單管理
+                switchOrderManageClick() {
+                    console.log('switchOrderManageClick()');
+                },
+                // 帳號管理
+                switchProfileManageClick() {
+                    console.log('User Side Bar switchProfileManageClick()');
+                },
+                // 訊息管理
+                switchNewsManageClick() {
+                    console.log('User Side Bar switchNewsManageClick()');
+                },
+                // 組織管理
+                switchOrgMangeClick() {
+                    console.log('User Side Bar switchOrgMangeClick()');
+                },
+
+                // 上傳組織 圖示 功能
+                uploadImageClick() {
+                    console.log('uploadImageClick() : 上傳組織 圖示 功能');
+                }
 
 
             },

@@ -10,13 +10,19 @@ const loginAPI = `${apiHostPath}/auths/login`;
 const registerAPI = `${apiHostPath}/auths/signup`;
 const forgetPasswordAPI = `${apiHostPath}/auths/password/forgot`;
 const activityAPI = `${apiHostPath}/activities/`;
+// 取得 以及 更新 User Profile 
+const userProfileAPI = `${apiHostPath}/users/profile`;
+// 新增組織
+const orgsAPI = `${apiHostPath}/orgs`;
 
 const config = {
   apiHostPath,
   loginAPI,
   registerAPI,
   forgetPasswordAPI,
-  activityAPI
+  activityAPI,
+  userProfileAPI,
+  orgsAPI
 };
 
 export default config;

@@ -1,371 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/tailwind-output.css" />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
 
-    <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css"
-    />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./css/tailwind-output.css" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 
-    <link rel="stylesheet" href="./css/nav.css" />
-    <title>首頁</title>
-    <style>
-      select {
-        /* color: gray; */
-      }
+  <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
 
-      select:invalid {
-        color: gray;
-      }
-      /*  */
-    </style>
-  </head>
+  <link rel="stylesheet" href="./css/nav.css" />
+  <title>首頁</title>
+  <style>
+    select {
+      /* color: gray; */
+    }
 
-  <body class="bg-background">
-    <div id="app">
-      <!-- NavBar -->
-      <nav_component
-        v-bind:is-login="isLogin"
-        v-bind:token="token"
-        v-on:emit-home="homeClick"
-        v-on:emit-search="searchClick"
-        v-on:emit-login="switchLoginClick"
-        v-on:emit-register="switchRegisterClick"
-        v-on:emit-order-query="orderQueryClick"
-        v-on:emit-create-activity="createActivityClick"
-        v-on:emit-add-org="addOrgClick"
-        v-on:emit-setting="switchSettingClick"
-        v-on:emit-logout="logoutClick"
-      ></nav_component>
-      <!-- Content -->
-      <div
-        class="container mx-auto px-16 mt-10 flex flex-col justify-center items-center w-full"
-      >
-        <div class="w-full relative">
-          <a href="./activity/activity.html">
-            <img class="w-[1200px] h-[450px]" src="https://images.unsplash.com/photo-1684665742691-ddf2242c1c5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80" class="w-full" />
+    select:invalid {
+      color: gray;
+    }
+
+    /*  */
+  </style>
+</head>
+
+<body class="bg-background">
+  <div id="app">
+    <!-- NavBar -->
+    <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+      v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+      v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+      v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
+    </nav_component>
+    <!-- Content -->
+    <div class="container mx-auto px-16 mt-10 flex flex-col justify-center items-center w-full">
+      <div class="w-full relative">
+        <a href="./activity/activity.html">
+          <img class="w-[1200px] h-[450px]"
+            src="https://images.unsplash.com/photo-1684665742691-ddf2242c1c5a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1032&q=80"
+            class="w-full" />
+        </a>
+        <div class="absolute top-0 left-0 p-5 bg-primary">
+          <p>2023.04.15 & 2023.04.27</p>
+          <h3 class="font-bold text-2xl">告五人第一次世界巡迴演唱會</h3>
+        </div>
+        <div class="absolute bottom-5 right-5">
+          <a href="#" class="bg-primary px-5 py-3 rounded-full">前往購票</a>
+        </div>
+      </div>
+      <div class="bg-gray50 text-left w-full py-3 px-3">
+        <p class="text-white">
+          系統公告 : 因為系統維護升級，將於 2022/03/15 20:30:00~2023/03/05
+          23:00 暫停購票服務，如有造成不便，敬請見諒。
+        </p>
+      </div>
+      <div class="my-16 grid grid-cols-3 gap-3 w-full">
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              音樂
+            </p>
           </a>
-          <div class="absolute top-0 left-0 p-5 bg-primary">
-            <p>2023.04.15 & 2023.04.27</p>
-            <h3 class="font-bold text-2xl">告五人第一次世界巡迴演唱會</h3>
-          </div>
-          <div class="absolute bottom-5 right-5">
-            <a href="#" class="bg-primary px-5 py-3 rounded-full">前往購票</a>
-          </div>
         </div>
-        <div class="bg-gray50 text-left w-full py-3 px-3">
-          <p class="text-white">
-            系統公告 : 因為系統維護升級，將於 2022/03/15 20:30:00~2023/03/05
-            23:00 暫停購票服務，如有造成不便，敬請見諒。
-          </p>
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              運動
+            </p>
+          </a>
         </div>
-        <div class="my-16 grid grid-cols-3 gap-3 w-full">
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                音樂
-              </p>
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              戲劇
+            </p>
+          </a>
+        </div>
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              藝文
+            </p>
+          </a>
+        </div>
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              展覽
+            </p>
+          </a>
+        </div>
+        <div class="relative">
+          <a href="#" class="w-full h-full">
+            <img src="https://picsum.photos/300/150" class="w-full" />
+            <p
+              class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
+              其他
+            </p>
+          </a>
+        </div>
+      </div>
+      <div class="my-10 py-10 w-full bg-gray50/[5%]">
+        <h3 class="font-bold text-2xl text-center py-3">最新活動</h3>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
             </a>
           </div>
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                運動
-              </p>
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
             </a>
           </div>
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                戲劇
-              </p>
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
             </a>
-          </div>
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                藝文
-              </p>
-            </a>
-          </div>
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                展覽
-              </p>
-            </a>
-          </div>
-          <div class="relative">
-            <a href="#" class="w-full h-full">
-              <img src="https://picsum.photos/300/150" class="w-full" />
-              <p
-                class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white"
-              >
-                其他
-              </p>
-            </a>
-          </div>
-        </div>
-        <div class="my-10 py-10 w-full bg-gray50/[5%]">
-          <h3 class="font-bold text-2xl text-center py-3">最新活動</h3>
-          <div class="grid grid-cols-3 gap-3">
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="my-10 py-10 w-full">
-          <h3 class="font-bold text-2xl text-center py-3">熱門活動</h3>
-          <div class="grid grid-cols-3 gap-3">
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-            <div>
-              <a href="./activity/activity.html">
-                <img src="https://picsum.photos/300/300" class="w-full" />
-                <div class="flex flex-row py-3">
-                  <p class="pr-2">2023/05/15</p>
-                  <p class="pl-2">台中洲際棒球場</p>
-                </div>
-                <h4 class="font-bold text-xl">
-                  魔法兒童節-真圖稿創作趣味(賽我的夢想車)
-                </h4>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <div class="text-center my-10">
-          <a href="search.html" class="bg-primary w-full px-5 py-3 rounded-full"
-            >前往購票</a
-          >
-        </div>
-
-        <div class="my-10 w-full">
-          <h3 class="font-bold text-2xl text-center py-3">合作夥伴</h3>
-          <div class="grid grid-cols-6 gap-3 text-center">
-            <p class="font-bold">六腳學院</p>
-            <p class="font-bold">六腳學院</p>
-            <p class="font-bold">六腳學院</p>
-            <p class="font-bold">六腳學院</p>
-            <p class="font-bold">六腳學院</p>
-            <p class="font-bold">六腳學院</p>
           </div>
         </div>
       </div>
-      <!-- Foot -->
-      <foot_component
-        v-on:emit-home="homeClick"
-        v-on:emit-faq="faqClick"
-        v-on:emit-email="emailClick"
-      ></foot_component>
+      <div class="my-10 py-10 w-full">
+        <h3 class="font-bold text-2xl text-center py-3">熱門活動</h3>
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
+            </a>
+          </div>
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
+            </a>
+          </div>
+          <div>
+            <a href="./activity/activity.html">
+              <img src="https://picsum.photos/300/300" class="w-full" />
+              <div class="flex flex-row py-3">
+                <p class="pr-2">2023/05/15</p>
+                <p class="pl-2">台中洲際棒球場</p>
+              </div>
+              <h4 class="font-bold text-xl">
+                魔法兒童節-真圖稿創作趣味(賽我的夢想車)
+              </h4>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center my-10">
+        <a href="search.html" class="bg-primary w-full px-5 py-3 rounded-full">前往購票</a>
+      </div>
+
+      <div class="my-10 w-full">
+        <h3 class="font-bold text-2xl text-center py-3">合作夥伴</h3>
+        <div class="grid grid-cols-6 gap-3 text-center">
+          <p class="font-bold">六腳學院</p>
+          <p class="font-bold">六腳學院</p>
+          <p class="font-bold">六腳學院</p>
+          <p class="font-bold">六腳學院</p>
+          <p class="font-bold">六腳學院</p>
+          <p class="font-bold">六腳學院</p>
+        </div>
+      </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
-    <script src="./js/user.js"></script>
+    <!-- Foot -->
+    <foot_component v-on:emit-home="homeClick" v-on:emit-faq="faqClick" v-on:emit-email="emailClick"></foot_component>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+  <script src="./js/user.js"></script>
 
-    <!-- 載入 Vue Core -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script> -->
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <!-- 載入 VeeValidate -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
-    <!-- axios -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-    <!-- Vue 起手式 -->
-    <script type="module">
-      // API Config
-      import config from "./js/config.js";
-      import utilities from "./js/utilities.js";
+  <!-- 載入 Vue Core -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script> -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <!-- 載入 VeeValidate -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+  <!-- axios -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <!-- Vue 起手式 -->
+  <script type="module">
+    // API Config
+    import config from "./js/config.js";
+    import utilities from "./js/utilities.js";
 
-      // Components
-      import nav_component from "./js/component_nav.js";
-      import foot_component from "./js/component_foot.js";
+    // Components
+    import nav_component from "./js/component_nav.js";
+    import foot_component from "./js/component_foot.js";
 
-      const { createApp } = Vue;
-      const app = createApp({
-        data() {
-          return {
-            isLogin: false,
-            token: "",
-          };
+    // 設定 網頁轉址
+    const homeUrl = 'index.html';
+    const loginUrl = './account/login.html';
+    const registerUrl = './account/register.html';
+    const forgetPasswordUrl = './account/password.html';
+    const newOrgUrl = './user/new_org.html';
+    const settingUrl = './user/profile.html';
+
+    const { createApp } = Vue;
+    const app = createApp({
+      data() {
+        return {
+          isLogin: false,
+          token: "",
+        };
+      },
+      methods: {
+        // 點擊 Ticktock 回首頁 功能
+        homeClick() {
+          console.log("homeClick() ...");
+          window.location.replace(homeUrl);
         },
-        methods: {
-          // 點擊 Ticktock 回首頁 功能
-          homeClick() {
-            console.log("homeClick() ...");
-            window.location.replace("index.html");
-          },
-          // 點擊 搜尋按鈕
-          searchClick(searchData) {
-            console.log(`searchClick(${searchData}) ...`);
-            // todo: 搜尋功能 ...
-          },
-          // 切換到 登入頁面
-          switchLoginClick() {
-            console.log("switchLoginClick() ...");
-            window.location.replace("./account/login.html");
-          },
-          // 切換到 註冊頁面
-          switchRegisterClick() {
-            console.log("switchRegisterClick() ...");
-            window.location.replace("./account/register.html");
-          },
-          // 切換到 忘記密碼頁面
-          switchForgetPasswordClick() {
-            console.log("switchForgetPasswordClick() ...");
-            window.location.replace("./account/password.html");
-          },
-
-          // 訂單查詢
-          orderQueryClick(token) {
-            console.log(`orderQueryClick(${token})`);
-          },
-          // 建立活動
-          createActivityClick(token) {
-            console.log(`createActivityClick(${token})`);
-          },
-          // 新增 組織
-          addOrgClick(token) {
-            console.log(`addOrgClick(${token})`);
-            window.location.replace("./user/new_org.html");
-          },
-          // 切換到 設定頁面
-          switchSettingClick(token) {
-            console.log(`switchSettingClick(${token})`);
-            window.location.replace("./user/profile.html");
-          },
-          // 登出
-          logoutClick(token) {
-            console.log(`logoutClick(${token})`);
-          },
-
-          // FQA
-          faqClick() {
-            console.log("faqClick()");
-          },
-          // Email
-          emailClick() {
-            console.log("emailClick()");
-          },
-
-          // 檢查 是否登入
-          checkLogin() {
-            const token = utilities.getJwtToken();
-            if (token != "") {
-              this.isLogin = true;
-            } else {
-              this.isLogin = false;
-            }
-            this.token = token;
-            console.log(` checkLogin() : token : ${this.token}`);
-            console.log(` checkLogin() : isLogin : ${this.isLogin}`);
-          },
-
-          // 登出功能
-          logoutProcess() {
-            // 跳出 登出中 ...
-          },
+        // 點擊 搜尋按鈕
+        searchClick(searchData) {
+          console.log(`searchClick(${searchData}) ...`);
+          // todo: 搜尋功能 ...
         },
-        mounted() {
-          // 檢查 是否登入
-          this.checkLogin();
-
-          // todo : 取得 banner 資料
-          // todo : 取得 系統公告
-          // todo : 取得 最新消息
-          // todo : 取得
+        // 切換到 登入頁面
+        switchLoginClick() {
+          console.log("switchLoginClick() ...");
+          window.location.replace(loginUrl);
         },
-      });
-      // 綁定 VeeValidate 進入 全域物件
-      app.component("VForm", VeeValidate.Form);
-      app.component("VField", VeeValidate.Field);
-      app.component("ErrorMessage", VeeValidate.ErrorMessage);
-      // 設定 Nav Component
-      app.component("nav_component", nav_component);
-      app.component("foot_component", foot_component);
+        // 切換到 註冊頁面
+        switchRegisterClick() {
+          console.log("switchRegisterClick() ...");
+          window.location.replace(registerUrl);
+        },
+        // 切換到 忘記密碼頁面
+        switchForgetPasswordClick() {
+          console.log("switchForgetPasswordClick() ...");
+          window.location.replace(forgetPasswordUrl);
+        },
 
-      // 將 Vue 綁定到 <div id="app"> 上面
-      app.mount("#app");
-    </script>
-  </body>
+        // 訂單查詢
+        orderQueryClick(token) {
+          console.log(`orderQueryClick(${token})`);
+        },
+        // 建立活動
+        createActivityClick(token) {
+          console.log(`createActivityClick(${token})`);
+        },
+        // 新增 組織
+        addOrgClick(token) {
+          console.log(`addOrgClick(${token})`);
+          window.location.replace(newOrgUrl);
+        },
+        // 切換到 設定頁面
+        switchSettingClick(token) {
+          console.log(`switchSettingClick(${token})`);
+          window.location.replace(settingUrl);
+        },
+        // 登出
+        logoutClick(token) {
+          console.log(`logoutClick(${token})`);
+          utilities.processLogout(homeUrl);
+        },
+
+        // FQA
+        faqClick() {
+          console.log("faqClick()");
+        },
+        // Email
+        emailClick() {
+          console.log("emailClick()");
+        },
+
+        // 檢查 是否登入
+        checkLogin() {
+          const token = utilities.getJwtToken();
+          if (token != "") {
+            this.isLogin = true;
+          } else {
+            this.isLogin = false;
+          }
+          this.token = token;
+          console.log(` checkLogin() : token : ${this.token}`);
+          console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+        },
+
+        // 登出功能
+        logoutProcess() {
+          // 跳出 登出中 ...
+        },
+      },
+      mounted() {
+        // 檢查 是否登入
+        this.checkLogin();
+
+        // todo : 取得 banner 資料
+        // todo : 取得 系統公告
+        // todo : 取得 最新消息
+        // todo : 取得
+      },
+    });
+    // 綁定 VeeValidate 進入 全域物件
+    app.component("VForm", VeeValidate.Form);
+    app.component("VField", VeeValidate.Field);
+    app.component("ErrorMessage", VeeValidate.ErrorMessage);
+    // 設定 Nav Component
+    app.component("nav_component", nav_component);
+    app.component("foot_component", foot_component);
+
+    // 將 Vue 綁定到 <div id="app"> 上面
+    app.mount("#app");
+  </script>
+</body>
+
 </html>

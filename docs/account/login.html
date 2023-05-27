@@ -98,6 +98,16 @@
         import nav_component from '../js/component_nav.js';
         import foot_component from '../js/component_foot.js';
 
+        // 設定 網頁轉址
+        const homeUrl = '../index.html';
+        const loginUrl = 'login.html';
+        const registerUrl = 'register.html';
+        const forgetPasswordUrl = 'password.html';
+        const newOrgUrl = '../user/new_org.html';
+        const settingUrl = '../user/profile.html';
+
+
+        // Vue 主架構
         const app = Vue.createApp({
             data() {
                 return {
@@ -149,7 +159,7 @@
                             }).then((result) => {
                                 // 轉頁面到首頁                            
                                 if (result.isConfirmed) {
-                                    window.location.href = '../index.html'
+                                    window.location.href = homeUrl
                                 }
                             });
 
@@ -175,7 +185,7 @@
                 // 點擊 Ticktock 回首頁 功能
                 homeClick() {
                     console.log('homeClick() ...');
-                    window.location.replace('../index.html');
+                    window.location.replace(homeUrl);
                 },
                 // 點擊 搜尋按鈕
                 searchClick(searchData) {
@@ -185,17 +195,17 @@
                 // 切換到 登入頁面
                 switchLoginClick() {
                     console.log('switchLoginClick() ...');
-                    window.location.replace('login.html');
+                    window.location.replace(loginUrl);
                 },
                 // 切換到 註冊頁面
                 switchRegisterClick() {
                     console.log('switchRegisterClick() ...');
-                    window.location.replace('register.html');
+                    window.location.replace(registerUrl);
                 },
                 // 切換到 忘記密碼頁面
                 switchForgetPasswordClick() {
                     console.log('switchForgetPasswordClick() ...');
-                    window.location.replace('password.html');
+                    window.location.replace(forgetPasswordUrl);
                 },
 
                 // 訂單查詢
@@ -209,16 +219,17 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
-                    window.location.replace('../user/new_org.html');
+                    window.location.replace(newOrgUrl);
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
-                    window.location.replace('../user/profile.html');
+                    window.location.replace(settingUrl);
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
+                    utilities.processLogout(homeUrl);
                 },
 
                 // FQA

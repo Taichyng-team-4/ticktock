@@ -136,6 +136,14 @@
         import user_side_bar from '../js/component_user_side_bar.js';
         import foot_component from '../js/component_foot.js';
 
+        // 設定 網頁轉址
+        const homeUrl = '../index.html';
+        const loginUrl = '../account/login.html';
+        const registerUrl = '../account/register.html';
+        const forgetPasswordUrl = '../account/password.html';
+        const newOrgUrl = 'new_org.html';
+        const settingUrl = 'profile.html';
+
         const app = Vue.createApp({
             data() {
                 return {
@@ -153,7 +161,7 @@
                 // 點擊 Ticktock 回首頁 功能
                 homeClick() {
                     console.log('homeClick() ...');
-                    window.location.replace('../index.html');
+                    window.location.replace(homeUrl);
                 },
                 // 點擊 搜尋按鈕
                 searchClick(searchData) {
@@ -163,17 +171,17 @@
                 // 切換到 登入頁面
                 switchLoginClick() {
                     console.log('switchLoginClick() ...');
-                    window.location.replace('../account/login.html');
+                    window.location.replace(loginUrl);
                 },
                 // 切換到 註冊頁面
                 switchRegisterClick() {
                     console.log('switchRegisterClick() ...');
-                    window.location.replace('../account/register.html');
+                    window.location.replace(registerUrl);
                 },
                 // 切換到 忘記密碼頁面
                 switchForgetPasswordClick() {
                     console.log('switchForgetPasswordClick() ...');
-                    window.location.replace('../account/password.html');
+                    window.location.replace(forgetPasswordUrl);
                 },
 
                 // 訂單查詢
@@ -187,16 +195,17 @@
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
-                    window.location.replace('new_org.html');
+                    window.location.replace(newOrgUrl);
                 },
                 // 切換到 設定頁面
                 switchSettingClick(token) {
                     console.log(`switchSettingClick(${token})`);
-                    window.location.replace('profile.html');
+                    window.location.replace(settingUrl);
                 },
                 // 登出
                 logoutClick(token) {
                     console.log(`logoutClick(${token})`);
+                    utilities.processLogout(homeUrl);
                 },
 
                 // FQA
@@ -224,7 +233,7 @@
                 // 取得 使用者資訊
                 getUserInfo() {
                     
-                }
+                },
 
                 // 登出功能
                 logoutProcess() {
