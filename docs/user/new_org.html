@@ -98,7 +98,9 @@
         const app = Vue.createApp({
             data() {
                 return {
+                    orgImage: '',
                     orgName: '',
+                    orgEmail: '',
                     orgPhone: '',
                     orgContent: '',
                     password: '',
@@ -197,9 +199,83 @@
                 saveClick() {
                     console.log('saveClick()');
 
+                    // Todo : 檢查 輸入欄位
+
+                    const orgsAPI = config.orgsAPI;
+
+                    // Header
+                    const headers = {
+                        "token": this.token,
+                    };
+                    // Request Body
+                    const requestBody = {
+                        "name": this.orgName,
+                        "email": this.orgEmail,
+                        "phone": this.orgPhone,
+                        "img": this.orgImage,
+                        "summary": this.orgContent,
+                        "description": this.orgContent
+                    };
+
+                    // For Test
+                    console.log(`orgsAPI => ${orgsAPI}`);
+                    console.log(requestBody);
+
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: 'Processing...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+
+                    axios.post(orgsAPI, requestBody, { headers })
+                        .then((res) => {
+                            // 新增組織 成功
+                            console.log('新增組織 成功');
+                            console.log(res);
+                            // 記錄 組織資料
+
+                            // 顯示 新增組織 Dialog
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '新增組織 成功.',
+                                icon: 'success',
+                                showCancelButton: false,
+                                allowOutsideClick: false,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                this.clearData();
+                            });
+
+                        })
+                        .catch((err) => {
+                           // 新增組織 失敗
+                           console.log('login 失敗');
+                            console.log(err);
+                            console.log(err.response);
+                            // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '新增組織失敗',
+                                allowOutsideClick: false,
+                                icon: 'error',
+                            });
+                        }).finally(() => {
+                            Swal.hideLoading();
+                        });
 
 
+                },
 
+                clearData() {
+                    this.orgImage = '';
+                    this.orgName = '';
+                    this.orgEmail = '';
+                    this.orgPhone = '';
+                    this.orgContent = '';
+                    this.password = '';
                 },
 
                 // 取消
