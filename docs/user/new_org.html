@@ -29,7 +29,7 @@
         <div class="main flex items-center justify-center flex-col my-12">
             <div class="user_img p-5 bg-white border border-gray30 rounded">
                 <a href="#" @click.prevent="uploadImageClick">
-                    <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full">
+                    <img :src="orgImage" class="w-48 h-48 rounded-full">
                 </a>
                 <h3 class="p-2 font-bold text-center text-2xl"></h3>
             </div>
@@ -98,7 +98,7 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    orgImage: '',
+                    orgImage: 'https://picsum.photos/100/100',
                     orgName: '',
                     orgEmail: '',
                     orgPhone: '',
@@ -204,9 +204,7 @@
                     const orgsAPI = config.orgsAPI;
 
                     // Header
-                    const headers = {
-                        "token": this.token,
-                    };
+                    const headers = utilities.getHeaders();
                     // Request Body
                     const requestBody = {
                         "name": this.orgName,

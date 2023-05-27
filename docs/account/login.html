@@ -146,8 +146,13 @@
                             // 登入 成功
                             console.log('login 成功');
                             console.log(res);
+                            // 檢查 回傳 token 資訊 是否有帶 Bearer 
+                            let token = res.data.token;
+                            if (token.indexOf('Bearer ') == -1) {
+                                token = `Bearer ${token}`;
+                            }
                             // 記錄 JWT 進入 local storage 
-                            utilities.setJwtToken(res.data.token);
+                            utilities.setJwtToken(token);
                             // 顯示 登入成功 Dialog
                             Swal.fire({
                                 title: 'Success!',

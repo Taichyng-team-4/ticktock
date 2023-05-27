@@ -3,26 +3,26 @@
  *
  */
 
-// // 取得 localStorage 中 jwtToken 設定值
-// function getJwtToken() {
-//   let jwtToken;
-//   if (localStorage.getItem('jwtToken')) {
-//     jwtToken = localStorage.getItem('jwtToken') || '';
-//   } else {
-//     jwtToken = '';
-//   }
-//   return jwtToken;
-// }
+// 取得 localStorage 中 jwtToken 設定值
+function getJwtToken() {
+  let jwtToken;
+  if (localStorage.getItem('jwtToken')) {
+    jwtToken = localStorage.getItem('jwtToken') || '';
+  } else {
+    jwtToken = '';
+  }
+  return jwtToken;
+}
 
-// // 設定 localStorage 中 jwtToken 值
-// function setJwtToken(jwtToken) {
-//   localStorage.setItem('jwtToken', jwtToken);
-// }
+// 設定 localStorage 中 jwtToken 值
+function setJwtToken(jwtToken) {
+  localStorage.setItem('jwtToken', jwtToken);
+}
 
-// // 清除 localStorage 中 jwtToken 項目
-// function clearJwtToken() {
-//   localStorage.removeItem('jwtToken');
-// }
+// 清除 localStorage 中 jwtToken 項目
+function clearJwtToken() {
+  localStorage.removeItem('jwtToken');
+}
 
 // 切換成中文日期
 function toChFormatDate(date) {
@@ -55,9 +55,8 @@ function toChFormatDate(date) {
     (acc, curr) => ({ ...acc, [curr.type]: curr.value }),
     {}
   );
-  return `${dateObj.weekday}, ${chineseMonths[dateObj.month - 1]}月 ${
-    dateObj.day
-  }, ${dateObj.year}`;
+  return `${dateObj.weekday}, ${chineseMonths[dateObj.month - 1]}月 ${dateObj.day
+    }, ${dateObj.year}`;
 }
 
 // 切換成應文日期
@@ -74,34 +73,38 @@ function toEnFormatDate(date) {
   return new Date(date).toLocaleString("en-US", options);
 }
 
-let jwtToken;
+// 執行登出
+function processLogout(homeUrl) {
+  // 移除 JwtToken
+  clearJwtToken();
+  window.location.replace(homeUrl);
+}
+
+// 取得 Post Request Headers
+function getHeaders() {
+  let token = this.getJwtToken();
+  if (token.indexOf('Bearer ') == -1) {
+    token = `Bearer ${token}`;
+  }
+  const headers = {
+    'authorization': token,
+  }
+  return headers;
+}
 
 const utilities = {
   // 取得 localStorage 中 jwtToken 設定值
-  getJwtToken() {
-    if (localStorage.getItem("jwtToken")) {
-      jwtToken = localStorage.getItem("jwtToken") || "";
-    } else {
-      jwtToken = "";
-    }
-    return jwtToken;
-  },
+  getJwtToken,
   // 設定 localStorage 中 jwtToken 值
-  setJwtToken(jwtToken) {
-    localStorage.setItem("jwtToken", jwtToken);
-  },
+  setJwtToken,
   // 清除 localStorage 中 jwtToken 項目
-  clearJwtToken() {
-    localStorage.removeItem("jwtToken");
-  },
+  clearJwtToken,
   toChFormatDate,
   toEnFormatDate,
   // 執行登出
-  processLogout(homeUrl) {
-    // 移除 JwtToken
-    localStorage.removeItem("jwtToken");
-    window.location.replace(homeUrl);
-  }
+  processLogout,
+  // 取得 Post Request Headers
+  getHeaders,
 };
 
 export default utilities;
