@@ -11,7 +11,7 @@ const registerAPI = `${apiHostPath}/auths/signup`;
 const forgetPasswordAPI = `${apiHostPath}/auths/password/forgot`;
 const activityAPI = `${apiHostPath}/activities/`;
 // 取得 以及 更新 User Profile 
-const userProfileAPI = `${apiHostPath}/users/profile`;
+const userProfileAPI = `${apiHostPath}/profile`;
 // 新增組織
 const orgsAPI = `${apiHostPath}/orgs`;
 

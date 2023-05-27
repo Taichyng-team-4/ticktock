@@ -3,11 +3,17 @@
  *
  */
 
+// 設定 ItemKey
+const ItemKey = {
+  'jwtToken' : 'jwtToken',
+  'userProfile' : 'userProfile'
+};
+
 // 取得 localStorage 中 jwtToken 設定值
 function getJwtToken() {
   let jwtToken;
-  if (localStorage.getItem('jwtToken')) {
-    jwtToken = localStorage.getItem('jwtToken') || '';
+  if (localStorage.getItem(ItemKey.jwtToken)) {
+    jwtToken = localStorage.getItem(ItemKey.jwtToken) || '';
   } else {
     jwtToken = '';
   }
@@ -16,12 +22,12 @@ function getJwtToken() {
 
 // 設定 localStorage 中 jwtToken 值
 function setJwtToken(jwtToken) {
-  localStorage.setItem('jwtToken', jwtToken);
+  localStorage.setItem(ItemKey.jwtToken, jwtToken);
 }
 
 // 清除 localStorage 中 jwtToken 項目
 function clearJwtToken() {
-  localStorage.removeItem('jwtToken');
+  localStorage.removeItem(ItemKey.jwtToken);
 }
 
 // 切換成中文日期
@@ -77,6 +83,7 @@ function toEnFormatDate(date) {
 function processLogout(homeUrl) {
   // 移除 JwtToken
   clearJwtToken();
+  clearUserProfile();
   window.location.replace(homeUrl);
 }
 
@@ -92,6 +99,24 @@ function getHeaders() {
   return headers;
 }
 
+// 儲存 userProfile
+function setUserProfile(userProfile) {
+  localStorage.setItem(ItemKey.userProfile, JSON.stringify(userProfile));
+}
+
+// 取得 userProfile
+function getUserProfile() {
+  let userProfile;
+  if (localStorage.getItem(ItemKey.userProfile)) {
+
+  }
+}
+
+// 清除 userProfile
+function clearUserProfile() {
+  localStorage.removeItem(ItemKey.userProfile);
+}
+
 const utilities = {
   // 取得 localStorage 中 jwtToken 設定值
   getJwtToken,
@@ -105,6 +130,9 @@ const utilities = {
   processLogout,
   // 取得 Post Request Headers
   getHeaders,
+  setUserProfile,
+  getUserProfile,
+  clearUserProfile,
 };
 
 export default utilities;

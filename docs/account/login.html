@@ -18,19 +18,11 @@
 <body>
     <div id="app">
         <!-- NavBar -->
-        <nav_component
-            v-bind:is-login="isLogin"
-            v-bind:token="token"
-            v-on:emit-home="homeClick"
-            v-on:emit-search="searchClick"
-            v-on:emit-login="switchLoginClick"
-            v-on:emit-register="switchRegisterClick"
-            v-on:emit-order-query="orderQueryClick"
-            v-on:emit-create-activity="createActivityClick"
-            v-on:emit-add-org="addOrgClick"
-            v-on:emit-setting="switchSettingClick"
-            v-on:emit-logout="logoutClick"            
-        ></nav_component>
+        <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
+        </nav_component>
         <!-- Content -->
         <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
@@ -93,6 +85,7 @@
         // API Config
         import config from '../js/config.js';
         const loginAPI = config.loginAPI;
+        const userProfileAPI = config.userProfileAPI;
 
         // Components
         import nav_component from '../js/component_nav.js';
@@ -113,78 +106,106 @@
                 return {
                     account: '',
                     password: '',
-                    isLogin : false,
+                    isLogin: false,
                     token: '',
                 };
             },
             methods: {
-                loginClick() {
-                    console.log('loginClick() ...');
+                async loginClick() {
 
-                    // Todo : 檢查 輸入資訊
+                    try {
+                        console.log('loginClick() ...');
 
+                        // Todo : 檢查 輸入資訊
+                        const requestBody = {
+                            "email": this.account,
+                            "password": this.password
+                        };
 
-                    const requestBody = {
-                        "email": this.account,
-                        "password": this.password
-                    };
+                        console.log(`loginAPI => ${loginAPI}`);
+                        console.log(requestBody);
 
-                    console.log(`loginAPI => ${loginAPI}`);
-                    console.log(requestBody);
-
-                    // 顯示 processing dialog
-                    Swal.fire({
-                        title: 'Processing...',
-                        allowOutsideClick: false,
-                        onBeforeOpen: () => {
-                            Swal.showLoading();
-                        },
-                    });
-
-                    axios.post(loginAPI, requestBody)
-                        .then((res) => {
-                            // 登入 成功
-                            console.log('login 成功');
-                            console.log(res);
-                            // 檢查 回傳 token 資訊 是否有帶 Bearer 
-                            let token = res.data.token;
-                            if (token.indexOf('Bearer ') == -1) {
-                                token = `Bearer ${token}`;
-                            }
-                            // 記錄 JWT 進入 local storage 
-                            utilities.setJwtToken(token);
-                            // 顯示 登入成功 Dialog
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'You have logged in successfully.',
-                                icon: 'success',
-                                showCancelButton: false,
-                                allowOutsideClick: false,
-                                confirmButtonText: 'OK',
-                            }).then((result) => {
-                                // 轉頁面到首頁                            
-                                if (result.isConfirmed) {
-                                    window.location.href = homeUrl
-                                }
-                            });
-
-                        }).catch((err) => {
-                            // 登入 失敗
-                            console.log('login 失敗');
-                            console.log(err);
-                            console.log(err.response);
-                            // 顯示錯誤訊息
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to login. Please check your email and password.',
-                                allowOutsideClick: false,
-                                icon: 'error',
-                            });
-                        })
-                        .finally(() => {
-                            Swal.hideLoading();
+                        // 顯示 processing dialog
+                        Swal.fire({
+                            title: 'Processing...',
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
                         });
 
+                        const loginResponse = await axios.post(loginAPI, requestBody);
+                        // 檢查 回傳 token 資訊 是否有帶 Bearer 
+                        let token = loginResponse.data.token;
+                        if (token.indexOf('Bearer ') == -1) {
+                            token = `Bearer ${token}`;
+                        }
+
+                        console.log('login success !');
+                        console.log(loginResponse);
+
+                        const headers = {
+                            'authorization' : token,
+                        };
+
+                        console.log('get user profile : ');
+                        console.log(`headers : ${headers}`);
+                        console.log(`profileAPI : ${userProfileAPI}`);
+
+                        // 取得 User Profile
+                        const profileResponse = await axios.get(userProfileAPI, { headers });
+                        
+                        console.log('get profile success !');
+                        console.log(profileResponse);
+
+                        
+
+                        // 檢查 profileResponse.data.status 是否為 success
+                        if (profileResponse.data.status !== 'success') {
+                            throw("取得 User Profile 資料失敗!");
+                        }
+
+                        // 取得 組織 資料
+
+                        // 寫入 User Profile
+                        utilities.setUserProfile(profileResponse.data.data);
+
+                        // 記錄 JWT 進入 local storage 
+                        utilities.setJwtToken(token);
+
+
+
+                        // 顯示 登入成功 Dialog
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'You have logged in successfully.',
+                            icon: 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            // 轉頁面到首頁                            
+                            if (result.isConfirmed) {
+                                window.location.href = homeUrl
+                            }
+                        });
+
+                    } catch (err) {
+                        // 登入 失敗
+                        console.log('login 失敗');
+                        console.log(err);
+                        console.log(err.response);
+                        // 顯示錯誤訊息
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to login. Please check your email and password.',
+                            allowOutsideClick: false,
+                            icon: 'error',
+                        });
+                    }
+                    finally {
+                        Swal.hideLoading();
+                    };
 
                 },
                 // 點擊 Ticktock 回首頁 功能
@@ -216,11 +237,11 @@
                 // 訂單查詢
                 orderQueryClick(token) {
                     console.log(`orderQueryClick(${token})`);
-                },                
+                },
                 // 建立活動
                 createActivityClick(token) {
                     console.log(`createActivityClick(${token})`);
-                },                
+                },
                 // 新增 組織
                 addOrgClick(token) {
                     console.log(`addOrgClick(${token})`);
