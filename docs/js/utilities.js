@@ -106,10 +106,16 @@ function setUserProfile(userProfile) {
 
 // 取得 userProfile
 function getUserProfile() {
-  let userProfile;
+  let userProfile = undefined;
   if (localStorage.getItem(ItemKey.userProfile)) {
-
+    const temp = localStorage.getItem(ItemKey.userProfile);
+    if (typeof temp == 'string') {
+      if (temp.length > 0) {
+        userProfile = JSON.parse(temp);
+      }
+    }
   }
+  return userProfile;
 }
 
 // 清除 userProfile

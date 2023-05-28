@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,97 +11,85 @@
     <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
-    
+
     <link rel="stylesheet" href="../css/nav.css">
 
     <title>個人資訊</title>
 </head>
+
 <body class="bg-background">
     <div id="app">
         <!-- NavBar -->
-        <nav_component 
-            v-bind:is-login="isLogin" 
-            v-bind:token="token" 
-            v-on:emit-home="homeClick"
-            v-on:emit-search="searchClick" 
-            v-on:emit-login="switchLoginClick" 
-            v-on:emit-register="switchRegisterClick"
-            v-on:emit-order-query="orderQueryClick" 
-            v-on:emit-create-activity="createActivityClick"
-            v-on:emit-add-org="addOrgClick" 
-            v-on:emit-setting="switchSettingClick" 
-            v-on:emit-logout="logoutClick">
+        <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
         </nav_component>
-        
+
         <!-- Content -->
         <div class=" px-10 mt-10 flex flex-nowrap">
             <!-- User Side Bar -->
-            <user_side_bar
-                v-bind:token="token"
-                v-bind:img-url="imgUrl"
-                v-bind:user-name="userName"
-                v-on:emit-order="switchOrderManageClick"
-                v-on:emit-profile="switchProfileManageClick"
-                v-on:emit-news="switchNewsManageClick"
-                v-on:emit-orgs="switchOrgMangeClick"
-            ></user_side_bar>
+            <user_side_bar v-bind:token="token" v-bind:img-url="userAvatar" v-bind:user-name="sideBarUserName"
+                v-on:emit-order="switchOrderManageClick" v-on:emit-profile="switchProfileManageClick"
+                v-on:emit-news="switchNewsManageClick" v-on:emit-orgs="switchOrgMangeClick">
+            </user_side_bar>
             <!-- Profile Content -->
             <div class="main ml-5 mb-5 w-5/6 bg-white">
-               <h3 class="p-6 text-2xl font-bold">帳號管理</h3>
-               <div class="grid grid-cols-2 p-3">
+                <h3 class="p-6 text-2xl font-bold">帳號管理</h3>
+                <div class="grid grid-cols-2 p-3">
                     <div class="flex flex-col p-3">
                         <label for="name" class="py-2">姓名</label>
-                        <input type="text" name="name" id="name" class="bg-gray30 w-3/5">
+                        <input type="text" name="name" id="name" v-model="userName" class="bg-gray30 w-3/5">
                     </div>
                     <div class="flex flex-col p-3">
                         <label for="gender" class="py-2">性別</label>
                         <div>
-                            <input type="radio" name="gender" value="男" class="px-2">男
-                            <input type="radio" name="gender" value="女" class="px-2">女
+                            <input type="radio" name="gender" value="male" v-model="userGender" class="px-2">男
+                            <input type="radio" name="gender" value="female" v-model="userGender" class="px-2">女
                         </div>
                     </div>
                     <div class="flex flex-col p-3">
                         <label for="born" class="py-2">出生年月日</label>
-                        <input type="text" name="born" id="born" class="bg-gray30 w-3/5">
+                        <input type="text" name="born" id="born" v-model="userBirth" class="bg-gray30 w-3/5">
                     </div>
                     <div class="flex flex-col p-3">
                         <label for="area" class="py-2">國家/地區</label>
-                        <input type="text" name="area" id="area" class="bg-gray30 w-3/5">
+                        <input type="text" name="area" id="area" v-model="userArea" class="bg-gray30 w-3/5">
                     </div>
                     <div class="flex flex-col p-3">
                         <label for="phone" class="py-2">電話號碼</label>
-                        <input type="text" name="phone" id="phone" class="bg-gray30 w-3/5">
+                        <input type="text" name="phone" id="phone" v-model="userPhone" class="bg-gray30 w-3/5">
                     </div>
                     <div class="flex flex-col p-3">
                         <label for="email" class="py-2">信箱</label>
-                        <input type="text" name="email" id="email" class="bg-gray30 w-3/5">
+                        <input type="text" name="email" id="email" v-model="userEmail" class="bg-gray30 w-3/5" readonly>
                     </div>
-               </div>
-               <div class="p-6 flex justify-between">
+                </div>
+                <div class="p-6 flex justify-between">
                     <button class="change_password bg-secondary px-5 py-3 text-white">變更密碼</button>
-                    <button class="store bg-primary px-5 py-3 text-white">儲存</button>
+                    <button class="store bg-primary px-5 py-3 text-white" @click.prevent="saveClick">儲存</button>
                 </div>
             </div>
         </div>
         <div class="change_password_block absolute top-0 left-0 w-full h-full bg-gray30/[30%] hidden">
             <div class="w-96 bg-white p-5 rounded absolute top-28 left-0 right-0 m-auto">
-                <div class="flex justify-between items-center">            
+                <div class="flex justify-between items-center">
                     <h3 class="text-2xl">變更密碼</h3>
                     <span class="change_password_clear material-icons cursor-pointer">
                         clear
                     </span>
                 </div>
-    
+
                 <div class="flex flex-col py-3">
                     <label for="old_password">舊密碼</label>
                     <input type="text" name="old_password" id="old_password" class="bg-gray30">
                 </div>
-                
+
                 <div class="flex flex-col py-3">
                     <label for="new_password">新密碼</label>
                     <input type="text" name="new_password" id="new_password" class="bg-gray30">
                 </div>
-                
+
                 <div class="flex flex-col py-3">
                     <label for="confirm_password">確認新密碼</label>
                     <input type="text" name="nconfirm_password" id="nconfirm_password" class="bg-gray30">
@@ -111,7 +100,7 @@
             </div>
         </div>
     </div>
-    
+
 
     <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
     <!-- 載入 Vue Core -->
@@ -130,6 +119,7 @@
         // API Config
         import config from '../js/config.js';
         const loginAPI = config.loginAPI;
+        const userProfileAPI = config.userProfileAPI;
 
         // Components
         import nav_component from '../js/component_nav.js';
@@ -144,17 +134,22 @@
         const newOrgUrl = 'new_org.html';
         const settingUrl = 'profile.html';
 
+        // Vue 主程式
         const app = Vue.createApp({
             data() {
                 return {
-                    orgName : '',
-                    orgPhone: '',
-                    orgContent : '',
+                    userAvatar: '',
+                    userName: '',
+                    userPhone: '',
+                    userEmail: '',
+                    userBirth: '',
+                    userId: '',
+                    userGender: '',
+                    userArea: '',
                     password: '',
-                    isLogin : false,
+                    isLogin: false,
                     token: '',
-                    imgUrl: '',
-                    userName : '',
+                    sideBarUserName: '',
                 };
             },
             methods: {
@@ -222,6 +217,7 @@
                     const token = utilities.getJwtToken()
                     if (token != '') {
                         this.isLogin = true;
+                        this.getUserInfo();
                     } else {
                         this.isLogin = false;
                     }
@@ -232,7 +228,22 @@
 
                 // 取得 使用者資訊
                 getUserInfo() {
-                    
+                    const userProfile = utilities.getUserProfile();
+                    if (userProfile) {
+                        this.sideBarUserName = userProfile.name;
+                        this.userName = userProfile.name;
+                        this.userPhone = userProfile.phone;
+                        this.userEmail = userProfile.email;
+                        this.userGender = userProfile.gender;
+                        this.userBirth = userProfile.birth;
+                        this.userId = userProfile.id;
+                        this.userArea = userProfile.area;
+                        if (userProfile.avatar) {
+                            this.userAvatar = userProfile.avatar;
+                        } else {
+                            this.userAvatar = config.defaultAvatar;
+                        }
+                    }
                 },
 
                 // 登出功能
@@ -244,6 +255,79 @@
                 // 儲存
                 saveClick() {
                     console.log('saveClick()');
+
+
+                    // Todo : 檢查 輸入欄位
+
+                    // header
+                    const headers = utilities.getHeaders();
+
+                    // 組合 Patch Request Body
+                    const requestBody = {
+                        "name": this.userName,
+                        "gender": this.userGender,
+                        "phone": this.userPhone,
+                        "birth": this.userBirth,
+                        "avatar": this.userAvatar,
+                        "area": this.userArea,
+                    }
+
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: '更新 使用者資料中...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+
+                    axios.patch(userProfileAPI, requestBody, { headers })
+                        .then((res) => {
+                            // 成功
+                            console.log('axios.post then res :');
+                            console.log(res);
+                            if (res.data.status == 'success') {
+                                // 寫入 User Profile
+                                utilities.setUserProfile(res.data.data);
+                                // 取出 更新後的 User Info
+                                this.getUserInfo();
+                                // 顯示 登入成功 Dialog
+                                Swal.fire({
+                                    title: 'Success!',
+                                    text: 'You have logged in successfully.',
+                                    icon: 'success',
+                                    showCancelButton: false,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: 'OK',
+                                }).then((result) => {
+                                    // 轉頁面到首頁                            
+                                    if (result.isConfirmed) {
+                                        //window.location.href = homeUrl
+                                    }
+                                });
+                            } else {
+                                throw ('更新 User Profile 失敗');
+                            }
+
+                        })
+                        .catch((err) => {
+                            // 更新 User Profile 失敗
+                            console.log('更新 User Profile 失敗');
+                            console.log(err);
+                            console.log(err.response);
+                            // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Fail to update user profile',
+                                allowOutsideClick: false,
+                                icon: 'error',
+                            });
+                        })
+                        .finally(() => {
+                            Swal.hideLoading();
+                        });
+
+
                 },
 
                 // 取消
@@ -275,7 +359,7 @@
             // 生命週期 -- Mounted
             mounted() {
                 this.checkLogin();
-            }            
+            }
         });
         // 綁定 VeeValidate 進入 全域物件
         app.component('VForm', VeeValidate.Form);
@@ -289,4 +373,5 @@
         app.mount('#app');
     </script>
 </body>
+
 </html>

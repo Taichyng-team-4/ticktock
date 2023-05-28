@@ -15,6 +15,9 @@ const userProfileAPI = `${apiHostPath}/profile`;
 // 新增組織
 const orgsAPI = `${apiHostPath}/orgs`;
 
+// 預設 Avatar
+const defaultAvatar = 'https://picsum.photos/100/100';
+
 const config = {
   apiHostPath,
   loginAPI,
@@ -22,7 +25,8 @@ const config = {
   forgetPasswordAPI,
   activityAPI,
   userProfileAPI,
-  orgsAPI
+  orgsAPI,
+  defaultAvatar
 };
 
 export default config;
