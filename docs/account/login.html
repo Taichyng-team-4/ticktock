@@ -158,17 +158,38 @@
                         console.log('get profile success !');
                         console.log(profileResponse);
 
-                        
-
                         // 檢查 profileResponse.data.status 是否為 success
                         if (profileResponse.data.status !== 'success') {
                             throw("取得 User Profile 資料失敗!");
                         }
 
+                        // 取得 User Profile
+                        const userProfile = profileResponse.data.data;
+
                         // Todo : 取得 組織 資料
+                        const orgsResponse = await axios.get(config.orgsAPI,{headers});
+                        console.log('get orgs success !');
+                        console.log(orgsResponse);
+
+                        // 當 取得 組織 資料成功
+                        if (orgsResponse.data.status === 'success') {
+                            utilities.clearOrgList();
+                            const tempOrgs = orgsResponse.data.data;
+
+                            if (orgsResponse.data.count > 0) {
+                                let myOrgList = [];
+                                tempOrgs.forEach(element => {
+                                    if (element.ownerId === userProfile.id) {
+                                        myOrgList.push(element);
+                                    }
+                               });
+                               // 儲存 Org List
+                               utilities.setOrgList(myOrgList);
+                            }
+                        }
 
                         // 寫入 User Profile
-                        utilities.setUserProfile(profileResponse.data.data);
+                        utilities.setUserProfile(userProfile);
 
                         // 記錄 JWT 進入 local storage 
                         utilities.setJwtToken(token);

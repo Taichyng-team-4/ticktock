@@ -51,7 +51,7 @@ export default {
                         <div class="dropdown-content">
                             <p class="ml-4">組織列表</p>
                             <ul class="ml-3">
-                                <li><a href="#">Link 1</a></li>
+                                <li v-for="item in orgs"><a href="#">{{ item.name }}</a></li>
                             </ul>
                             <a href="#" @click.prevent="addOrgClick">新增組織</a>
                         </div>

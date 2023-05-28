@@ -30,7 +30,7 @@
 <body class="bg-background">
   <div id="app">
     <!-- NavBar -->
-    <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+    <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-bind:orgs="orgList" v-on:emit-home="homeClick"
       v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
       v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
       v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
@@ -251,6 +251,8 @@
         return {
           isLogin: false,
           token: "",
+          userProfile: {},
+          orgList: [],
         };
       },
       methods: {
@@ -318,6 +320,7 @@
           const token = utilities.getJwtToken();
           if (token != "") {
             this.isLogin = true;
+            this.getUserInfo();
           } else {
             this.isLogin = false;
           }
@@ -325,10 +328,10 @@
           console.log(` checkLogin() : token : ${this.token}`);
           console.log(` checkLogin() : isLogin : ${this.isLogin}`);
         },
-
-        // 登出功能
-        logoutProcess() {
-          // 跳出 登出中 ...
+        // 取得 使用者資訊
+        getUserInfo() {
+          this.userProfile = utilities.getUserProfile();
+          this.orgList = utilities.getOrgList();
         },
       },
       mounted() {

@@ -6,28 +6,24 @@
 // 設定 ItemKey
 const ItemKey = {
   'jwtToken' : 'jwtToken',
-  'userProfile' : 'userProfile'
+  'userProfile' : 'userProfile',
+  'orgList': 'orgList'
 };
 
 // 取得 localStorage 中 jwtToken 設定值
 function getJwtToken() {
-  let jwtToken;
-  if (localStorage.getItem(ItemKey.jwtToken)) {
-    jwtToken = localStorage.getItem(ItemKey.jwtToken) || '';
-  } else {
-    jwtToken = '';
-  }
+  let jwtToken = this.getItemStringValue(ItemKey.jwtToken);
   return jwtToken;
 }
 
 // 設定 localStorage 中 jwtToken 值
 function setJwtToken(jwtToken) {
-  localStorage.setItem(ItemKey.jwtToken, jwtToken);
+  this.setItemKeyValue(ItemKey.jwtToken, jwtToken);
 }
 
 // 清除 localStorage 中 jwtToken 項目
 function clearJwtToken() {
-  localStorage.removeItem(ItemKey.jwtToken);
+  clearItem(ItemKey.jwtToken);
 }
 
 // 切換成中文日期
@@ -101,18 +97,16 @@ function getHeaders() {
 
 // 儲存 userProfile
 function setUserProfile(userProfile) {
-  localStorage.setItem(ItemKey.userProfile, JSON.stringify(userProfile));
+  this.setItemKeyValue(ItemKey.userProfile, JSON.stringify(userProfile));
 }
 
 // 取得 userProfile
 function getUserProfile() {
   let userProfile = undefined;
-  if (localStorage.getItem(ItemKey.userProfile)) {
-    const temp = localStorage.getItem(ItemKey.userProfile);
-    if (typeof temp == 'string') {
-      if (temp.length > 0) {
-        userProfile = JSON.parse(temp);
-      }
+  const temp = this.getItemStringValue(ItemKey.userProfile);
+  if (typeof temp == 'string') {
+    if (temp.length > 0) {
+      userProfile = JSON.parse(temp);
     }
   }
   return userProfile;
@@ -120,10 +114,49 @@ function getUserProfile() {
 
 // 清除 userProfile
 function clearUserProfile() {
-  localStorage.removeItem(ItemKey.userProfile);
+  clearItem(ItemKey.userProfile);
 }
 
+// Set Item Key / Value
+function setItemKeyValue(itemKey, itemValue) {
+  localStorage.setItem(itemKey, itemValue);
+}
+
+// Get Item String Value
+function getItemStringValue(itemKey) {
+  let itemValue = '';
+  if (localStorage.getItem(itemKey)) {
+    itemValue = localStorage.getItem(itemKey) || '';
+  }
+  return itemValue;
+}
+
+// Clear Item Key / Value
+function clearItem(itemKey) {
+  localStorage.removeItem(itemKey);
+}
+
+function setOrgList(orgList) {
+  this.setItemKeyValue(ItemKey.orgList, JSON.stringify(orgList));
+}
+
+function getOrgList() {
+  let orgList = [];
+  let temp = this.getItemStringValue(ItemKey.orgList);
+  if (temp) {
+    orgList = JSON.parse(temp);
+  }
+  return orgList;
+}
+
+function clearOrgList() {
+  clearItem(ItemKey.orgList);
+}
+
+
 const utilities = {
+  // 各種 ItemKey
+  ItemKey,
   // 取得 localStorage 中 jwtToken 設定值
   getJwtToken,
   // 設定 localStorage 中 jwtToken 值
@@ -139,6 +172,12 @@ const utilities = {
   setUserProfile,
   getUserProfile,
   clearUserProfile,
+  setItemKeyValue,
+  getItemStringValue,
+  clearItem,
+  setOrgList,
+  getOrgList,
+  clearOrgList,
 };
 
 export default utilities;
