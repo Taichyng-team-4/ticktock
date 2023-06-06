@@ -2,6 +2,7 @@
 module.exports = {
   content: [
     "../templates/**/*.{html,js}",
+    "../docs/**/*.{html,js}",
   ],
   theme: {
     colors: {

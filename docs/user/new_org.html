@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/tailwind-output.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- 引入SweetAlert2相關的CSS和JavaScript檔案 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.min.js"></script>
+
+    <link rel="stylesheet" href="../css/nav.css">
+
+    <title>新增組織</title>
+</head>
+
+<body class="bg-background">
+    <div id="app">
+        <!-- NavBar -->
+        <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
+        </nav_component>
+        <!-- Content -->
+        <div class="main flex items-center justify-center flex-col my-12">
+            <div class="user_img p-5 bg-white border border-gray30 rounded">
+                <a href="#" @click.prevent="uploadImageClick">
+                    <img :src="orgImage" class="w-48 h-48 rounded-full">
+                </a>
+                <h3 class="p-2 font-bold text-center text-2xl"></h3>
+            </div>
+            <div>
+                <h3 class="text-center">填寫組織資料</h3>
+                <div class="py-3">
+                    <label for="">主辦單位名稱</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgName">
+                </div>
+                <div class="py-3">
+                    <label for="">主辦單位信箱</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgEmail">
+                </div>
+                <div class="py-3">
+                    <label for="">主辦單位電話號碼</label>
+                    <input type="text" name="" id="" class="w-full bg-gray30" v-model="orgPhone">
+                </div>
+                <div class="py-3">
+                    <label for="">主辦單位簡介</label>
+                    <!-- <textarea type="text" name="" id="" class="w-full bg-gray30"> -->
+                    <textarea class="w-full bg-gray30 resize rounded-md" v-model="orgContent"></textarea>
+                </div>
+                <div class="py-3 grid grid-cols-2 gap-2">
+                    <button
+                        class="border-2 border-primary px-5 py-2 text-primary w-full hover:bg-primary hover:text-white"
+                        @click.prevent="saveClick">儲存</button>
+                    <button
+                        class="border-2 border-secondary px-5 py-2 text-secondary w-full hover:bg-secondary hover:text-white"
+                        @click.prevent="cancelClick">取消</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <!-- 載入 Vue Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+    <!-- 載入 VeeValidate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <!-- Vue 起手式 -->
+    <script type="module">
+        // 公用程式 utilities
+        import utilities from '../js/utilities.js';
+
+        // API Config
+        import config from '../js/config.js';
+        const loginAPI = config.loginAPI;
+
+        // Components
+        import nav_component from '../js/component_nav.js';
+        import foot_component from '../js/component_foot.js';
+
+        // 設定 網頁轉址
+        const homeUrl = '../index.html';
+        const loginUrl = '../account/login.html';
+        const registerUrl = '../account/register.html';
+        const forgetPasswordUrl = '../account/password.html';
+        const newOrgUrl = 'new_org.html';
+        const settingUrl = 'profile.html';
+
+        const app = Vue.createApp({
+            data() {
+                return {
+                    orgImage: 'https://picsum.photos/100/100',
+                    orgName: '',
+                    orgEmail: '',
+                    orgPhone: '',
+                    orgContent: '',
+                    password: '',
+                    isLogin: false,
+                    token: '',
+
+                };
+            },
+            methods: {
+                // 點擊 Ticktock 回首頁 功能
+                homeClick() {
+                    console.log('homeClick() ...');
+                    window.location.replace(homeUrl);
+                },
+                // 點擊 搜尋按鈕
+                searchClick(searchData) {
+                    console.log(`searchClick(${searchData}) ...`);
+                    // todo: 搜尋功能 ...
+                },
+                // 切換到 登入頁面
+                switchLoginClick() {
+                    console.log('switchLoginClick() ...');
+                    window.location.replace(loginUrl);
+                },
+                // 切換到 註冊頁面
+                switchRegisterClick() {
+                    console.log('switchRegisterClick() ...');
+                    window.location.replace(registerUrl);
+                },
+                // 切換到 忘記密碼頁面
+                switchForgetPasswordClick() {
+                    console.log('switchForgetPasswordClick() ...');
+                    window.location.replace(forgetPasswordUrl);
+                },
+
+                // 訂單查詢
+                orderQueryClick(token) {
+                    console.log(`orderQueryClick(${token})`);
+                },
+                // 建立活動
+                createActivityClick(token) {
+                    console.log(`createActivityClick(${token})`);
+                },
+                // 新增 組織
+                addOrgClick(token) {
+                    console.log(`addOrgClick(${token})`);
+                    window.location.replace(newOrgUrl);
+                },
+                // 切換到 設定頁面
+                switchSettingClick(token) {
+                    console.log(`switchSettingClick(${token})`);
+                    window.location.replace(settingUrl);
+                },
+                // 登出
+                logoutClick(token) {
+                    console.log(`logoutClick(${token})`);
+                    utilities.processLogout(homeUrl);
+                },
+
+                // FQA
+                faqClick() {
+                    console.log('faqClick()');
+                },
+                // Email
+                emailClick() {
+                    console.log('emailClick()');
+                },
+
+                // 檢查 是否登入
+                checkLogin() {
+                    const token = utilities.getJwtToken()
+                    if (token != '') {
+                        this.isLogin = true;
+                    } else {
+                        this.isLogin = false;
+                        this.getUserProfile();
+                    }
+                    this.token = token;
+                    console.log(` checkLogin() : token : ${this.token}`);
+                    console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                },
+
+                // 取得 User Profile
+                getUserProfile() {
+
+                },
+
+                // 登出功能
+                logoutProcess() {
+                    // 跳出 登出中 ...
+                    console.log('logoutProcess()');
+                    utilities.processLogout(homeUrl);
+                },
+
+                // 儲存
+                saveClick() {
+                    console.log('saveClick()');
+
+                    // Todo : 檢查 輸入欄位
+
+                    const orgsAPI = config.orgsAPI;
+
+                    // Header
+                    const headers = utilities.getHeaders();
+                    // Request Body
+                    const requestBody = {
+                        "name": this.orgName,
+                        "email": this.orgEmail,
+                        "phone": this.orgPhone,
+                        "img": this.orgImage,
+                        "summary": this.orgContent,
+                        "description": this.orgContent
+                    };
+
+                    // For Test
+                    console.log(`orgsAPI => ${orgsAPI}`);
+                    console.log(requestBody);
+
+                    // 顯示 processing dialog
+                    Swal.fire({
+                        title: 'Processing...',
+                        allowOutsideClick: false,
+                        onBeforeOpen: () => {
+                            Swal.showLoading();
+                        },
+                    });
+
+                    axios.post(orgsAPI, requestBody, { headers })
+                        .then((res) => {
+                            // 新增組織 成功
+                            console.log('新增組織 成功');
+                            console.log(res);
+                            // 記錄 組織資料
+
+                            // 顯示 新增組織 Dialog
+                            Swal.fire({
+                                title: 'Success!',
+                                text: '新增組織 成功.',
+                                icon: 'success',
+                                showCancelButton: false,
+                                allowOutsideClick: false,
+                                confirmButtonText: 'OK',
+                            }).then((result) => {
+                                this.clearData();
+                            });
+
+                        })
+                        .catch((err) => {
+                           // 新增組織 失敗
+                           console.log('login 失敗');
+                            console.log(err);
+                            console.log(err.response);
+                            // 顯示錯誤訊息
+                            Swal.fire({
+                                title: 'Error!',
+                                text: '新增組織失敗',
+                                allowOutsideClick: false,
+                                icon: 'error',
+                            });
+                        }).finally(() => {
+                            Swal.hideLoading();
+                        });
+
+
+                },
+
+                clearData() {
+                    this.orgImage = '';
+                    this.orgName = '';
+                    this.orgEmail = '';
+                    this.orgPhone = '';
+                    this.orgContent = '';
+                    this.password = '';
+                },
+
+                // 取消
+                cancelClick() {
+                    console.log('cancelClick()');
+                },
+
+                // User Side Bar Methods
+                // 訂單管理
+                switchOrderManageClick() {
+                    console.log('switchOrderManageClick()');
+                },
+                // 帳號管理
+                switchProfileManageClick() {
+                    console.log('User Side Bar switchProfileManageClick()');
+                },
+                // 訊息管理
+                switchNewsManageClick() {
+                    console.log('User Side Bar switchNewsManageClick()');
+                },
+                // 組織管理
+                switchOrgMangeClick() {
+                    console.log('User Side Bar switchOrgMangeClick()');
+                },
+
+                // 上傳組織 圖示 功能
+                uploadImageClick() {
+                    console.log('uploadImageClick() : 上傳組織 圖示 功能');
+                }
+
+
+            },
+            // 生命週期 -- Mounted
+            mounted() {
+                this.checkLogin();
+            }
+        });
+        // 綁定 VeeValidate 進入 全域物件
+        app.component('VForm', VeeValidate.Form);
+        app.component('VField', VeeValidate.Field);
+        app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        // 設定 Nav Component
+        app.component('nav_component', nav_component);
+        app.component('foot_component', foot_component);
+        // 將 Vue 綁定到 <div id="app"> 上面
+        app.mount('#app');
+
+    </script>
+</body>
+
+</html>
