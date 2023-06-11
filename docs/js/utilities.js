@@ -74,7 +74,16 @@ function toEnFormatDate(date) {
 
   return new Date(date).toLocaleString("en-US", options);
 }
+// 切換成年月日期
+function toFormatDate(date) {
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  };
 
+  return new Date(date).toLocaleDateString("zh-TW", options);
+}
 // 執行登出
 function processLogout(homeUrl) {
   // 移除 JwtToken
@@ -165,6 +174,7 @@ const utilities = {
   clearJwtToken,
   toChFormatDate,
   toEnFormatDate,
+  toFormatDate,
   // 執行登出
   processLogout,
   // 取得 Post Request Headers
