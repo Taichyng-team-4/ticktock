@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../static/css/tailwind-output.css" />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../jstoolchain/css/nav.css" />
+
+    <title>活動頁面瀏覽</title>
+  </head>
+
+  <body class="bg-gray20">
+    <div id="app">
+      <!-- NavBar -->
+      <nav_component
+        v-bind:is-login="isLogin"
+        v-bind:token="token"
+        v-on:emit-home="homeClick"
+        v-on:emit-search="searchClick"
+        v-on:emit-login="switchLoginClick"
+        v-on:emit-register="switchRegisterClick"
+        v-on:emit-order-query="orderQueryClick"
+        v-on:emit-create-activity="createActivityClick"
+        v-on:emit-add-org="addOrgClick"
+        v-on:emit-setting="switchSettingClick"
+        v-on:emit-logout="logoutClick"
+      ></nav_component>
+      <div class="bg-white mb-10">
+        <div class="container mx-auto max-w-screen-sm px-6">
+          <div class="px-4 py-5 max-w-7xl flex justify-between items-center">
+            <label
+              :class="['link-secondary', {'font-bold':status === 'browse' ,'text-gray40':status !== 'browse'}]"
+              >1.瀏覽活動</label
+            >
+            <div class="text-center w-1/4">
+              <hr style="border: 1px solid grey" />
+            </div>
+            <label
+              :class="['link-secondary', {'font-bold':status === 'purchase' ,'text-gray40':status !== 'purchase'}]"
+              >2.選定票卷</label
+            >
+            <div class="text-center w-1/4">
+              <hr style="border: 1px solid grey" />
+            </div>
+            <label
+              :class="['link-secondary', {'font-bold':status === 'purchase_confirm' ,'text-gray40':status !== 'purchase_confirm'}]"
+              >3.確認購票資訊</label
+            >
+          </div>
+        </div>
+      </div>
+      <activity_component
+        v-if="status === 'browse'"
+        v-bind:activity="activity"
+        v-bind:org="org"
+        v-bind:venue="venue"
+        v-on:emit-buy-ticket="toBuyTicketClick"
+      ></activity_component>
+      <purchase_component
+        v-if="status === 'purchase'"
+        v-bind:activity="activity"
+        v-bind:org="org"
+        v-bind:venue="venue"
+        v-on:emit-home="homeClick"
+        v-on:emit-pay="toPayTicket"
+      ></purchase_component>
+      <purchase_confirm_component
+        v-if="status === 'purchase_confirm'"
+        v-bind:activity="activity"
+        v-bind:org="org"
+        v-bind:venue="venue"
+        v-on:emit-home="homeClick"
+      ></purchase_confirm_component>
+      <div class="w-full bg-gray50 text-white py-16 px-16 mx-auto mt-10">
+        <div class="flex justify-between">
+          <a href="qa.html">常見問題</a>
+          <p>聯絡信箱:service@ticktock.com</p>
+        </div>
+        <h1 class="menu_logo">Ticktock</h1>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../static/js/nav.js"></script>
+    <!-- 載入 Vue Core -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+    <!-- 載入 VeeValidate -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+    <!-- axios -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <!-- Vue 起手式 -->
+    <script type="module">
+      // 公用程式 utilities
+      import utilities from "../js/utilities.js";
+
+      // API Config
+      import config from "../js/config.js";
+      const loginAPI = config.loginAPI;
+
+      // Components
+      import nav_component from "../js/component_nav.js";
+      import foot_component from "../js/component_foot.js";
+      import activity_component from "../js/component_activity.js";
+      import purchase_component from "../js/component_purchase.js";
+      import purchase_confirm_component from "../js/component_purchase_confirm.js";
+
+      const app = Vue.createApp({
+        data() {
+          return {
+            status: "browse",
+            account: "",
+            password: "",
+            isLogin: false,
+            token: "",
+            activity: {},
+            org: {},
+            venue: {},
+          };
+        },
+        created() {
+          axios
+            .get(
+              config.activityAPI + "6461880a87cdf985a01969f7?pop=orgId,venueId"
+            )
+            .then((res) => {
+              // 設定活動資訊
+              this.activity = res.data.data;
+
+              this.activity.startAtCh = utilities.toChFormatDate(
+                res.data.data.startAt
+              );
+              this.activity.startAtEn = utilities.toEnFormatDate(
+                res.data.data.startAt
+              );
+              this.activity.endAtEn = utilities.toEnFormatDate(
+                res.data.data.endAt
+              );
+
+              // 設定組織資訊
+              this.org = this.activity.org;
+
+              // 設定場館資訊
+              this.venue = this.activity.venue;
+            })
+            .catch((err) => {
+              console.log("navigate to activity page fail");
+              console.log(err);
+            });
+        },
+        methods: {
+          loginClick() {
+            console.log("loginClick() ...");
+
+            // Todo : 檢查 輸入資訊
+
+            const requestBody = {
+              email: this.account,
+              password: this.password,
+            };
+
+            console.log(`loginAPI => ${loginAPI}`);
+            console.log(requestBody);
+
+            // 顯示 processing dialog
+            Swal.fire({
+              title: "Processing...",
+              allowOutsideClick: false,
+              onBeforeOpen: () => {
+                Swal.showLoading();
+              },
+            });
+
+            axios
+              .post(loginAPI, requestBody)
+              .then((res) => {
+                // 登入 成功
+                console.log("login 成功");
+                console.log(res);
+                // 記錄 JWT 進入 local storage
+                utilities.setJwtToken(res.data.token);
+                // 顯示 登入成功 Dialog
+                Swal.fire({
+                  title: "Success!",
+                  text: "You have logged in successfully.",
+                  icon: "success",
+                  showCancelButton: false,
+                  allowOutsideClick: false,
+                  confirmButtonText: "OK",
+                }).then((result) => {
+                  // 轉頁面到首頁
+                  if (result.isConfirmed) {
+                    window.location.href = "../index.html";
+                  }
+                });
+              })
+              .catch((err) => {
+                // 登入 失敗
+                console.log("login 失敗");
+                console.log(err);
+                console.log(err.response);
+                // 顯示錯誤訊息
+                Swal.fire({
+                  title: "Error!",
+                  text: "Failed to login. Please check your email and password.",
+                  allowOutsideClick: false,
+                  icon: "error",
+                });
+              })
+              .finally(() => {
+                Swal.hideLoading();
+              });
+          },
+          // 點擊 Ticktock 回首頁 功能
+          homeClick() {
+            console.log("homeClick() ...");
+            window.location.replace("../index.html");
+          },
+          // 點擊 搜尋按鈕
+          searchClick(searchData) {
+            console.log(`searchClick(${searchData}) ...`);
+            // todo: 搜尋功能 ...
+          },
+          // 切換到 登入頁面
+          switchLoginClick() {
+            console.log("switchLoginClick() ...");
+            window.location.replace("../account/login.html");
+          },
+          // 切換到 註冊頁面
+          switchRegisterClick() {
+            console.log("switchRegisterClick() ...");
+            window.location.replace("../account/register.html");
+          },
+          // 切換到 忘記密碼頁面
+          switchForgetPasswordClick() {
+            console.log("switchForgetPasswordClick() ...");
+            window.location.replace("../account/password.html");
+          },
+
+          // 訂單查詢
+          orderQueryClick(token) {
+            console.log(`orderQueryClick(${token})`);
+          },
+          // 建立活動
+          createActivityClick(token) {
+            console.log(`createActivityClick(${token})`);
+          },
+          // 新增 組織
+          addOrgClick(token) {
+            console.log(`addOrgClick(${token})`);
+            window.location.replace("../user/new_org.html");
+          },
+          // 切換到 設定頁面
+          switchSettingClick(token) {
+            console.log(`switchSettingClick(${token})`);
+            window.location.replace("../user/profile.html");
+          },
+          // 登出
+          logoutClick(token) {
+            console.log(`logoutClick(${token})`);
+          },
+          // FQA
+          faqClick() {
+            console.log("faqClick()");
+          },
+          // Email
+          emailClick() {
+            console.log("emailClick()");
+          },
+          // 前往購票
+          toBuyTicketClick() {
+            this.status = "purchase";
+          },
+          //結帳
+          toPayTicket() {
+            this.status = "purchase_confirm";
+          },
+        },
+        // 生命週期 -- Mounted
+        mounted() {},
+      });
+      // 綁定 VeeValidate 進入 全域物件
+      app.component("VForm", VeeValidate.Form);
+      app.component("VField", VeeValidate.Field);
+      app.component("ErrorMessage", VeeValidate.ErrorMessage);
+      // 設定 Nav Component
+      app.component("nav_component", nav_component);
+      app.component("foot_component", foot_component);
+      app.component("activity_component", activity_component);
+      app.component("purchase_component", purchase_component);
+      app.component("purchase_confirm_component", purchase_confirm_component);
+
+      // 將 Vue 綁定到 <div id="app"> 上面
+      app.mount("#app");
+    </script>
+  </body>
+</html>

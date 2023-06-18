@@ -9,12 +9,27 @@ const apiHostPath = (isProduction) ? `${productionHostPath}${apiVersion}` : `${l
 const loginAPI = `${apiHostPath}/auths/login`;
 const registerAPI = `${apiHostPath}/auths/signup`;
 const forgetPasswordAPI = `${apiHostPath}/auths/password/forgot`;
+const activityAPI = `${apiHostPath}/activities/`;
+// 取得 以及 更新 User Profile 
+const userProfileAPI = `${apiHostPath}/profile`;
+// 新增組織
+const orgsAPI = `${apiHostPath}/orgs`;
+const activityNoticeAPI = `${apiHostPath}/notices/activity`;
+
+
+// 預設 Avatar
+const defaultAvatar = 'https://picsum.photos/100/100';
 
 const config = {
   apiHostPath,
   loginAPI,
   registerAPI,
-  forgetPasswordAPI
+  forgetPasswordAPI,
+  activityAPI,
+  userProfileAPI,
+  orgsAPI,
+  defaultAvatar,
+  activityNoticeAPI
 };
 
 export default config;

@@ -18,53 +18,12 @@
 <body>
     <div id="app">
         <!-- NavBar -->
-        <nav class="bg-navbar ">
-            <div class="container mx-auto px-6 py-3">
-                <div class="mx-auto px-4 py-3 max-w-7xl flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div>
-                            <a class="text-gray-800 text-xl font-bold hover:text-gray-700"
-                                href="#" @click.prevent="homeClick">Ticktock</a>
-                        </div>
-                        <div class="relative ml-3 flex items-center bg-white rounded-lg">
-                            <div class=" left-0">
-                                <button type="submit" class="text-black py-1 px-2 rounded-lg ">
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                </button>
-                            </div>
-                            <input type="text" class=" py-1 px-2 pl-3 rounded-lg  focus:outline-none"
-                                placeholder="  Search">
-                        </div>
-                    </div>
-                    <div>
-                    </div>
-                    <div>
-                        <div class="hidden md:block">
-                            <ul class="flex space-x-4 text-nav  items-center">
-                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick">登入</a></li>
-                                <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick">註冊</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="md:hidden flex items-center">
-                            <button class="outline-none mobile-menu-button">
-                                <span class="material-icons pr-1 text-gray40 cursor-pointer">
-                                    menu
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="hidden mobile-menu">
-                    <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
-                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchLoginClick">登入</a></li>
-                        <li><a href="#" class=" hover:text-gray-200" @click.prevent="switchRegisterClick">註冊</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <nav_component v-bind:is-login="isLogin" v-bind:token="token" v-on:emit-home="homeClick"
+            v-on:emit-search="searchClick" v-on:emit-login="switchLoginClick" v-on:emit-register="switchRegisterClick"
+            v-on:emit-order-query="orderQueryClick" v-on:emit-create-activity="createActivityClick"
+            v-on:emit-add-org="addOrgClick" v-on:emit-setting="switchSettingClick" v-on:emit-logout="logoutClick">
+        </nav_component>
+        <!-- Content -->
         <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
             <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
                 <div class="-mx-3 md:flex">
@@ -121,122 +80,227 @@
     <!-- Vue 起手式 -->
     <script type="module">
         // 公用程式 utilities
-        import utilities from '../js/utilities.js'
-        // API Config
-        import config from '../js/config.js'
-        const loginAPI = config.loginAPI;
+        import utilities from '../js/utilities.js';
 
+        // API Config
+        import config from '../js/config.js';
+        const loginAPI = config.loginAPI;
+        const userProfileAPI = config.userProfileAPI;
+
+        // Components
+        import nav_component from '../js/component_nav.js';
+        import foot_component from '../js/component_foot.js';
+
+        // 設定 網頁轉址
+        const homeUrl = '../index.html';
+        const loginUrl = 'login.html';
+        const registerUrl = 'register.html';
+        const forgetPasswordUrl = 'password.html';
+        const newOrgUrl = '../user/new_org.html';
+        const settingUrl = '../user/profile.html';
+
+
+        // Vue 主架構
         const app = Vue.createApp({
             data() {
                 return {
                     account: '',
-                    password: ''
+                    password: '',
+                    isLogin: false,
+                    token: '',
                 };
             },
             methods: {
-                loginClick() {
-                    console.log('loginClick() ...');
+                async loginClick() {
 
-                    // Todo : 檢查 輸入資訊
+                    try {
+                        console.log('loginClick() ...');
 
+                        // Todo : 檢查 輸入資訊
+                        const requestBody = {
+                            "email": this.account,
+                            "password": this.password
+                        };
 
-                    const requestBody = {
-                        "email": this.account,
-                        "password": this.password
-                    };
+                        console.log(`loginAPI => ${loginAPI}`);
+                        console.log(requestBody);
 
-                    console.log(`loginAPI => ${loginAPI}`);
-                    console.log(requestBody);
-
-                    // 顯示 processing dialog
-                    Swal.fire({
-                        title: 'Processing...',
-                        allowOutsideClick: false,
-                        onBeforeOpen: () => {
-                            Swal.showLoading();
-                        },
-                    });
-
-                    axios.post(loginAPI, requestBody)
-                        .then((res) => {
-                            // 登入 成功
-                            console.log('login 成功');
-                            console.log(res);
-                            // 記錄 JWT 進入 local storage 
-                            utilities.setJwtToken(res.data.token);
-                            // 顯示 登入成功 Dialog
-                            Swal.fire({
-                                title: 'Success!',
-                                text: 'You have logged in successfully.',
-                                icon: 'success',
-                                showCancelButton: false,
-                                confirmButtonText: 'OK',
-                            }).then((result) => {
-                                // 轉頁面到首頁                            
-                                if (result.isConfirmed) {
-                                    window.location.href = '../index.html'
-                                }
-                            });
-
-                        }).catch((err) => {
-                            // 登入 失敗
-                            console.log('login 失敗');
-                            console.log(err);
-                            console.log(err.response);
-                            // 顯示錯誤訊息
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'Failed to login. Please check your email and password.',
-                                allowOutsideClick: false,
-                                icon: 'error',
-                            });
-                        })
-                        .finally(() => {
-                            Swal.hideLoading();
+                        // 顯示 processing dialog
+                        Swal.fire({
+                            title: 'Processing...',
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
                         });
 
+                        const loginResponse = await axios.post(loginAPI, requestBody);
+                        // 檢查 回傳 token 資訊 是否有帶 Bearer 
+                        let token = loginResponse.data.token;
+                        if (token.indexOf('Bearer ') == -1) {
+                            token = `Bearer ${token}`;
+                        }
+
+                        console.log('login success !');
+                        console.log(loginResponse);
+
+                        const headers = {
+                            'authorization' : token,
+                        };
+
+                        console.log('get user profile : ');
+                        console.log(`headers : ${headers}`);
+                        console.log(`profileAPI : ${userProfileAPI}`);
+
+                        // 取得 User Profile
+                        const profileResponse = await axios.get(userProfileAPI, { headers });
+                        
+                        console.log('get profile success !');
+                        console.log(profileResponse);
+
+                        // 檢查 profileResponse.data.status 是否為 success
+                        if (profileResponse.data.status !== 'success') {
+                            throw("取得 User Profile 資料失敗!");
+                        }
+
+                        // 取得 User Profile
+                        const userProfile = profileResponse.data.data;
+
+                        // Todo : 取得 組織 資料
+                        const orgsResponse = await axios.get(config.orgsAPI,{headers});
+                        console.log('get orgs success !');
+                        console.log(orgsResponse);
+
+                        // 當 取得 組織 資料成功
+                        if (orgsResponse.data.status === 'success') {
+                            utilities.clearOrgList();
+                            const tempOrgs = orgsResponse.data.data;
+
+                            if (orgsResponse.data.count > 0) {
+                                let myOrgList = [];
+                                tempOrgs.forEach(element => {
+                                    if (element.ownerId === userProfile.id) {
+                                        myOrgList.push(element);
+                                    }
+                               });
+                               // 儲存 Org List
+                               utilities.setOrgList(myOrgList);
+                            }
+                        }
+
+                        // 寫入 User Profile
+                        utilities.setUserProfile(userProfile);
+
+                        // 記錄 JWT 進入 local storage 
+                        utilities.setJwtToken(token);
+
+
+
+                        // 顯示 登入成功 Dialog
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'You have logged in successfully.',
+                            icon: 'success',
+                            showCancelButton: false,
+                            allowOutsideClick: false,
+                            confirmButtonText: 'OK',
+                        }).then((result) => {
+                            // 轉頁面到首頁                            
+                            if (result.isConfirmed) {
+                                window.location.href = homeUrl
+                            }
+                        });
+
+                    } catch (err) {
+                        // 登入 失敗
+                        console.log('login 失敗');
+                        console.log(err);
+                        console.log(err.response);
+                        // 顯示錯誤訊息
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Failed to login. Please check your email and password.',
+                            allowOutsideClick: false,
+                            icon: 'error',
+                        });
+                    }
+                    finally {
+                        Swal.hideLoading();
+                    };
 
                 },
                 // 點擊 Ticktock 回首頁 功能
                 homeClick() {
                     console.log('homeClick() ...');
-                    window.location.replace('../index.html');
+                    window.location.replace(homeUrl);
                 },
                 // 點擊 搜尋按鈕
-                searchClick() {
-                    console.log('searchClick() ...');
+                searchClick(searchData) {
+                    console.log(`searchClick(${searchData}) ...`);
                     // todo: 搜尋功能 ...
                 },
                 // 切換到 登入頁面
                 switchLoginClick() {
                     console.log('switchLoginClick() ...');
-                    window.location.replace('login.html');
+                    window.location.replace(loginUrl);
                 },
                 // 切換到 註冊頁面
                 switchRegisterClick() {
                     console.log('switchRegisterClick() ...');
-                    window.location.replace('register.html');
+                    window.location.replace(registerUrl);
                 },
                 // 切換到 忘記密碼頁面
                 switchForgetPasswordClick() {
                     console.log('switchForgetPasswordClick() ...');
-                    window.location.replace('password.html');
+                    window.location.replace(forgetPasswordUrl);
                 },
-                // 預設 測試資料
-                initTestData() {
-                    // this.account = 'linchinan12@gmail.com';
-                    // this.password = '1qaz2wsx';
-                }
+
+                // 訂單查詢
+                orderQueryClick(token) {
+                    console.log(`orderQueryClick(${token})`);
+                },
+                // 建立活動
+                createActivityClick(token) {
+                    console.log(`createActivityClick(${token})`);
+                },
+                // 新增 組織
+                addOrgClick(token) {
+                    console.log(`addOrgClick(${token})`);
+                    window.location.replace(newOrgUrl);
+                },
+                // 切換到 設定頁面
+                switchSettingClick(token) {
+                    console.log(`switchSettingClick(${token})`);
+                    window.location.replace(settingUrl);
+                },
+                // 登出
+                logoutClick(token) {
+                    console.log(`logoutClick(${token})`);
+                    utilities.processLogout(homeUrl);
+                },
+
+                // FQA
+                faqClick() {
+                    console.log('faqClick()');
+                },
+                // Email
+                emailClick() {
+                    console.log('emailClick()');
+                },
+
             },
             // 生命週期 -- Mounted
             mounted() {
-                this.initTestData();
+
             }
         });
         // 綁定 VeeValidate 進入 全域物件
         app.component('VForm', VeeValidate.Form);
         app.component('VField', VeeValidate.Field);
         app.component('ErrorMessage', VeeValidate.ErrorMessage);
+        // 設定 Nav Component
+        app.component('nav_component', nav_component);
+        app.component('foot_component', foot_component);
         // 將 Vue 綁定到 <div id="app"> 上面
         app.mount('#app');
 
