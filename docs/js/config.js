@@ -17,6 +17,7 @@ const usersAPI = `${apiHostPath}/users/`;
 const userProfileAPI = `${apiHostPath}/profile`;
 // 新增組織
 const orgsAPI = `${apiHostPath}/orgs`;
+const activityNoticeAPI = `${apiHostPath}/notices/activity`;
 
 // 預設 Avatar
 const defaultAvatar = "https://picsum.photos/100/100";
@@ -30,6 +31,7 @@ const config = {
     userProfileAPI,
     orgsAPI,
     defaultAvatar,
+    activityNoticeAPI,
     ordersMeAPI,
     usersAPI,
 };
