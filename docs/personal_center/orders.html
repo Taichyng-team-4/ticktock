@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../css/tailwind-output.css" />
+        <link rel="stylesheet" href="../css/nav.css" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <title>訂單資訊</title>
+    </head>
+    <body>
+        <div id="app">
+            <!-- NavBar -->
+            <nav_component
+                v-bind:is-login="isLogin"
+                v-bind:token="token"
+                v-on:emit-home="homeClick"
+                v-on:emit-search="searchClick"
+                v-on:emit-login="switchLoginClick"
+                v-on:emit-register="switchRegisterClick"
+                v-on:emit-order-query="orderQueryClick"
+                v-on:emit-create-activity="createActivityClick"
+                v-on:emit-add-org="addOrgClick"
+                v-on:emit-setting="switchSettingClick"
+                v-on:emit-logout="logoutClick"
+            ></nav_component>
+            <div class="side fixed w-64 bg-background !h-[calc(100%-86.4px)] flex flex-col justify-between">
+                <div>
+                    <h1 class="text-center text-primary text-2xl p-5">Ticktock</h1>
+                    <ul class="subject_personal_center text-center">
+                        <li id="account" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
+                            <a href="account.html" class="block p-5">活動列表</a>
+                        </li>
+                        <li id="new_activity" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
+                            <a href="new_activity.html" class="block p-5">活動刊登</a>
+                        </li>
+                        <li id="orders" class="text-xl text-primary bg-gray30 cursor-pointer">
+                            <a href="orders.html" class="block p-5">訂單資訊</a>
+                        </li>
+                        <li id="sales_status" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
+                            <a href="sales_status.html" class="block p-5">活動主控台</a>
+                        </li>
+                        <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
+                            <a href="#" class="block p-5">預覽活動</a>
+                        </li>
+                        <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
+                            <a href="#" class="block p-5">編輯活動</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="text-center text-white bg-primary cursor-pointer">
+                        <a href="../user/user.html" class="block p-5">離開組織管理</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="main ml-64 p-5">
+                <h3 class="text-xl font-bold">訂單資訊</h3>
+                <div class="flex items-end justify-between py-3">
+                    <div class="flex flex-row">
+                        <p>匯出訂單</p>
+                        <button @click="exportOrders" class="border border-green400 text-green400 px-2 mx-2">
+                            匯出csv
+                        </button>
+                    </div>
+                    <!-- <select name="" id="" class="w-32 bg-gray30 px-5 py-1">
+                <option value="">活動名稱</option>
+                <option value="">活動名稱</option>
+                <option value="">活動名稱</option>
+            </select> -->
+                    <select v-model="selectedActivity" name="" id="" class="w-32 bg-gray30 px-5 py-1">
+                        <option :value="null" :key="null">全部</option>
+                        <option v-for="activity in activityName" :key="activity.id" :value="activity.id">
+                            {{ activity.name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="pt-6">
+                    <table class="table-auto w-full border-x border-b border-gray30">
+                        <thead>
+                            <tr class="bg-gray30">
+                                <th>訂單邊號</th>
+                                <th>姓名</th>
+                                <th>信箱</th>
+                                <th>繳費方式</th>
+                                <th>票數</th>
+                                <th>金額</th>
+                                <th>手續費</th>
+                            </tr>
+                        </thead>
+                        <tbody v-for="item in filteredPurchases">
+                            <tr class="border-t border-gray30 text-center" :data-activityId="item.activityId">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>??@gmail.com</td>
+                                <td>???</td>
+                                <td>?</td>
+                                <td>NT{{item.amount}}</td>
+                                <td>NT??</td>
+                            </tr>
+                            <!-- <tr class="border-t border-gray30 text-center">
+                        <td>123456</td>
+                        <td>龍龍</td>
+                        <td>aa@gmail.com</td>
+                        <td>ATM</td>
+                        <td>1</td>
+                        <td>NT1000</td>
+                        <td>NT100</td>
+                    </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+        <!-- <script src="../../static/js/layout.js"></script> -->
+        <script src="../../static/js/user.js"></script>
+        <!-- 載入 Vue Core -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.37/vue.global.js"></script>
+        <!-- 載入 VeeValidate -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vee-validate/4.5.8/vee-validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/rules@4.5.8/dist/vee-validate-rules.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@vee-validate/i18n@4.5.8/dist/vee-validate-i18n.min.js"></script>
+        <!-- axios -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <!-- Vue 起手式 -->
+        <script type="module">
+            // 公用程式 utilities
+            import utilities from "../js/utilities.js";
+
+            // API Config
+            import config from "../js/config.js";
+            const loginAPI = config.loginAPI;
+
+            // Components
+            import nav_component from "../js/component_nav.js";
+            import foot_component from "../js/component_foot.js";
+            import activity_component from "../js/component_activity.js";
+            import purchase_component from "../js/component_purchase.js";
+            import purchase_confirm_component from "../js/component_purchase_confirm.js";
+
+            const homeUrl = "index.html";
+            const app = Vue.createApp({
+                data() {
+                    return {
+                        isLogin: false,
+                        token: "",
+                        activityName: [],
+                        data: [],
+                        purchases: [],
+                        selectedActivity: null,
+                    };
+                },
+                created() {
+                    const headers = utilities.getHeaders();
+                    // 取得活動名稱
+                    axios
+                        .get(config.activityAPI + "?pop=ticketTypeIds")
+                        .then((res) => {
+                            const activities = res.data.data;
+                            this.activityName = activities.map((activity) => {
+                                return { id: activity.id, name: activity.name };
+                            });
+                        })
+                        .catch((err) => {
+                            console.log("navigate to activity page fail");
+                            console.log(err);
+                        });
+                    // 取得訂單
+                    axios
+                        .get(config.ordersMeAPI, { headers })
+                        .then((res) => {
+                            console.log("ordersMeAPI data", res.data.data);
+                            this.data = res.data.data;
+                            console.log(this.data);
+
+                            this.data.forEach((purchase) => {
+                                axios
+                                    .get(`${config.usersAPI}${purchase.ownerId}`)
+                                    .then((response) => {
+                                        let user = {
+                                            id: purchase.id,
+                                            activityId: purchase.detail[0].activityId,
+                                            // 'userid': response.data.data.id,
+                                            name: response.data.data.name,
+                                            amount: purchase.amount,
+                                        };
+                                        this.purchases.push(user);
+                                        console.log(this.purchases);
+                                    })
+                                    .catch((error) => {
+                                        console.error("查詢使用者失敗", error);
+                                    });
+                            });
+                        })
+                        .catch((err) => {
+                            console.log("fail");
+                            console.log(err);
+                        });
+                },
+                computed: {
+                    filteredPurchases() {
+                        if (this.selectedActivity === null) {
+                            return this.purchases; // 如果選擇了全部，返回所有購買資料
+                        } else {
+                            return this.purchases.filter((item) => item.activityId === this.selectedActivity);
+                        }
+                    },
+                },
+                methods: {
+                    exportOrders() {
+                        // 將 filteredPurchases 匯出成訂單
+                        const orders = this.filteredPurchases.map((item) => ({
+                            orderId: item.id,
+                            name: item.name,
+                            email: item.email,
+                            paymentMethod: item.paymentMethod,
+                            ticketCount: item.ticketCount,
+                            amount: item.amount,
+                            fee: item.fee,
+                        }));
+
+                        // 假設您要將訂單資料以 CSV 格式匯出
+                        const csvContent = "data:text/csv;charset=utf-8," + this.convertArrayToCSV(orders);
+
+                        // 建立匯出連結並觸發點擊事件
+                        const encodedUri = encodeURI(csvContent);
+                        const link = document.createElement("a");
+                        link.setAttribute("href", encodedUri);
+                        link.setAttribute("download", "orders.csv");
+                        document.body.appendChild(link); // 將連結元素加入 DOM
+                        link.click(); // 觸發點擊事件
+                    },
+                    convertArrayToCSV(array) {
+                        const header = Object.keys(array[0]).join(","); // CSV 標題列
+                        const data = array.map((item) => Object.values(item).join(",")); // 資料列
+                        return [header, ...data].join("\n"); // 串接標題列與資料列，並以換行符分隔
+                    },
+                    convertDateFormat(date) {
+                        const dateObject = new Date(date);
+                        const year = dateObject.getFullYear();
+                        const month = dateObject.getMonth() + 1;
+                        const day = dateObject.getDate();
+                        return `${year}/${month}/${day}`;
+                    },
+                    activeState(activityId) {
+                        let state = "";
+                        let active = this.data.find((activity) => activity.id === activityId);
+                        let startDate = new Date(active.startAt);
+                        let endDate = new Date(active.endAt);
+                        let currentDate = new Date();
+                        if (currentDate >= startDate && currentDate <= endDate) {
+                            state = "進行中";
+                        } else if (currentDate < startDate) {
+                            state = "未開始";
+                        } else {
+                            state = "已結束";
+                        }
+                        return state;
+                    },
+                    loginClick() {
+                        console.log("loginClick() ...");
+
+                        // Todo : 檢查 輸入資訊
+
+                        const requestBody = {
+                            email: this.account,
+                            password: this.password,
+                        };
+
+                        console.log(`loginAPI => ${loginAPI}`);
+                        console.log(requestBody);
+
+                        // 顯示 processing dialog
+                        Swal.fire({
+                            title: "Processing...",
+                            allowOutsideClick: false,
+                            onBeforeOpen: () => {
+                                Swal.showLoading();
+                            },
+                        });
+
+                        axios
+                            .post(loginAPI, requestBody)
+                            .then((res) => {
+                                // 登入 成功
+                                console.log("login 成功");
+                                console.log(res);
+                                // 記錄 JWT 進入 local storage
+                                utilities.setJwtToken(res.data.token);
+                                // 顯示 登入成功 Dialog
+                                Swal.fire({
+                                    title: "Success!",
+                                    text: "You have logged in successfully.",
+                                    icon: "success",
+                                    showCancelButton: false,
+                                    allowOutsideClick: false,
+                                    confirmButtonText: "OK",
+                                }).then((result) => {
+                                    // 轉頁面到首頁
+                                    if (result.isConfirmed) {
+                                        window.location.href = "../index.html";
+                                    }
+                                });
+                            })
+                            .catch((err) => {
+                                // 登入 失敗
+                                console.log("login 失敗");
+                                console.log(err);
+                                console.log(err.response);
+                                // 顯示錯誤訊息
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Failed to login. Please check your email and password.",
+                                    allowOutsideClick: false,
+                                    icon: "error",
+                                });
+                            })
+                            .finally(() => {
+                                Swal.hideLoading();
+                            });
+                    },
+                    // 點擊 Ticktock 回首頁 功能
+                    homeClick() {
+                        console.log("homeClick() ...");
+                        window.location.replace("../index.html");
+                    },
+
+                    // 切換到 登入頁面
+                    switchLoginClick() {
+                        console.log("switchLoginClick() ...");
+                        window.location.replace("../account/login.html");
+                    },
+                    // 切換到 註冊頁面
+                    switchRegisterClick() {
+                        console.log("switchRegisterClick() ...");
+                        window.location.replace("../account/register.html");
+                    },
+                    // 切換到 忘記密碼頁面
+                    switchForgetPasswordClick() {
+                        console.log("switchForgetPasswordClick() ...");
+                        window.location.replace("../account/password.html");
+                    },
+
+                    // 訂單查詢
+                    orderQueryClick(token) {
+                        console.log(`orderQueryClick(${token})`);
+                    },
+                    // 建立活動
+                    createActivityClick(token) {
+                        console.log(`createActivityClick(${token})`);
+                    },
+                    // 切換到 設定頁面
+                    switchSettingClick(token) {
+                        console.log(`switchSettingClick(${token})`);
+                        window.location.replace("../user/profile.html");
+                    },
+                    // 登出
+                    logoutClick(token) {
+                        console.log(`logoutClick(${token})`);
+                        utilities.processLogout(homeUrl);
+                    },
+
+                    // Email
+                    emailClick() {
+                        console.log("emailClick()");
+                    },
+
+                    // 檢查 是否登入
+                    checkLogin() {
+                        const token = utilities.getJwtToken();
+                        if (token != "") {
+                            this.isLogin = true;
+                            this.getUserInfo();
+                        } else {
+                            this.isLogin = false;
+                        }
+                        this.token = token;
+                        console.log(` checkLogin() : token : ${this.token}`);
+                        console.log(` checkLogin() : isLogin : ${this.isLogin}`);
+                    },
+                    // 取得 使用者資訊
+                    getUserInfo() {
+                        this.userProfile = utilities.getUserProfile();
+                        this.orgList = utilities.getOrgList();
+                    },
+                },
+                // 生命週期 -- Mounted
+                mounted() {
+                    // 檢查 是否登入
+                    this.checkLogin();
+                },
+            });
+            // 綁定 VeeValidate 進入 全域物件
+            app.component("VForm", VeeValidate.Form);
+            app.component("VField", VeeValidate.Field);
+            app.component("ErrorMessage", VeeValidate.ErrorMessage);
+            // 設定 Nav Component
+            app.component("nav_component", nav_component);
+            app.component("foot_component", foot_component);
+            app.component("activity_component", activity_component);
+            app.component("purchase_component", purchase_component);
+            app.component("purchase_confirm_component", purchase_confirm_component);
+            // 將 Vue 綁定到 <div id="app"> 上面
+            app.mount("#app");
+        </script>
+    </body>
+</html>
