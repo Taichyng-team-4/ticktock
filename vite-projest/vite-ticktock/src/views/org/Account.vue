@@ -1,8 +1,10 @@
-<script setup></script>
+<script setup>
+import OrgSide from '../../components/OrgSide.vue'
+</script>
 
 <template>
   <!-- <main> -->
-
+  <OrgSide />
   <div class="side fixed w-64 bg-background h-[calc(100%-86.4px)] flex flex-col justify-between">
     <div>
       <h1 class="text-center text-primary text-2xl p-5">Ticktock</h1>
@@ -33,6 +35,7 @@
       </p>
     </div>
   </div>
+  >
 
   <div class="main ml-64 p-5">
     <div class="flex items-center justify-between">

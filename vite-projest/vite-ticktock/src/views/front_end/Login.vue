@@ -1,4 +1,5 @@
 <script setup>
+import Footer from '../../components/footer.vue'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
@@ -158,5 +159,7 @@ const loginClick = async () => {
       </button>
     </div>
   </div>
+
+  <Footer />
   <!-- </main> -->
 </template>

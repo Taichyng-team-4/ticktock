@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+</script>
 
 <template>
   <!-- <main> -->

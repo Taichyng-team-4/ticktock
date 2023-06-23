@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+import Footer from '../../components/footer.vue'
+</script>
 
 <template>
   <!-- <main> -->
@@ -204,5 +206,7 @@
       <a href="#" class="bg-primary w-full px-5 py-3">下一頁</a>
     </div>
   </div>
+
+  <Footer />
   <!-- </main> -->
 </template>
