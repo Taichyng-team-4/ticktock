@@ -1,4 +1,97 @@
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import axios from 'axios'
+import { useRoute, useRouter } from 'vue-router'
+import { loginAPI, userProfileAPI, orgsAPI } from '@/api.js'
+import utilities from '@/utilities.js'
+
+const email = ref('')
+const password = ref('')
+
+const loginClick = async () => {
+  try {
+    Swal.fire({
+      title: '登入中..',
+      icon: 'info',
+      showCancelButton: false,
+      showConfirmButton: false,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      onOpen: () => {
+        Swal.showLoading()
+      }
+    })
+
+    const response = await loginAPI(email.value, password.value)
+    const token = response.data.token
+
+    // 在每個後續請求的header都添加授權token
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    const profileResponse = await userProfileAPI(token)
+    // 檢查 profileResponse.data.status 是否為 success
+    if (profileResponse.data.status !== 'success') {
+      throw '取得 User Profile 資料失敗!'
+    }
+    // 取得 User Profile
+    const userProfile = profileResponse.data.data
+
+    // Todo : 取得 組織 資料
+    const orgsResponse = await orgsAPI(token)
+    console.log('get orgs success !')
+
+    // 當 取得 組織 資料成功
+    if (orgsResponse.data.status === 'success') {
+      utilities.clearOrgList()
+      const tempOrgs = orgsResponse.data.data
+
+      if (orgsResponse.data.count > 0) {
+        let myOrgList = []
+        tempOrgs.forEach((element) => {
+          if (element.ownerId === userProfile.id) {
+            myOrgList.push(element)
+          }
+        })
+        // 儲存 Org List
+        utilities.setOrgList(myOrgList)
+      }
+    }
+
+    // 寫入 User Profile
+    utilities.setUserProfile(userProfile)
+
+    // 記錄 JWT 進入 local storage
+    utilities.setJwtToken(token)
+
+    // 顯示 登入成功 Dialog
+    Swal.fire({
+      title: 'Success!',
+      text: 'You have logged in successfully.',
+      icon: 'success',
+      showCancelButton: false,
+      allowOutsideClick: false,
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      // 轉頁面到首頁
+      if (result.isConfirmed) {
+        window.location.href = '/'
+      }
+    })
+
+    console.log('Login successful!')
+  } catch (error) {
+    console.error('Login failed:', error)
+
+    Swal.fire({
+      title: 'Error!',
+      text: 'Failed to login. Please check your email and password.',
+      allowOutsideClick: false,
+      icon: 'error'
+    })
+  } finally {
+    Swal.hideLoading()
+  }
+}
+</script>
 
 <template>
   <!-- <main> -->
@@ -15,10 +108,10 @@
           </label>
           <input
             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="username"
+            id="email"
             type="text"
-            placeholder="Enter your username"
-            v-model="account"
+            placeholder="Enter your email"
+            v-model="email"
           />
         </div>
       </div>

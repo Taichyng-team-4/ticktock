@@ -28,9 +28,9 @@ const router = createRouter({
       component: () => import('../views/front_end/Qa.vue')
     },
     {
-      path: '/personal_center/user',
+      path: '/personal_center/userOrder',
       name: 'user',
-      component: () => import('../views/personal_center/User.vue')
+      component: () => import('../views/personal_center/UserOrder.vue')
     },
     {
       path: '/personal_center/news',
