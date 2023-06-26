@@ -85,11 +85,10 @@ function toFormatDate(date) {
   return new Date(date).toLocaleDateString("zh-TW", options);
 }
 // 執行登出
-function processLogout(homeUrl) {
+function processLogout() {
   // 移除 JwtToken
   clearJwtToken();
   clearUserProfile();
-  window.location.replace(homeUrl);
 }
 
 // 取得 Post Request Headers

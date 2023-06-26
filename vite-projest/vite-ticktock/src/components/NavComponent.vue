@@ -148,8 +148,9 @@
     </nav>
 </template>
 <script>
-export default {
+    import utilities from '@/utilities.js';
 
+export default {
     data() {
         return {
             searchData: "",
@@ -194,9 +195,10 @@ export default {
             this.$emit("emit-add-org", this.token);
         },
         // 點擊 登出
-        logoutClick() {
+        logoutClick(token){
             console.log(`logoutClick : emit-logout : ${this.token}`);
-            this.$emit("emit-logout", this.token);
+            utilities.processLogout();
+            this.$router.push('/'); // 導航至首頁
         },
         // 設定
         switchSettingClick() {
