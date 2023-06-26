@@ -1,0 +1,272 @@
+<script setup>
+import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+</script>
+
+<template>
+  <!-- <main> -->
+
+  <div class="px-10 mt-10 flex flex-nowrap">
+    <PersonalCenterSide />
+    <div class="main ml-5 mb-5 w-5/6 bg-white">
+      <ul class="flex flex-nowrap items-center">
+        <li class="p-5 font-bold text-primary border-b-4 cursor-pointer hover:bg-primary/[15%]">
+          已報名
+        </li>
+        <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">已取消</li>
+        <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">退票紀錄</li>
+        <li class="p-5 font-bold text-gray40 cursor-pointer hover:bg-primary/[15%]">已結束</li>
+      </ul>
+      <div class="text-right p-5">
+        <input type="date" name="" id="" class="bg-gray30 px-5 rounded" />
+      </div>
+      <div class="activity p-5">
+        <div class="bg-gray30 rounded flex flex-nowrap">
+          <div class="w-56 h-56 p-3">
+            <img src="https://picsum.photos/200/200" class="w-full" />
+          </div>
+          <div class="p-3 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+              <p class="py-3">2023/3/23-2023/6/30</p>
+            </div>
+            <p>訂單編號 <span class="font-bold">E456789123</span></p>
+          </div>
+          <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+            <div class="p-3 border border-gray40 px-20 py-12 font-bold">NT 6000</div>
+            <div class="p-3 flex items-center">
+              <span class="arrow material-icons" data-arrow="0"> arrow_drop_down </span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket hidden">
+          <table class="table-auto w-full border-x border-b border-gray30">
+            <thead>
+              <tr>
+                <th>票號</th>
+                <th>區域</th>
+                <th>票種</th>
+                <th>座位</th>
+                <th>有效期限</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="activity p-5">
+        <div class="bg-gray30 rounded flex flex-nowrap">
+          <div class="w-56 h-56 p-3">
+            <img src="https://picsum.photos/200/200" class="w-full" />
+          </div>
+          <div class="p-3 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+              <p class="py-3">2023/3/23-2023/6/30</p>
+            </div>
+            <p>訂單編號 <span class="font-bold">E456789123</span></p>
+          </div>
+          <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+            <div class="p-3 border border-gray40 px-20 py-12 font-bold">NT 6000</div>
+            <div class="p-3 flex items-center">
+              <span class="arrow material-icons" data-arrow="0"> arrow_drop_down </span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket hidden">
+          <table class="table-auto w-full border-x border-b border-gray30">
+            <thead>
+              <tr>
+                <th>票號</th>
+                <th>區域</th>
+                <th>票種</th>
+                <th>座位</th>
+                <th>有效期限</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="activity p-5">
+        <div class="bg-gray30 rounded flex flex-nowrap">
+          <div class="w-56 h-56 p-3">
+            <img src="https://picsum.photos/200/200" class="w-full" />
+          </div>
+          <div class="p-3 flex flex-col justify-between">
+            <div>
+              <h4 class="text-2xl py-3">世界巡迴《破蛋者》BALLBRE</h4>
+              <p class="py-3">2023/3/23-2023/6/30</p>
+            </div>
+            <p>訂單編號 <span class="font-bold">E456789123</span></p>
+          </div>
+          <div class="ml-auto my-8 mx-3 justify-self-end flex items-center">
+            <div class="p-3 border border-gray40 px-20 py-12 font-bold">NT 6000</div>
+            <div class="p-3 flex items-center">
+              <span class="arrow material-icons" data-arrow="0"> arrow_drop_down </span>
+            </div>
+          </div>
+        </div>
+        <div class="ticket hidden">
+          <table class="table-auto w-full border-x border-b border-gray30">
+            <thead>
+              <tr>
+                <th>票號</th>
+                <th>區域</th>
+                <th>票種</th>
+                <th>座位</th>
+                <th>有效期限</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+              <tr class="border-t border-gray30 text-center">
+                <td>123456</td>
+                <td>A</td>
+                <td>早鳥票</td>
+                <td>33</td>
+                <td>2023/1/1~2023/2/1</td>
+                <td>未舉行</td>
+                <td class="flex items-center justify-center">
+                  <span class="delete px-1 material-icons text-gray40 cursor-pointer">
+                    delete
+                  </span>
+                  <span class="check_in px-1 material-icons text-gray40 cursor-pointer">
+                    confirmation_number
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ticket_management_block absolute top-0 left-0 w-full h-full bg-gray30/[30%] hidden">
+    <div class="w-1/2 bg-white p-5 rounded absolute top-28 left-0 right-0 m-auto">
+      <div class="flex justify-between items-center">
+        <h3 class="text-2xl mb-5">世界巡迴《破蛋者》BALLBRE</h3>
+        <span class="ticket_management_clear material-icons cursor-pointer"> clear </span>
+      </div>
+      <div class="bg-white grid grid-cols-1 xs:grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+        <div class="p-5 flex border w-full relative">
+          <div>
+            <h3 class="font-bold text-2xl mb-5">退票管理</h3>
+            <p class="flex items-center my-4">
+              <span> 親愛的顧客您好，退票須收取手續費10%，請先問是否退票? </span>
+            </p>
+            <br />
+            <div class="absolute bottom-0 right-0 p-5">
+              <button class="text-xl">取消</button>
+              <button class="text-xl text-green600">確定</button>
+            </div>
+          </div>
+        </div>
+        <div class="p-5 flex border w-full relative">
+          <div>
+            <h3 class="font-bold text-2xl mb-5">取票</h3>
+            <p class="flex items-center">
+              <img
+                src="../../static/img/QRcode_image.png"
+                alt="QRcode_image"
+                class="w-full rounded-lg mb-4"
+              />
+            </p>
+            <div class="bottom-0 p-5 text-center w-full">
+              <span class="mr-1"> QRCODE </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </main> -->
+</template>
