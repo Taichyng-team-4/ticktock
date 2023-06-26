@@ -4,8 +4,8 @@ const API_URL = 'https://ticktock.onrender.com/api/v1'
 
 // 登入請求
 export function loginAPI(email, password) {
-  console.log('login...')
-  return axios.post(`${API_URL}/auths/login`, { email: email, password: password })
+  console.log(API_URL+'/auths/login');
+  return axios.post(`${API_URL}/auths/login`, { email: email, password: password });
 }
 
 // 取得登入者資訊
