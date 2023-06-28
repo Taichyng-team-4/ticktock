@@ -20,7 +20,8 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/front_end/Search.vue')
+      component: () => import('../views/front_end/Search.vue'),
+      props:true
     },
     {
       path: '/qa',
