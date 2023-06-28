@@ -1,12 +1,14 @@
 <script setup>
-import { ref, onMounted, reactive, watch } from 'vue';
+import { ref, onMounted, reactive, watch, computed } from 'vue';
 import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router';
 import { startOfMonth, endOfMonth, addMonths, startOfYear, endOfYear, format } from 'date-fns';
 
 import utilities from '@/utilities.js';
 import * as api from '@/api.js';
 import Footer from '../../components/footer.vue'
+import { usePaginationStore } from '../../stores/paginationStore.js';
 
+//選擇日期區間
 const date = new Date();
 const today = format(new Date(), 'yyyy/MM/dd');
 const thisMonthStart = format(startOfMonth(date), 'yyyy/MM/dd');
@@ -15,34 +17,32 @@ const lastMonthStart = format(startOfMonth(addMonths(date, 1)), 'yyyy/MM/dd');
 const lastMonthEnd = format(endOfMonth(addMonths(date, 1)), 'yyyy/MM/dd');
 const thisYearStart = format(startOfYear(date), 'yyyy/MM/dd');
 const thisYearEnd = format(endOfYear(date), 'yyyy/MM/dd');
+const paginationStore = usePaginationStore();
 
 const activityList = ref([]);
 const route = useRoute();
 const state = reactive({
   categoryId: '',
   categoryName: '',
+  activityStartDate: '',
+  activityEndDate: '',
 });
-const selectedRange = ref([
-  {
-    label: 'Today', range: [today, today]
-  }
-]);
-const presetRanges = ref([
-  {
-    label: 'Today', range: [today, today]
-  }
-]);
-const startDate = ref('');
-const endDate = ref('');
+const selectedRange = ref('');
+const presetRanges = ref('');
+
+const currentPage = ref(paginationStore.currentPage);
+const itemsPerPage = ref(paginationStore.itemsPerPage);
 
 watch(selectedRange, (newVal) => {
   updatePresetRanges(newVal);
 });
-onMounted(() => {
+
+onMounted(async () => {
   state.categoryId = route.query.categoryid || '';
-  console.log('onMounted:' + state.categoryId);
-  fetchData();
+  updatePresetRanges();
+  await getActivityClassificationInformation(selectedRange);
 });
+//轉換分類
 const conversionClassification = (categoryId) => {
   // 音樂 :'1', 運動:'2', 戲劇 :'3', 藝文 :'4', 展覽 :'5', 其他 :'6'
   let category = categoryId;
@@ -52,12 +52,15 @@ const conversionClassification = (categoryId) => {
     case '3': category = 'drama', state.categoryName = '戲劇'; break;
     case '4': category = 'art', state.categoryName = '藝文'; break;
     case '5': category = 'exhibition', state.categoryName = '展覽'; break;
-    case '6': category = 'other', state.categoryName = '展覽'; break;
+    case '6': category = 'other', state.categoryName = '其他'; break;
   }
   return category;
 
 };
-const fetchData = async () => {
+
+//取得活動分類資訊
+const getActivityClassificationInformation = async () => {
+
   try {
     const category = conversionClassification(state.categoryId);
     const res = await api.activityClassificationAPI(category);
@@ -65,20 +68,14 @@ const fetchData = async () => {
     activityList.value.forEach(item => {
       item.startAt = utilities.toFormatDate(item.startAt);
     });
+    // 更新活動列表
     console.log(activityList.value);
   }
   catch (err) {
     console.log(err);
   }
 };
-const formatDate = (date) => {
-  console.log(date)
-  console.log(date._value[0])
-  const startDate = format(new Date(date._value[0]), 'yyyy/MM/dd');
-  const endDate = format(new Date(date._value[1]), 'yyyy/MM/dd');
-  console.log(date, startDate)
-  return `${startDate} - ${endDate}`;
-};
+
 const updatePresetRanges = (range) => {
   switch (range) {
     case 'today':
@@ -88,19 +85,42 @@ const updatePresetRanges = (range) => {
       presetRanges.value = [{ label: 'This month', range: [thisMonthStart, thisMonthEnd] }];
       break;
     case 'lastMonth':
-      presetRanges.value = [{ label: 'Last 2 months', range: [lastMonthStart, lastMonthEnd] }];
-      break;
-    case 'year':
-      presetRanges.value = [{ label: 'More than 2 months ago', range: [thisYearStart, thisYearEnd] }];
+      presetRanges.value = [{ label: 'Last 2 months', range: [thisMonthStart, lastMonthEnd] }];
       break;
     default:
-      presetRanges.value = [];
+      presetRanges.value = [{ label: 'all', range: [today, ''] }];
   }
   const daterange = presetRanges.value[0].range;
-  startDate.value = daterange[0];
-  endDate.value = daterange[1];
-  console.log('日期區間:', startDate.value, endDate.value);
+  state.activityStartDate = daterange[0];
+  state.activityEndDate = daterange[1];
+  console.log('日期區間:', state.activityStartDate, state.activityEndDate);
 };
+//根據當前頁與每頁數量計算分頁資料
+const paginatedItems = computed(() => {
+  const startIndex = (currentPage.value - 1) * itemsPerPage.value;
+  const endIndex = startIndex + itemsPerPage.value;
+  return activityList.value.slice(startIndex, endIndex);
+});
+// 總頁數
+const totalPages = computed(() => Math.ceil(activityList.value.length / itemsPerPage.value));
+
+// 上一頁操作
+function goToPreviousPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
+
+// 下一頁操作
+function goToNextPage() {
+  if (currentPage.value < totalPages.value) {
+    currentPage.value++;
+  }
+}
+function goToPage(pageNumber) {
+  currentPage.value = pageNumber;
+}
+
 </script>
 
 <template>
@@ -125,16 +145,12 @@ const updatePresetRanges = (range) => {
         <option value="">$2000~$3,000</option>
         <option value="">$3,000以上</option>
       </select> -->
-        <div v-if="presetRanges && presetRanges.value && presetRanges.value[0].range">
-          日期區間: {{ startDate.value }}-{{ endDate.value }}
-        </div>
-        <select v-model="selectedRange" class="w-32 border border-primary px-5 py-1 mx-3 w-1/5">
-          <option value="">全部時間</option>
+        <!-- <select v-model="selectedRange" class="w-32 border border-primary px-5 py-1 mx-3 w-1/5">
+          <option value="" selected>全部時間</option>
           <option value="today">今天</option>
           <option value="month">一個月內</option>
-          <option value="lastMonth">下個月</option>
-          <option value="year">一年內</option>
-        </select>
+          <option value="lastMonth">二個月</option>
+        </select> -->
         <!-- <VueDatePicker v-model="date" :range="true" :preset-ranges="presetRanges" :format-date="formatDate"
             class="px-5 py-1 mx-3">
             <template #yearly="{ label, range, presetDateRange }">
@@ -145,8 +161,8 @@ const updatePresetRanges = (range) => {
       </div>
     </div>
     <div class="my-10 grid grid-cols-3 gap-3 w-full">
-      <div class="relative border-4 border-gra50">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '1', 'relative': state.categoryId !== '1' }">
+        <a :href="`/search?categoryid=1`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -154,8 +170,8 @@ const updatePresetRanges = (range) => {
           </p>
         </a>
       </div>
-      <div class="relative">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '2', 'relative': state.categoryId !== '2' }">
+        <a :href="`/search?categoryid=2`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -163,8 +179,8 @@ const updatePresetRanges = (range) => {
           </p>
         </a>
       </div>
-      <div class="relative">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '3', 'relative': state.categoryId !== '3' }">
+        <a :href="`/search?categoryid=3`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -172,8 +188,8 @@ const updatePresetRanges = (range) => {
           </p>
         </a>
       </div>
-      <div class="relative">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '4', 'relative': state.categoryId !== '4' }">
+        <a :href="`/search?categoryid=4`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -181,8 +197,8 @@ const updatePresetRanges = (range) => {
           </p>
         </a>
       </div>
-      <div class="relative">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '5', 'relative': state.categoryId !== '5' }">
+        <a :href="`/search?categoryid=5`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -190,8 +206,8 @@ const updatePresetRanges = (range) => {
           </p>
         </a>
       </div>
-      <div class="relative">
-        <a href="#" class="w-full h-full">
+      <div :class="{ 'relative border-4 border-gra50': state.categoryId === '6', 'relative': state.categoryId !== '6' }">
+        <a :href="`/search?categoryid=6`" target="_self" class="w-full h-full">
           <img src="https://picsum.photos/300/150" class="w-full" />
           <p
             class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] text-xl text-white font-bold border-b border-white">
@@ -203,7 +219,7 @@ const updatePresetRanges = (range) => {
     <div class="my-10 py-10 w-full">
       <h3 class="font-bold text-2xl text-center py-3">{{ state.categoryName }} 相關活動</h3>
       <div class="grid grid-cols-3 gap-3">
-        <div class="py-2" v-for="(activityItem) in activityList" :key="activityItem.id">
+        <div class="py-2" v-for="(activityItem) in paginatedItems" :key="activityItem.id">
           <a href="#">
             <img src="https://picsum.photos/300/300" class="w-full" />
             <div class="flex flex-row py-3">
@@ -216,25 +232,23 @@ const updatePresetRanges = (range) => {
 
       </div>
     </div>
-
-    <div class="text-center my-10 flex flex-row">
-      <a href="#" class="bg-primary w-full px-5 py-3">上一頁</a>
-      <ul class="flex flex-row mx-1">
-        <li class="border border-primary w-full px-5 py-3 mx-1">1</li>
-        <li class="bg-primary w-full px-5 py-3 mx-1">2</li>
-        <li class="bg-primary w-full px-5 py-3 mx-1">3</li>
-      </ul>
-      <a href="#" class="bg-primary w-full px-5 py-3">下一頁</a>
+    <div>
+      <!-- 分頁控制-->
+      <div class="text-center my-10 flex flex-row">
+        <button @click="goToPreviousPage" :disabled="currentPage === 1" class="bg-primary w-full px-5 py-3">上一頁</button>
+        <ul class="flex flex-row mx-1">
+          <li v-for="pageNumber in totalPages" :key="pageNumber" class="border border-primary w-full px-5 py-3 mx-1" :class="{ 'bg-primary': pageNumber === currentPage }">
+            <button class=" w-full px-5 py-3" @click="goToPage(pageNumber)" 
+              :disabled="pageNumber === currentPage">
+              {{ pageNumber }}
+            </button>
+          </li>
+        </ul>
+        <button @click="goToNextPage" :disabled="currentPage === totalPages"
+          class="bg-primary w-full px-5 py-3">下一頁</button>
+      </div>
     </div>
   </div>
-
   <Footer />
   <!-- </main> -->
 </template>
-<style scoped>
-.hidden-dp {
-  position: absolute;
-  left: -9999px;
-  top: -9999px;
-}
-</style>
