@@ -43,6 +43,16 @@ const router = createRouter({
       component: () => import('../views/personal_center/Orgs.vue')
     },
     {
+      path: '/personal_center/editOrg:orgId',
+      name: 'editOrg',
+      component: () => import('../views/personal_center/EditOrg.vue')
+    },
+    {
+      path: '/personal_center/createOrg',
+      name: 'createOrg',
+      component: () => import('../views/personal_center/NewOrg.vue')
+    },
+    {
       path: '/personal_center/profile',
       name: 'profile',
       component: () => import('../views/personal_center/Profile.vue')

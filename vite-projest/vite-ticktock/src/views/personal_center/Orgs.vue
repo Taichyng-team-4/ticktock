@@ -1,5 +1,47 @@
 <script setup>
 import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+import utilities from '@/utilities.js'
+import { orgsMeAPI, delOrgAPI } from '@/api.js'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const data = ref([])
+const router = useRouter()
+
+try {
+  const headers = utilities.getHeaders()
+  const response = await orgsMeAPI(headers)
+  data.value = response.data.data
+} catch (error) {
+  console.log(error)
+}
+
+// 刪除組織
+const deleteOrg = async (orgId) => {
+  try {
+    const headers = utilities.getHeaders()
+    await delOrgAPI(headers, orgId)
+    // 刪除成功後更新數據
+    data.value = data.value.filter((item) => item.id !== orgId)
+  } catch (error) {
+    console.error('刪除組織失敗', error)
+  }
+}
+
+// 修改組織
+const editOrg = async (orgId) => {
+  try {
+    // 轉跳到 editOrg 頁面並傳遞組織ID
+    router.push({ name: 'editOrg', params: { orgId } })
+  } catch (error) {
+    console.error('修改組織失敗', error)
+  }
+}
+
+// 修改組織
+const createOrg = async () => {
+  router.push({ name: 'createOrg' })
+}
 </script>
 
 <template>
@@ -14,27 +56,37 @@ import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
       </div>
       <div class="orgs p-6">
         <div class="flex justify-end pb-6">
-          <button class="new_org px-5 py-1 border border-primary text-primary">新建組資</button>
+          <button class="new_org px-5 py-1 border border-primary text-primary" @click="createOrg()">
+            新建組資
+          </button>
         </div>
         <table class="table-auto w-full border-x border-b border-gray30">
           <thead>
             <tr class="bg-gray30">
               <th>組織名稱</th>
               <th>信箱</th>
-              <th>電話</th>
+              <!-- <th>電話</th> -->
               <th>操作</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray30 text-center">
-              <td>組織一</td>
-              <td>test@gmail.com</td>
-              <td>0566993877</td>
+            <tr v-for="item in data" class="border-t border-gray30 text-center">
+              <td>{{ item.name }}</td>
+              <td>{{ item.email }}</td>
+              <!-- <td>0566993877</td> -->
               <td class="flex items-center justify-center">
-                <span class="material-icons pr-1 text-gray40 cursor-pointer"> delete </span>
-                <a href="../personal_center/account.html">
-                  <span class="material-icons pr-1 text-gray40 cursor-pointer"> edit </span>
-                </a>
+                <span
+                  class="material-icons pr-1 text-gray40 cursor-pointer"
+                  @click="deleteOrg(item.id)"
+                >
+                  delete
+                </span>
+                <span
+                  class="material-icons pr-1 text-gray40 cursor-pointer"
+                  @click="editOrg(item.id)"
+                >
+                  edit
+                </span>
               </td>
             </tr>
           </tbody>

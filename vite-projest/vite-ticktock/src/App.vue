@@ -218,8 +218,9 @@ function logoutClick(token) {
       </div> -->
     </div>
   </nav>
-
-  <RouterView />
+  <Suspense>
+    <RouterView />
+  </Suspense>
 </template>
 
 <style scoped></style>

@@ -1,49 +1,68 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
+import { activitiesAPI } from '@/api.js'
+import { ref, computed } from 'vue'
+
+const data = ref([])
+const selectedStatus = ref('')
+
+try {
+  const response = await activitiesAPI('?pop=ticketTypeIds')
+  console.log('activityAPI data', response.data.data)
+  data.value = response.data.data
+} catch (error) {
+  console.log('navigate to activity page fail')
+  console.log(error)
+}
+const convertDateFormat = (date) => {
+  const dateObject = new Date(date)
+  const year = dateObject.getFullYear()
+  const month = dateObject.getMonth() + 1
+  const day = dateObject.getDate()
+  return `${year}/${month}/${day}`
+}
+
+const activeState = (activityId) => {
+  let state = ''
+  let active = data.value.find((activity) => activity.id === activityId)
+  let startDate = new Date(active.startAt)
+  let endDate = new Date(active.endAt)
+  let currentDate = new Date()
+  if (currentDate >= startDate && currentDate <= endDate) {
+    state = '進行中'
+  } else if (currentDate < startDate) {
+    state = '未開始'
+  } else {
+    state = '已結束'
+  }
+  return state
+}
+
+const filteredData = computed(() => {
+  if (selectedStatus.value === '進行中') {
+    return data.value.filter((item) => activeState(item.id) === '進行中')
+  } else if (selectedStatus.value === '已結束') {
+    return data.value.filter((item) => activeState(item.id) === '已結束')
+  } else if (selectedStatus.value === '未開始') {
+    return data.value.filter((item) => activeState(item.id) === '未開始')
+  } else {
+    return data.value
+  }
+})
 </script>
 
 <template>
   <!-- <main> -->
   <OrgSide />
-  <div class="side fixed w-64 bg-background h-[calc(100%-86.4px)] flex flex-col justify-between">
-    <div>
-      <h1 class="text-center text-primary text-2xl p-5">Ticktock</h1>
-      <ul class="subject_personal_center text-center">
-        <li id="account" class="text-xl text-primary bg-gray30 cursor-pointer">
-          <a href="/org/account" class="block p-5">活動列表</a>
-        </li>
-        <li id="new_activity" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
-          <a href="/org/new_activity" class="block p-5">活動刊登</a>
-        </li>
-        <li id="orders" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
-          <a href="/org/orders" class="block p-5">訂單資訊</a>
-        </li>
-        <li id="sales_status" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
-          <a href="/org/sales_status" class="block p-5">活動主控台</a>
-        </li>
-        <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
-          <a href="#" class="block p-5">預覽活動</a>
-        </li>
-        <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
-          <a href="#" class="block p-5">編輯活動</a>
-        </li>
-      </ul>
-    </div>
-    <div>
-      <p class="text-center text-white bg-primary cursor-pointer">
-        <a href="../personal_center/user" class="block p-5">離開組織管理</a>
-      </p>
-    </div>
-  </div>
-  >
 
   <div class="main ml-64 p-5">
     <div class="flex items-center justify-between">
       <h3 class="text-xl font-bold">活動列表</h3>
-      <select name="" id="" class="w-32 bg-gray30 px-5 py-1">
-        <option value="">進行中</option>
-        <option value="">已結束</option>
-        <option value="">未發布</option>
+      <select v-model="selectedStatus" class="w-32 bg-gray30 px-5 py-1">
+        <option value="">全部</option>
+        <option value="進行中">進行中</option>
+        <option value="已結束">已結束</option>
+        <option value="未開始">未開始</option>
       </select>
     </div>
     <div class="pt-6">
@@ -58,25 +77,13 @@ import OrgSide from '../../components/OrgSide.vue'
             <th>操作</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-for="item in filteredData">
           <tr class="border-t border-gray30 text-center">
-            <td>2023/5/30</td>
-            <td>世界巡迴《破蛋者》BALLBRE</td>
-            <td>10</td>
-            <td>10</td>
-            <td>進行中</td>
-            <td class="flex items-center justify-center">
-              <a href="account.html">
-                <span class="material-icons pr-1 text-gray40 cursor-pointer"> edit </span>
-              </a>
-            </td>
-          </tr>
-          <tr class="border-t border-gray30 text-center">
-            <td>2023/5/30</td>
-            <td>世界巡迴《破蛋者》BALLBRE</td>
-            <td>10</td>
-            <td>10</td>
-            <td>進行中</td>
+            <td>{{ convertDateFormat(item.startAt) }}~{{ convertDateFormat(item.endAt) }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.total - item.remain }}</td>
+            <td>{{ item.total }}</td>
+            <td>{{ activeState(item.id) }}</td>
             <td class="flex items-center justify-center">
               <a href="#">
                 <span class="material-icons pr-1 text-gray40 cursor-pointer"> edit </span>
