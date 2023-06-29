@@ -31,7 +31,7 @@ console.log('org side orgid', props.orgId)
     </div>
     <div>
       <p class="text-center text-white bg-primary cursor-pointer">
-        <a href="../personal_center/user" class="block p-5">離開組織管理</a>
+        <a href="/personal_center/orgs" class="block p-5">離開組織管理</a>
       </p>
     </div>
   </div>
