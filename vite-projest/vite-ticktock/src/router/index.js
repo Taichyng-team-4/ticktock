@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/front_end/Qa.vue')
     },
     {
+      path: '/activity/:activityId',
+      name: 'activity',
+      component: () => import('../views/front_end/Activity.vue')
+    },
+    {
       path: '/personal_center/userOrder',
       name: 'user',
       component: () => import('../views/personal_center/UserOrder.vue')
@@ -44,7 +49,7 @@ const router = createRouter({
       component: () => import('../views/personal_center/Orgs.vue')
     },
     {
-      path: '/personal_center/editOrg:orgId',
+      path: '/personal_center/editOrg/:orgId',
       name: 'editOrg',
       component: () => import('../views/personal_center/EditOrg.vue')
     },
@@ -76,7 +81,7 @@ const router = createRouter({
       props: (route) => ({ orgId: route.query.orgId })
     },
     {
-      path: '/org/edit_activity:ActivityId',
+      path: '/org/edit_activity/:ActivityId',
       name: 'editActivity',
       component: () => import('../views/org/EditActivity.vue'),
       props: (route) => ({ orgId: route.query.orgId })
@@ -97,12 +102,12 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
-    },
-    {
-      path: '/activity/:id',
-      name: 'activity',
-      component: () => import('../views/AboutView.vue')
     }
+    // {
+    //   path: '/activity/:id',
+    //   name: 'activity',
+    //   component: () => import('../views/AboutView.vue')
+    // }
   ]
 })
 export default router
