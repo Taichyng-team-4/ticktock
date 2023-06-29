@@ -1,13 +1,17 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
 import { activitiesAPI } from '@/api.js'
-import { ref, computed } from 'vue'
+import { ref, computed, defineProps } from 'vue'
+import { useRouter } from 'vue-router'
 
 const data = ref([])
 const selectedStatus = ref('')
+const router = useRouter()
+
+const props = defineProps(['orgId'])
 
 try {
-  const response = await activitiesAPI('?pop=ticketTypeIds')
+  const response = await activitiesAPI(`?orgId=${props.orgId}&pop=ticketTypeIds`)
   console.log('activityAPI data', response.data.data)
   data.value = response.data.data
 } catch (error) {
@@ -49,11 +53,21 @@ const filteredData = computed(() => {
     return data.value
   }
 })
+
+// 修改活動
+const editActivity = async (ActivityId) => {
+  try {
+    // 轉跳到 editOrg 頁面並傳遞組織ID
+    router.push({ name: 'editActivity', params: { ActivityId }, query: { orgId: props.orgId } })
+  } catch (error) {
+    console.error('修改活動失敗', error)
+  }
+}
 </script>
 
 <template>
   <!-- <main> -->
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
 
   <div class="main ml-64 p-5">
     <div class="flex items-center justify-between">
@@ -85,9 +99,12 @@ const filteredData = computed(() => {
             <td>{{ item.total }}</td>
             <td>{{ activeState(item.id) }}</td>
             <td class="flex items-center justify-center">
-              <a href="#">
-                <span class="material-icons pr-1 text-gray40 cursor-pointer"> edit </span>
-              </a>
+              <span
+                class="material-icons pr-1 text-gray40 cursor-pointer"
+                @click="editActivity(item.id)"
+              >
+                edit
+              </span>
             </td>
           </tr>
         </tbody>

@@ -42,6 +42,10 @@ const editOrg = async (orgId) => {
 const createOrg = async () => {
   router.push({ name: 'createOrg' })
 }
+
+const showOrg = async (orgId) => {
+  router.push({ name: 'activityList', query: { orgId: orgId } })
+}
 </script>
 
 <template>
@@ -57,7 +61,7 @@ const createOrg = async () => {
       <div class="orgs p-6">
         <div class="flex justify-end pb-6">
           <button class="new_org px-5 py-1 border border-primary text-primary" @click="createOrg()">
-            新建組資
+            新建組織
           </button>
         </div>
         <table class="table-auto w-full border-x border-b border-gray30">
@@ -75,6 +79,12 @@ const createOrg = async () => {
               <td>{{ item.email }}</td>
               <!-- <td>0566993877</td> -->
               <td class="flex items-center justify-center">
+                <span
+                  class="material-icons pr-1 text-gray40 cursor-pointer"
+                  @click="showOrg(item.id)"
+                >
+                  visibility
+                </span>
                 <span
                   class="material-icons pr-1 text-gray40 cursor-pointer"
                   @click="deleteOrg(item.id)"

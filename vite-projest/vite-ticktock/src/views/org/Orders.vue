@@ -2,11 +2,11 @@
 import OrgSide from '../../components/OrgSide.vue'
 
 import utilities from '@/utilities.js'
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, defineProps, onMounted, computed } from 'vue'
 import { ordersMeAPI, usersAPI, activitiesAPI } from '@/api'
 
-const isLogin = ref(false)
-const token = ref('')
+const props = defineProps(['orgId'])
+console.log('orgId', props.orgId)
 const activityName = ref([])
 const data = ref([])
 const purchases = ref([])
@@ -39,7 +39,7 @@ const activeState = (activityId) => {
 onMounted(async () => {
   // 取得活動名稱
   try {
-    const res = await activitiesAPI('?pop=ticketTypeIds')
+    const res = await activitiesAPI(`?orgId=${props.orgId}&pop=ticketTypeIds`)
     const activities = res.data.data
     activityName.value = activities.map((activity) => ({
       id: activity.id,
@@ -119,16 +119,18 @@ const convertArrayToCSV = (array) => {
 
 <template>
   <!-- <main> -->
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
 
   <div class="main ml-64 p-5">
     <h3 class="text-xl font-bold">訂單資訊</h3>
     <div class="flex items-end justify-between py-3">
-      <p>匯出訂單</p>
+      <div class="flex">
+        <p>匯出訂單</p>
 
-      <button @click="exportOrders" class="border border-green400 text-green400 px-2 mx-2">
-        匯出csv
-      </button>
+        <button @click="exportOrders" class="border border-green400 text-green400 px-2 mx-2">
+          匯出csv
+        </button>
+      </div>
       <select v-model="selectedActivity" name="" id="" class="w-32 bg-gray30 px-5 py-1">
         <option :value="null" :key="null">全部</option>
         <option v-for="activity in activityName" :key="activity.id" :value="activity.id">
