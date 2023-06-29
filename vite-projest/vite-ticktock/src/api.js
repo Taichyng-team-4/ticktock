@@ -22,16 +22,22 @@ export function orgsAPI(token) {
 
 //取得活動資訊
 export function activitysAPI() {
-  const activityDataAPI = `${API_URL}/activities?limit=3&pop=venueId`;
-  console.log(activityDataAPI);
-  return axios.get(activityDataAPI);
+  const activityListAPI = `${API_URL}/activities?limit=3&pop=venueId`;
+  console.log(activityListAPI);
+  return axios.get(activityListAPI);
 }
 
 //取得活動分類資訊
 export function activityClassificationAPI(category) {
-  
   console.log(category);
-  const activityDataAPI=`${API_URL}/activities?category=${category}&pop=venueId`;
-  console.log(activityDataAPI);
-  return axios.get(activityDataAPI);
+  const activityListAPI = `${API_URL}/activities?category=${category}&pop=venueId`;
+  console.log(activityListAPI);
+  return axios.get(activityListAPI);
+}
+
+//取得活動單一資訊
+export function activityAPI(activityId) {
+  const activityAPI = `${API_URL}/activities/${activityId}?pop=ticketTypeIds,venueId`;
+  console.log(activityAPI);
+  return axios.get(activityAPI);
 }

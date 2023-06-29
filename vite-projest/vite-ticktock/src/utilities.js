@@ -5,8 +5,8 @@
 
 // 設定 ItemKey
 const ItemKey = {
-  'jwtToken' : 'jwtToken',
-  'userProfile' : 'userProfile',
+  'jwtToken': 'jwtToken',
+  'userProfile': 'userProfile',
   'orgList': 'orgList'
 };
 
@@ -162,6 +162,20 @@ function clearOrgList() {
   clearItem(ItemKey.orgList);
 }
 
+//轉換分類
+const conversionClassification = (categoryId) => {
+  // 音樂 :'1', 運動:'2', 戲劇 :'3', 藝文 :'4', 展覽 :'5', 其他 :'6'
+  let categoryName = '';
+  switch (categoryId) {
+    case 'music': categoryName = '音樂'; break;
+    case 'sport': categoryName = '運動'; break;
+    case 'drama': categoryName = '戲劇'; break;
+    case 'art': categoryName = '藝文'; break;
+    case 'exhibition': categoryName = '展覽'; break;
+    default: categoryName = '其他'; break;
+  }
+  return categoryName;
+}
 
 const utilities = {
   // 各種 ItemKey
@@ -188,6 +202,7 @@ const utilities = {
   setOrgList,
   getOrgList,
   clearOrgList,
+  conversionClassification,
 };
 
 export default utilities;
