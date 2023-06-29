@@ -33,16 +33,14 @@ onMounted(async () => {
     activityData.value.endAt = formattedendAt
 
     tickets.value = response.data.data.ticketTypes.map((ticket) => {
-      const saleStartAt = new Date(ticket.saleStartAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-      const saleEndAt = new Date(ticket.saleEndAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
+      const saleStartAtDate = new Date(ticket.saleStartAt)
+      const saleStartAt = `${saleStartAtDate.getFullYear()}/${(saleStartAtDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${saleStartAtDate.getDate().toString().padStart(2, '0')}`
+      const saleEndAtDate = new Date(ticket.saleEndAt)
+      const saleEndAt = `${saleEndAtDate.getFullYear()}/${(saleEndAtDate.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}/${saleEndAtDate.getDate().toString().padStart(2, '0')}`
       return { ...ticket, saleStartAt: saleStartAt, saleEndAt: saleEndAt }
     })
     console.log(activityData)
@@ -149,7 +147,7 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody>
-            <tr class="border-t border-gray30" v-for="ticket in activityData.ticketTypes">
+            <tr class="border-t border-gray30" v-for="ticket in tickets">
               <td class="py-2 px-4">{{ ticket.name }}</td>
               <td class="py-2 px-4">{{ ticket.saleStartAt }} ~ {{ ticket.saleEndAt }}</td>
               <td class="py-2 px-4 text-right">NT$ {{ ticket.price }}</td>
