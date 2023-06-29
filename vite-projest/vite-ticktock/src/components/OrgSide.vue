@@ -14,7 +14,7 @@
         <li id="orders" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
           <a href="/org/orders" class="block p-5">訂單資訊</a>
         </li>
-        <li id="sales_status" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
+        <!-- <li id="sales_status" class="text-xl hover:bg-gray30/[35%] cursor-pointer">
           <a href="/org/sales_status" class="block p-5">活動主控台</a>
         </li>
         <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
@@ -22,7 +22,7 @@
         </li>
         <li class="sales_status text-xl text-primary bg-gray30 cursor-pointer hidden">
           <a href="#" class="block p-5">編輯活動</a>
-        </li>
+        </li> -->
       </ul>
     </div>
     <div>

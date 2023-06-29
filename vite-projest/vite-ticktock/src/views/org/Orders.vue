@@ -124,11 +124,13 @@ const convertArrayToCSV = (array) => {
   <div class="main ml-64 p-5">
     <h3 class="text-xl font-bold">訂單資訊</h3>
     <div class="flex items-end justify-between py-3">
-      <p>匯出訂單</p>
+      <div class="flex">
+        <p>匯出訂單</p>
 
-      <button @click="exportOrders" class="border border-green400 text-green400 px-2 mx-2">
-        匯出csv
-      </button>
+        <button @click="exportOrders" class="border border-green400 text-green400 px-2 mx-2">
+          匯出csv
+        </button>
+      </div>
       <select v-model="selectedActivity" name="" id="" class="w-32 bg-gray30 px-5 py-1">
         <option :value="null" :key="null">全部</option>
         <option v-for="activity in activityName" :key="activity.id" :value="activity.id">

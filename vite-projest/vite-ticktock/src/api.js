@@ -46,17 +46,30 @@ export function editOrgAPI(orgData, orgId) {
 export function createOrgAPI(orgData) {
   console.log('createOrgAPI...')
   return axios.post(`${API_URL}/orgs/`, orgData)
-  // return axios.po({
-  //   url: `${API_URL}/orgs/`,
-  //   method: 'post',
-  //   data: orgData
-  // })
 }
 
 // 取得活動
 export function activitiesAPI(QueryString) {
   console.log('activitiesAPI...')
   return axios.get(`${API_URL}/activities/${QueryString}`)
+}
+
+// 取得單個活動
+export function getActivitiesAPI(headers, activityId) {
+  console.log('getactivitiesAPI...')
+  return axios.get(`${API_URL}/activities/${activityId}`, { headers })
+}
+
+// 修改活動
+export function editActivitiesAPI(activityData, activityId) {
+  console.log('editActivitiesAPI...')
+  return axios.patch(`${API_URL}/activities/${activityId}`, activityData)
+}
+
+// 新增活動
+export function createActivitiesAPI(activitiesData) {
+  console.log('createActivitiesAPI...')
+  return axios.post(`${API_URL}/activities/`, activitiesData)
 }
 
 // 取得使用者創的組織

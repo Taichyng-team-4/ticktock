@@ -65,22 +65,31 @@ const router = createRouter({
     {
       path: '/org/account',
       name: 'account',
-      component: () => import('../views/org/Account.vue')
+      component: () => import('../views/org/Account.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/new_activity',
       name: 'new_activity',
-      component: () => import('../views/org/NewActivity.vue')
+      component: () => import('../views/org/NewActivity.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
+    },
+    {
+      path: '/org/edit_activity:ActivityId',
+      name: 'editActivity',
+      component: () => import('../views/org/EditActivity.vue')
     },
     {
       path: '/org/orders',
       name: 'orders',
-      component: () => import('../views/org/Orders.vue')
+      component: () => import('../views/org/Orders.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/sales_status',
       name: 'sales_status',
-      component: () => import('../views/org/SalesStatus.vue')
+      component: () => import('../views/org/SalesStatus.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/about',
