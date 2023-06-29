@@ -1,10 +1,14 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
+import { ref, defineProps } from 'vue'
+
+const props = defineProps(['orgId'])
+console.log('orgId', props.orgId)
 </script>
 
 <template>
   <!-- <main> -->
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
 
   <div class="main ml-64 p-5">
     <h3 class="text-xl font-bold">活動主控台</h3>

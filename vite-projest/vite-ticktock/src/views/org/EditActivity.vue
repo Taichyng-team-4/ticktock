@@ -1,13 +1,13 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
-import { ref, onMounted } from 'vue'
+import { ref, defineProps, onMounted } from 'vue'
 import { getActivitiesAPI, editActivitiesAPI } from '@/api.js'
 import { useRouter, useRoute } from 'vue-router'
 import utilities from '@/utilities.js'
 
 // const router = useRouter()
-// const props = defineProps(['orgId'])
-// console.log('orgId', props.orgId)
+const props = defineProps(['orgId'])
+console.log('orgId', props.orgId)
 
 const route = useRoute()
 const router = useRouter()
@@ -43,7 +43,10 @@ const days = Array.from({ length: 31 }, (_, index) => String(index + 1).padStart
 onMounted(async () => {
   try {
     const headers = utilities.getHeaders()
-    const response = await getActivitiesAPI(headers, activityId + '?pop=ticketTypeIds')
+    const response = await getActivitiesAPI(
+      headers,
+      activityId + `?orgId=${props.orgId}&pop=ticketTypeIds`
+    )
     activityData.value = response.data.data
 
     // 解析日期字串，並將年、月、日指派給相應的變數
@@ -97,8 +100,7 @@ const saveActivity = async () => {
     activityData.value.startAt = startAt
     activityData.value.endAt = endAt
     await editActivitiesAPI(activityData.value, activityId)
-    // router.push('/activities') // 編輯完成後跳轉到活動列表頁面
-    router.push({ name: 'account' })
+    router.push({ name: 'activityList', query: { orgId: props.orgId } })
   } catch (error) {
     console.error(error)
   }
@@ -209,7 +211,7 @@ const deleteTicket = (ticket) => {
 <template>
   <!-- <main> -->
 
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
   <div class="main bg-white ml-64 p-5" v-if="activityData">
     <div class="w-full">
       <div class="px-6 flex items-center justify-between">

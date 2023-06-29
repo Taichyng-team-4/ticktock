@@ -9,10 +9,9 @@ const selectedStatus = ref('')
 const router = useRouter()
 
 const props = defineProps(['orgId'])
-console.log('orgId', props.orgId)
 
 try {
-  const response = await activitiesAPI('?pop=ticketTypeIds')
+  const response = await activitiesAPI(`?orgId=${props.orgId}&pop=ticketTypeIds`)
   console.log('activityAPI data', response.data.data)
   data.value = response.data.data
 } catch (error) {
@@ -59,7 +58,7 @@ const filteredData = computed(() => {
 const editActivity = async (ActivityId) => {
   try {
     // 轉跳到 editOrg 頁面並傳遞組織ID
-    router.push({ name: 'editActivity', params: { ActivityId } })
+    router.push({ name: 'editActivity', params: { ActivityId }, query: { orgId: props.orgId } })
   } catch (error) {
     console.error('修改活動失敗', error)
   }
@@ -68,7 +67,7 @@ const editActivity = async (ActivityId) => {
 
 <template>
   <!-- <main> -->
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
 
   <div class="main ml-64 p-5">
     <div class="flex items-center justify-between">

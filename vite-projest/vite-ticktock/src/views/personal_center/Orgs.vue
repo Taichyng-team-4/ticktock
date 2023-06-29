@@ -44,7 +44,7 @@ const createOrg = async () => {
 }
 
 const showOrg = async (orgId) => {
-  router.push({ name: 'account', query: { orgId: orgId } })
+  router.push({ name: 'activityList', query: { orgId: orgId } })
 }
 </script>
 

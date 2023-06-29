@@ -63,9 +63,9 @@ const router = createRouter({
       component: () => import('../views/personal_center/NewOrg.vue')
     },
     {
-      path: '/org/account',
-      name: 'account',
-      component: () => import('../views/org/Account.vue'),
+      path: '/org/activityList',
+      name: 'activityList',
+      component: () => import('../views/org/ActivityList.vue'),
       props: (route) => ({ orgId: route.query.orgId })
     },
     {
@@ -77,7 +77,8 @@ const router = createRouter({
     {
       path: '/org/edit_activity:ActivityId',
       name: 'editActivity',
-      component: () => import('../views/org/EditActivity.vue')
+      component: () => import('../views/org/EditActivity.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/orders',

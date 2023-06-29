@@ -5,6 +5,8 @@ import { createActivitiesAPI } from '@/api.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const props = defineProps(['orgId'])
+console.log('orgId', props.orgId)
 
 // 票種設定
 const tickets = ref([
@@ -130,7 +132,7 @@ const deleteTicket = (ticket) => {
 
 // 新增活動
 const activityData = ref({
-  orgId: '649be7f16166987928cc48ed',
+  orgId: props.orgId,
   venueId: '648f01989136de9b434e16c6',
   themeImg:
     'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
@@ -198,7 +200,7 @@ const addActivity = async () => {
   try {
     const response = await createActivitiesAPI(activityData.value)
     console.log('活動已成功新增', response.data)
-    router.push({ name: 'account', query: { orgId: '649be7f16166987928cc48ed' } })
+    router.push({ name: 'activityList', query: { orgId: props.orgId } })
   } catch (error) {
     console.error('新增活動資料失敗', error)
   }
@@ -208,7 +210,7 @@ const addActivity = async () => {
 <template>
   <!-- <main> -->
 
-  <OrgSide />
+  <OrgSide :orgId="orgId" />
   <div class="main bg-white ml-64 p-5">
     <div class="w-full">
       <div class="px-6 flex items-center justify-between">
