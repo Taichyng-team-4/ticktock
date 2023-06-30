@@ -1,7 +1,7 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
-import { ref, defineProps, onMounted } from 'vue'
-import { getActivitiesAPI, editActivitiesAPI } from '@/api.js'
+import { ref, defineProps, onMounted, computed } from 'vue'
+import { getActivitiesAPI, editActivitiesAPI, getOrgAPI, getVenuesAPI } from '@/api.js'
 import { useRouter, useRoute } from 'vue-router'
 import utilities from '@/utilities.js'
 
@@ -9,11 +9,84 @@ import utilities from '@/utilities.js'
 const props = defineProps(['orgId'])
 console.log('orgId', props.orgId)
 
+// 活動類別
+const categorys = ref([
+  { eName: 'music', name: '音樂' },
+  { eName: 'sport', name: '運動' },
+  { eName: 'drama', name: '戲劇' },
+  { eName: 'art', name: '藝文' },
+  { eName: 'exhibition', name: '展覽' },
+  { eName: 'other', name: '其他' }
+])
+const category = ref(null)
+
+// 取得組織資訊
+const orgData = ref(null)
+const getOrgData = async () => {
+  try {
+    const response = await getOrgAPI({}, props.orgId)
+    orgData.value = response.data.data
+    console.log('取得組織資料', orgData.value)
+  } catch (error) {
+    console.error('取得組織資料失敗', error)
+  }
+}
+getOrgData()
+
+// 取得場地資訊
+const venues = ref(null)
+const venue = ref(null)
+const getVenuesData = async () => {
+  try {
+    const response = await getVenuesAPI()
+    venues.value = response.data.data
+    console.log('取得場地資料', venues.value)
+  } catch (error) {
+    console.error('取得場地資料失敗', error)
+  }
+}
+getVenuesData()
+
+const selectedVenue = computed(() => {
+  if (venue.value && venues.value) {
+    return venues.value.find((v) => v.id === venue.value)
+  }
+  return null
+})
+// 上傳圖片
+const imageUrl = ref('')
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0]
+  const formData = new FormData()
+  formData.append('image', file)
+
+  try {
+    const response = await uploadImgAPI(formData)
+    imageUrl.value = response.data.data
+    console.log('imageUrl', imageUrl.value)
+  } catch (error) {
+    console.error('圖片上傳失敗', error)
+  }
+}
+
+const reuploadImage = () => {
+  imageUrl.value = ''
+}
+
 const route = useRoute()
 const router = useRouter()
 const activityId = route.params.ActivityId // 從路由參數中取得 ActivityId
-
-const activityData = ref(null)
+const activityData = ref({
+  venueId: '',
+  themeImg: '',
+  category: '',
+  name: '',
+  description: '',
+  summary: '',
+  startAt: '',
+  endAt: '',
+  ticketTypes: []
+})
 
 // 取得當前日期
 const currentDate = new Date()
@@ -45,10 +118,23 @@ onMounted(async () => {
     const headers = utilities.getHeaders()
     const response = await getActivitiesAPI(
       headers,
-      activityId + `?orgId=${props.orgId}&pop=ticketTypeIds`
+      activityId + `?orgId=${props.orgId}&pop=ticketTypeIds,venueId`
     )
-    activityData.value = response.data.data
+    // activityData.value = response.data.data
+    activityData.value.venueId = response.data.data.venue.id
+    activityData.value.themeImg = response.data.data.themeImg
+    activityData.value.category = response.data.data.category
+    activityData.value.name = response.data.data.name
+    activityData.value.description = response.data.data.description
+    activityData.value.summary = response.data.data.summary
+    activityData.value.startAt = response.data.data.startAt
+    activityData.value.endAt = response.data.data.endAt
+    activityData.value.ticketTypes = response.data.data.ticketTypes
 
+    imageUrl.value = response.data.data.themeImg
+    category.value = categorys.value.find((item) => item.eName === response.data.data.category)
+    venue.value = response.data.data.venue.id
+    console.log('venue', venue.value)
     // 解析日期字串，並將年、月、日指派給相應的變數
     const startDate = new Date(activityData.value.startAt)
     startYear.value = startDate.getFullYear().toString()
@@ -73,17 +159,11 @@ onMounted(async () => {
     activityData.value.endAt = formattedendAt
 
     tickets.value = response.data.data.ticketTypes.map((ticket) => {
-      const saleStartAt = new Date(ticket.saleStartAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-      const saleEndAt = new Date(ticket.saleEndAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-      return { ...ticket, saleStartAt: saleStartAt, saleEndAt: saleEndAt }
+      return {
+        ...ticket,
+        saleStartAt: formatDate(ticket.saleStartAt, 'yyyy/MM/dd'),
+        saleEndAt: formatDate(ticket.saleEndAt, 'yyyy/MM/dd')
+      }
     })
   } catch (error) {
     console.error(error)
@@ -93,12 +173,14 @@ onMounted(async () => {
 // 更新活動資料
 const saveActivity = async () => {
   try {
-    console.log('ed', JSON.parse(JSON.stringify(activityData.value)))
-
     const startAt = `${startYear.value}/${startMonth.value}/${startDay.value}`
     const endAt = `${endYear.value}/${endMonth.value}/${endDay.value}`
     activityData.value.startAt = startAt
     activityData.value.endAt = endAt
+    activityData.value.ticketTypes = tickets.value
+    activityData.value.category = category.value.eName
+    activityData.value.venueId = venue.value.id
+    console.log('ed', JSON.parse(JSON.stringify(activityData.value)))
     await editActivitiesAPI(activityData.value, activityId)
     router.push({ name: 'activityList', query: { orgId: props.orgId } })
   } catch (error) {
@@ -221,8 +303,16 @@ const deleteTicket = (ticket) => {
         <div class="w-8/12">
           <div class="flex flex-row">
             <p>組織名稱</p>
-            <p class="px-2">XXX</p>
+            <p class="px-2" v-if="orgData">{{ orgData.name }}</p>
           </div>
+
+          <div class="flex flex-col py-2">
+            <label>活動類型</label>
+            <select v-model="category" class="h-8 rounded border border-gray30 bg-white">
+              <option v-for="c in categorys" :key="c.eName" :value="c">{{ c.name }}</option>
+            </select>
+          </div>
+
           <div class="flex flex-col py-2">
             <label for="">活動名稱</label>
             <input
@@ -313,6 +403,7 @@ const deleteTicket = (ticket) => {
                     </div> -->
           <div class="flex items-center justify-center w-full p-2">
             <label
+              v-if="!imageUrl"
               for="dropzone-file"
               class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray30 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
@@ -332,12 +423,32 @@ const deleteTicket = (ticket) => {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   ></path>
                 </svg>
-                <!-- <p class="mb-2 text-sm text-gray-500 dark:text-gray30"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray30">SVG, PNG, JPG or GIF (MAX. 800x400px)</p> -->
               </div>
               <p>上傳活動圖片</p>
-              <input id="dropzone-file" type="file" class="hidden" />
+              <input id="dropzone-file" type="file" class="hidden" @change="handleFileUpload" />
             </label>
+
+            <div v-if="imageUrl">
+              <img :src="imageUrl" alt="Uploaded Image" />
+              <button @click="reuploadImage" class="mt-1 p-2 rounded-md bg-primary">
+                重新上傳
+              </button>
+            </div>
+          </div>
+          <div class="w-full p-2">
+            <div class="w-full" v-if="venue">
+              <select v-model="venue" class="h-8 w-full rounded border border-gray30 bg-white">
+                <option v-for="v in venues" :key="v.id" :value="v.id">
+                  {{ v.name }}
+                </option>
+              </select>
+            </div>
+            <div>
+              <p class="py-2">
+                <span class="font-bold">地點:</span> {{ selectedVenue && selectedVenue.address }}
+              </p>
+              <img :src="selectedVenue && selectedVenue.venueImg" alt="" />
+            </div>
           </div>
           <!-- <div class="flex items-center justify-center w-full p-2">
             <label
