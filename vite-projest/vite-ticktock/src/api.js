@@ -106,3 +106,10 @@ export function usersAPI(QueryString) {
   console.log('usersAPI...')
   return axios.get(`${API_URL}/users/${QueryString}`)
 }
+
+// 新增訂單
+export function createOrderAPI(headers,orderData) {
+  console.log(orderData)
+
+  return axios.post(`${API_URL}/orders`,orderData, { headers })
+}
