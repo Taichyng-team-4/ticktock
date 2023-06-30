@@ -1,12 +1,72 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
 import { ref, defineProps } from 'vue'
-import { createActivitiesAPI } from '@/api.js'
+import { createActivitiesAPI, getOrgAPI, uploadImgAPI, getVenuesAPI } from '@/api.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const props = defineProps(['orgId'])
 console.log('orgId', props.orgId)
+
+// 活動類別
+const categorys = ref([
+  { eName: 'music', name: '音樂' },
+  { eName: 'sport', name: '運動' },
+  { eName: 'drama', name: '戲劇' },
+  { eName: 'art', name: '藝文' },
+  { eName: 'exhibition', name: '展覽' },
+  { eName: 'other', name: '其他' }
+])
+const category = ref(categorys.value[0])
+
+// 取得組織資訊
+const orgData = ref(null)
+const getOrgData = async () => {
+  try {
+    const response = await getOrgAPI({}, props.orgId)
+    orgData.value = response.data.data
+    console.log('取得組織資料', orgData.value)
+  } catch (error) {
+    console.error('取得組織資料失敗', error)
+  }
+}
+getOrgData()
+
+// 取得場地資訊
+const venues = ref(null)
+const venue = ref(null)
+const getVenuesData = async () => {
+  try {
+    const response = await getVenuesAPI()
+    venues.value = response.data.data
+    venue.value = venues.value[0]
+
+    console.log('取得場地資料', venues.value)
+  } catch (error) {
+    console.error('取得場地資料失敗', error)
+  }
+}
+getVenuesData()
+
+// 上傳圖片
+const imageUrl = ref('')
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0]
+  const formData = new FormData()
+  formData.append('image', file)
+
+  try {
+    const response = await uploadImgAPI(formData)
+    imageUrl.value = response.data.data
+    console.log('imageUrl', imageUrl.value)
+  } catch (error) {
+    console.error('圖片上傳失敗', error)
+  }
+}
+
+const reuploadImage = () => {
+  imageUrl.value = ''
+}
 
 // 票種設定
 const tickets = ref([
@@ -129,14 +189,12 @@ const cancelTicket = () => {
 const deleteTicket = (ticket) => {
   tickets.value = tickets.value.filter((item) => item !== ticket)
 }
-
 // 新增活動
 const activityData = ref({
-  orgId: props.orgId,
-  venueId: '648f01989136de9b434e16c6',
-  themeImg:
-    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-  category: 'music',
+  orgId: '',
+  venueId: '',
+  themeImg: '',
+  category: '',
   name: '',
   description: '',
   summary: '',
@@ -197,6 +255,11 @@ const addActivity = async () => {
   }))
 
   activityData.value.ticketTypes = formattedTickets
+  activityData.value.venueId = venue.value.id
+  activityData.value.orgId = props.orgId
+  activityData.value.themeImg = imageUrl.value
+  activityData.value.category = category.value.eName
+
   try {
     const response = await createActivitiesAPI(activityData.value)
     console.log('活動已成功新增', response.data)
@@ -211,7 +274,7 @@ const addActivity = async () => {
   <!-- <main> -->
 
   <OrgSide :orgId="orgId" />
-  <div class="main bg-white ml-64 p-5">
+  <div class="main bg-white ml-64 p-5" v-if="orgData">
     <div class="w-full">
       <div class="px-6 flex items-center justify-between">
         <h3 class="text-xl font-bold">設定活動資料</h3>
@@ -220,8 +283,16 @@ const addActivity = async () => {
         <div class="w-8/12">
           <div class="flex flex-row">
             <p>組織名稱</p>
-            <p class="px-2">XXX</p>
+            <p class="px-2">{{ orgData.name }}</p>
           </div>
+
+          <div class="flex flex-col py-2">
+            <label>活動類型</label>
+            <select v-model="category" class="h-8 rounded border border-gray30 bg-white">
+              <option v-for="c in categorys" :key="c.eName" :value="c">{{ c.name }}</option>
+            </select>
+          </div>
+
           <div class="flex flex-col py-2">
             <label for="">活動名稱</label>
             <input
@@ -312,6 +383,7 @@ const addActivity = async () => {
                     </div> -->
           <div class="flex items-center justify-center w-full p-2">
             <label
+              v-if="!imageUrl"
               for="dropzone-file"
               class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray30 rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
             >
@@ -331,12 +403,28 @@ const addActivity = async () => {
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                   ></path>
                 </svg>
-                <!-- <p class="mb-2 text-sm text-gray-500 dark:text-gray30"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                <p class="text-xs text-gray-500 dark:text-gray30">SVG, PNG, JPG or GIF (MAX. 800x400px)</p> -->
               </div>
               <p>上傳活動圖片</p>
-              <input id="dropzone-file" type="file" class="hidden" />
+              <input id="dropzone-file" type="file" class="hidden" @change="handleFileUpload" />
             </label>
+
+            <div v-if="imageUrl">
+              <img :src="imageUrl" alt="Uploaded Image" />
+              <button @click="reuploadImage" class="mt-1 p-2 rounded-md bg-primary">
+                重新上傳
+              </button>
+            </div>
+          </div>
+          <div class="w-full p-2">
+            <div class="w-full">
+              <select v-model="venue" class="h-8 w-full rounded border border-gray30 bg-white">
+                <option v-for="v in venues" :key="v.id" :value="v">{{ v.name }}</option>
+              </select>
+            </div>
+            <div>
+              <p class="py-2"><span class="font-bold">地點:</span> {{ venue && venue.address }}</p>
+              <img :src="venue && venue.venueImg" alt="" />
+            </div>
           </div>
           <!-- <div class="flex items-center justify-center w-full p-2">
             <label
