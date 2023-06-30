@@ -13,6 +13,19 @@ const activityData = ref(null)
 // 票種設定
 const tickets = ref([])
 
+// 定義函式以轉換日期格式
+function formatDate(dateString, format) {
+  const date = new Date(dateString)
+  const year = date.getFullYear()
+  const month = String(date.getMonth() + 1).padStart(2, '0')
+  const day = String(date.getDate()).padStart(2, '0')
+
+  let formattedDate = format.replace('yyyy', year)
+  formattedDate = formattedDate.replace('MM', month)
+  formattedDate = formattedDate.replace('dd', day)
+
+  return formattedDate
+}
 // 取得單個活動資料
 onMounted(async () => {
   try {
@@ -33,15 +46,11 @@ onMounted(async () => {
     activityData.value.endAt = formattedendAt
 
     tickets.value = response.data.data.ticketTypes.map((ticket) => {
-      const saleStartAtDate = new Date(ticket.saleStartAt)
-      const saleStartAt = `${saleStartAtDate.getFullYear()}/${(saleStartAtDate.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}/${saleStartAtDate.getDate().toString().padStart(2, '0')}`
-      const saleEndAtDate = new Date(ticket.saleEndAt)
-      const saleEndAt = `${saleEndAtDate.getFullYear()}/${(saleEndAtDate.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}/${saleEndAtDate.getDate().toString().padStart(2, '0')}`
-      return { ...ticket, saleStartAt: saleStartAt, saleEndAt: saleEndAt }
+      return {
+        ...ticket,
+        saleStartAt: formatDate(ticket.saleStartAt, 'yyyy/MM/dd'),
+        saleEndAt: formatDate(ticket.saleEndAt, 'yyyy/MM/dd')
+      }
     })
     console.log(activityData)
   } catch (error) {
@@ -89,7 +98,7 @@ onMounted(async () => {
           </p>
         </div>
       </div>
-      <div class="container mx-auto max-w-screen-sm px-6">
+      <div class="mx-auto px-6">
         <!-- Event Description -->
         <h1 class="text-3xl mb-2 font-bold py-10">
           {{ activityData.summary }}
@@ -107,9 +116,16 @@ onMounted(async () => {
         <p class="flex items-center">
           <span class="material-icons mr-3"> local_post_office </span>{{ activityData.org.email }}
         </p>
+
+        <h1 class="text-2xl font-bold mt-10 mb-5">活動場地</h1>
+
+        <p class="text-lg font-bold mb-5">{{ activityData.venue.name }}</p>
+        <p class="flex items-center">
+          <span class="material-icons mr-3"> place </span>{{ activityData.venue.address }}
+        </p>
       </div>
-      <h1 class="text-2xl mb-1 font-bold mt-10">活動場地</h1>
-      <div>
+      <!-- <h1 class="text-2xl mb-1 font-bold mt-10">活動場地</h1> -->
+      <!-- <div>
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.955485801612!2d120.28389129678956!3d22.6181374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e037fc2013e71%3A0xc61249aec47e0cd1!2z6auY6ZuE5rWB6KGM6Z-z5qiC5Lit5b-D!5e0!3m2!1szh-TW!2stw!4v1683081781562!5m2!1szh-TW!2stw"
           width="1200"
@@ -125,7 +141,7 @@ onMounted(async () => {
         <div class="flex items-center">
           <span class="material-icons"> place </span>{{ activityData.venue.address }}
         </div>
-      </div>
+      </div> -->
       <div class="flex justify-between mb-10">
         <h1 class="text-2xl mb-1 font-bold mt-10">活動票券</h1>
 

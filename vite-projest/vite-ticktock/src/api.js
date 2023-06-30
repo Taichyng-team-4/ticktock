@@ -84,3 +84,15 @@ export function usersAPI(QueryString) {
   console.log('usersAPI...')
   return axios.get(`${API_URL}/users/${QueryString}`)
 }
+
+// 上傳圖片
+export function uploadImgAPI(data) {
+  console.log('uploadImgAPI...')
+  return axios.post(`${API_URL}/img/`, data)
+}
+
+// 取得場地
+export function getVenuesAPI() {
+  console.log('getVenuesAPI...')
+  return axios.get(`${API_URL}/venues/`)
+}
