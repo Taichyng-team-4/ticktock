@@ -102,12 +102,18 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/activity/:id',
+      name: 'activity',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/activity/:id/purchase',
+      name: 'activity',
+      component: () => import('../views/activity/purchase.vue')
     }
-    // {
-    //   path: '/activity/:id',
-    //   name: 'activity',
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    
   ]
 })
 export default router

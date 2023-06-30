@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted, reactive, watch, computed } from 'vue';
-import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { startOfMonth, endOfMonth, addMonths, startOfYear, endOfYear, format } from 'date-fns';
 
 import utilities from '@/utilities.js';
@@ -42,7 +42,7 @@ onMounted(async () => {
   updatePresetRanges();
   await getActivityClassificationInformation(selectedRange);
 });
-//轉換分類
+// //轉換分類
 const conversionClassification = (categoryId) => {
   // 音樂 :'1', 運動:'2', 戲劇 :'3', 藝文 :'4', 展覽 :'5', 其他 :'6'
   let category = categoryId;
@@ -52,10 +52,9 @@ const conversionClassification = (categoryId) => {
     case '3': category = 'drama', state.categoryName = '戲劇'; break;
     case '4': category = 'art', state.categoryName = '藝文'; break;
     case '5': category = 'exhibition', state.categoryName = '展覽'; break;
-    case '6': category = 'other', state.categoryName = '其他'; break;
+    default: category = 'other', state.categoryName = '其他'; break;
   }
   return category;
-
 };
 
 //取得活動分類資訊
@@ -124,8 +123,6 @@ function goToPage(pageNumber) {
 </script>
 
 <template>
-  <!-- <main> -->
-
   <div class="mx-auto px-16 mt-10 flex flex-col justify-center items-center w-full">
     <div class="w-full relative">
       <img src="https://picsum.photos/1200/250" class="w-full" />
@@ -237,9 +234,9 @@ function goToPage(pageNumber) {
       <div class="text-center my-10 flex flex-row">
         <button @click="goToPreviousPage" :disabled="currentPage === 1" class="bg-primary w-full px-5 py-3">上一頁</button>
         <ul class="flex flex-row mx-1">
-          <li v-for="pageNumber in totalPages" :key="pageNumber" class="border border-primary w-full px-5 py-3 mx-1" :class="{ 'bg-primary': pageNumber === currentPage }">
-            <button class=" w-full px-5 py-3" @click="goToPage(pageNumber)" 
-              :disabled="pageNumber === currentPage">
+          <li v-for="pageNumber in totalPages" :key="pageNumber" class="border border-primary w-full px-5 py-3 mx-1"
+            :class="{ 'bg-primary': pageNumber === currentPage }">
+            <button class=" w-full px-5 py-3" @click="goToPage(pageNumber)" :disabled="pageNumber === currentPage">
               {{ pageNumber }}
             </button>
           </li>
@@ -250,5 +247,4 @@ function goToPage(pageNumber) {
     </div>
   </div>
   <Footer />
-  <!-- </main> -->
 </template>
