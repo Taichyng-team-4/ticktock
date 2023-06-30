@@ -1,35 +1,113 @@
 <script setup>
 import OrgSide from '../../components/OrgSide.vue'
-import { ref, defineProps } from 'vue'
-import { createActivitiesAPI } from '@/api.js'
-import { useRouter } from 'vue-router'
+import { ref, defineProps, onMounted } from 'vue'
+import { getActivitiesAPI, editActivitiesAPI } from '@/api.js'
+import { useRouter, useRoute } from 'vue-router'
+import utilities from '@/utilities.js'
 
-const router = useRouter()
+// const router = useRouter()
 const props = defineProps(['orgId'])
 console.log('orgId', props.orgId)
 
-// 票種設定
-const tickets = ref([
-  {
-    id: 1,
-    name: '一般票',
-    zone: 'B',
-    // area: 'A區',
-    saleStartAt: '2023/07/20',
-    saleEndAt: '2023/08/05',
-    price: 300,
-    total: 100
-  },
-  {
-    id: 2,
-    name: 'VIP票',
-    zone: 'A',
-    saleStartAt: '2023/07/20',
-    saleEndAt: '2023/08/05',
-    price: 500,
-    total: 50
+const route = useRoute()
+const router = useRouter()
+const activityId = route.params.ActivityId // 從路由參數中取得 ActivityId
+
+const activityData = ref(null)
+
+// 取得當前日期
+const currentDate = new Date()
+// 開始日期、結束日期
+const startYear = ref('')
+const startMonth = ref('')
+const startDay = ref('')
+const endYear = ref('')
+const endMonth = ref('')
+const endDay = ref('')
+// 初始化年分
+const currentYear = currentDate.getFullYear()
+const futureYear = currentYear + 1
+const years = Array.from(
+  { length: futureYear - currentYear + 1 },
+  (_, index) => currentYear + index
+)
+
+// 初始化月份
+const months = Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, '0'))
+
+// 初始化日期
+const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
+const days = Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, '0'))
+
+// 取得單個活動資料
+onMounted(async () => {
+  try {
+    const headers = utilities.getHeaders()
+    const response = await getActivitiesAPI(
+      headers,
+      activityId + `?orgId=${props.orgId}&pop=ticketTypeIds`
+    )
+    activityData.value = response.data.data
+
+    // 解析日期字串，並將年、月、日指派給相應的變數
+    const startDate = new Date(activityData.value.startAt)
+    startYear.value = startDate.getFullYear().toString()
+    startMonth.value = (startDate.getMonth() + 1).toString().padStart(2, '0')
+    startDay.value = startDate.getDate().toString().padStart(2, '0')
+
+    const endDate = new Date(activityData.value.endAt)
+    endYear.value = endDate.getFullYear().toString()
+    endMonth.value = (endDate.getMonth() + 1).toString().padStart(2, '0')
+    endDay.value = endDate.getDate().toString().padStart(2, '0')
+
+    const startAtDate = new Date(activityData.value.startAt)
+    const formattedStartAt = `${startAtDate.getFullYear()}/${(startAtDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${startAtDate.getDate().toString().padStart(2, '0')}`
+    activityData.value.startAt = formattedStartAt
+
+    const endAtDate = new Date(activityData.value.endAt)
+    const formattedendAt = `${endAtDate.getFullYear()}/${(endAtDate.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}/${endAtDate.getDate().toString().padStart(2, '0')}`
+    activityData.value.endAt = formattedendAt
+
+    tickets.value = response.data.data.ticketTypes.map((ticket) => {
+      const saleStartAt = new Date(ticket.saleStartAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+      const saleEndAt = new Date(ticket.saleEndAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+      return { ...ticket, saleStartAt: saleStartAt, saleEndAt: saleEndAt }
+    })
+  } catch (error) {
+    console.error(error)
   }
-])
+})
+
+// 更新活動資料
+const saveActivity = async () => {
+  try {
+    console.log('ed', JSON.parse(JSON.stringify(activityData.value)))
+
+    const startAt = `${startYear.value}/${startMonth.value}/${startDay.value}`
+    const endAt = `${endYear.value}/${endMonth.value}/${endDay.value}`
+    activityData.value.startAt = startAt
+    activityData.value.endAt = endAt
+    await editActivitiesAPI(activityData.value, activityId)
+    router.push({ name: 'activityList', query: { orgId: props.orgId } })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+// 票種設定
+const tickets = ref([])
 
 const showAddTicket = ref(false)
 const editingTicket = ref(null)
@@ -41,6 +119,21 @@ const ticketForm = ref({
   price: '',
   total: ''
 })
+
+// 票種相關函式
+const showAddTicketBlock = () => {
+  editingTicket.value = null
+  ticketForm.value = {
+    name: '',
+    zone: '',
+    saleStartAt: '',
+    saleEndAt: '',
+    price: '',
+    total: ''
+  }
+  showAddTicket.value = true
+}
+
 // 定義函式以轉換日期格式
 function formatDate(dateString, format) {
   const date = new Date(dateString)
@@ -68,22 +161,7 @@ function updateEndDate(event) {
     saleEndAt: formatDate(event.target.value, 'yyyy/MM/dd')
   }
 }
-
-const showAddTicketBlock = () => {
-  editingTicket.value = null
-  ticketForm.value = {
-    name: '',
-    zone: '',
-    saleStartAt: '',
-    saleEndAt: '',
-    price: '',
-    total: ''
-  }
-  showAddTicket.value = true
-}
-
 const editTicket = (ticket) => {
-  console.log(ticket.saleStartAt)
   editingTicket.value = ticket
   ticketForm.value = {
     name: ticket.name,
@@ -98,7 +176,6 @@ const editTicket = (ticket) => {
 
 const saveTicket = () => {
   if (editingTicket.value) {
-    console.log(editingTicket)
     // 更新票種
     editingTicket.value.name = ticketForm.value.name
     editingTicket.value.zone = ticketForm.value.zone
@@ -129,89 +206,13 @@ const cancelTicket = () => {
 const deleteTicket = (ticket) => {
   tickets.value = tickets.value.filter((item) => item !== ticket)
 }
-
-// 新增活動
-const activityData = ref({
-  orgId: props.orgId,
-  venueId: '648f01989136de9b434e16c6',
-  themeImg:
-    'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
-  category: 'music',
-  name: '',
-  description: '',
-  summary: '',
-  startAt: '',
-  endAt: '',
-  ticketTypes: []
-})
-
-// 開始日期、結束日期
-const startYear = ref('')
-const startMonth = ref('')
-const startDay = ref('')
-const endYear = ref('')
-const endMonth = ref('')
-const endDay = ref('')
-
-// 取得當前日期
-const currentDate = new Date()
-
-// 初始化年分
-const currentYear = currentDate.getFullYear()
-const futureYear = currentYear + 1
-const years = Array.from(
-  { length: futureYear - currentYear + 1 },
-  (_, index) => currentYear + index
-)
-
-// 初始化月份
-const months = Array.from({ length: 12 }, (_, index) => String(index + 1).padStart(2, '0'))
-
-// 初始化日期
-const daysInMonth = (year, month) => new Date(year, month, 0).getDate()
-const days = Array.from({ length: 31 }, (_, index) => String(index + 1).padStart(2, '0'))
-
-// 設置初始值為當前日期
-startYear.value = String(currentYear)
-startMonth.value = String(currentDate.getMonth() + 1).padStart(2, '0')
-startDay.value = String(currentDate.getDate()).padStart(2, '0')
-endYear.value = String(currentYear)
-endMonth.value = String(currentDate.getMonth() + 1).padStart(2, '0')
-endDay.value = String(currentDate.getDate()).padStart(2, '0')
-
-const addActivity = async () => {
-  const startAt = `${startYear.value}/${startMonth.value}/${startDay.value}`
-  const endAt = `${endYear.value}/${endMonth.value}/${endDay.value}`
-  activityData.value.startAt = startAt
-  activityData.value.endAt = endAt
-
-  // 將tickets轉換成符合API要求的格式
-  const formattedTickets = tickets.value.map((ticket) => ({
-    id: ticket.id,
-    name: ticket.name,
-    zone: ticket.zone,
-    saleStartAt: ticket.saleStartAt,
-    saleEndAt: ticket.saleEndAt,
-    price: ticket.price,
-    total: ticket.total
-  }))
-
-  activityData.value.ticketTypes = formattedTickets
-  try {
-    const response = await createActivitiesAPI(activityData.value)
-    console.log('活動已成功新增', response.data)
-    router.push({ name: 'activityList', query: { orgId: props.orgId } })
-  } catch (error) {
-    console.error('新增活動資料失敗', error)
-  }
-}
 </script>
 
 <template>
   <!-- <main> -->
 
   <OrgSide :orgId="orgId" />
-  <div class="main bg-white ml-64 p-5">
+  <div class="main bg-white ml-64 p-5" v-if="activityData">
     <div class="w-full">
       <div class="px-6 flex items-center justify-between">
         <h3 class="text-xl font-bold">設定活動資料</h3>
@@ -555,7 +556,7 @@ const addActivity = async () => {
         <div class="flex justify-end">
           <button
             class="bg-primary mx-2 px-3 py-1 rounded-full hover:text-white hover:bg-primary"
-            @click="addActivity"
+            @click="saveActivity"
           >
             確認
           </button>

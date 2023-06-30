@@ -29,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/front_end/Qa.vue')
     },
     {
+      path: '/activity/:activityId',
+      name: 'activity',
+      component: () => import('../views/front_end/Activity.vue')
+    },
+    {
       path: '/personal_center/userOrder',
       name: 'user',
       component: () => import('../views/personal_center/UserOrder.vue')
@@ -44,6 +49,16 @@ const router = createRouter({
       component: () => import('../views/personal_center/Orgs.vue')
     },
     {
+      path: '/personal_center/editOrg/:orgId',
+      name: 'editOrg',
+      component: () => import('../views/personal_center/EditOrg.vue')
+    },
+    {
+      path: '/personal_center/createOrg',
+      name: 'createOrg',
+      component: () => import('../views/personal_center/NewOrg.vue')
+    },
+    {
       path: '/personal_center/profile',
       name: 'profile',
       component: () => import('../views/personal_center/Profile.vue')
@@ -54,24 +69,34 @@ const router = createRouter({
       component: () => import('../views/personal_center/NewOrg.vue')
     },
     {
-      path: '/org/account',
-      name: 'account',
-      component: () => import('../views/org/Account.vue')
+      path: '/org/activityList',
+      name: 'activityList',
+      component: () => import('../views/org/ActivityList.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/new_activity',
       name: 'new_activity',
-      component: () => import('../views/org/NewActivity.vue')
+      component: () => import('../views/org/NewActivity.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
+    },
+    {
+      path: '/org/edit_activity/:ActivityId',
+      name: 'editActivity',
+      component: () => import('../views/org/EditActivity.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/orders',
       name: 'orders',
-      component: () => import('../views/org/Orders.vue')
+      component: () => import('../views/org/Orders.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/org/sales_status',
       name: 'sales_status',
-      component: () => import('../views/org/SalesStatus.vue')
+      component: () => import('../views/org/SalesStatus.vue'),
+      props: (route) => ({ orgId: route.query.orgId })
     },
     {
       path: '/about',
@@ -88,6 +113,7 @@ const router = createRouter({
       name: 'activity',
       component: () => import('../views/activity/purchase.vue')
     }
+    
   ]
 })
 export default router

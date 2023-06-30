@@ -855,6 +855,7 @@ video {
   width: 4rem;
 }
 
+
 .w-2\/4 {
   width: 50%;
 }
@@ -923,6 +924,7 @@ video {
   max-width: 1024px;
 }
 
+
 .max-w-screen-sm {
   max-width: 640px;
 }
@@ -947,6 +949,14 @@ video {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.cursor-auto {
+  cursor: auto;
+}
+
+.cursor-default {
+  cursor: default;
 }
 
 .resize {
@@ -1352,6 +1362,7 @@ video {
   padding-top: 2.5rem;
 }
 
+
 .pt-5 {
   padding-top: 1.25rem;
 }
@@ -1584,6 +1595,13 @@ video {
 
   .md\:flex-row {
     flex-direction: row;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:px-8 {
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
