@@ -1,16 +1,12 @@
 <script setup>
-import { ref, onMounted, reactive, watch, computed } from 'vue';
-import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router';
-import { startOfMonth, endOfMonth, addMonths, startOfYear, endOfYear, format } from 'date-fns';
+import { ref, onMounted, reactive } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 
 import utilities from '@/utilities.js';
 import * as api from '@/api.js';
 import Footer from '../../components/footer.vue';
 
-const decrementButtons = document.querySelectorAll("[data-action='decrement']");
-const incrementButtons = document.querySelectorAll("[data-action='increment']");
-const quantityInputs = document.querySelectorAll("input[type='number']");
-const totalElement = document.querySelector("#total");
+const termsAccepted = ref(false);
 const activityInformation = ref([]);
 const route = useRoute();
 const state = reactive({
@@ -18,8 +14,7 @@ const state = reactive({
     categoryName: '',
     activityStartDate: '',
     activityEndDate: '',
-    ticketTypeList: [],
-    quantity: ref(0),
+    TicketInformation: { tickets: [] },
 });
 
 onMounted(async () => {
@@ -55,6 +50,7 @@ const decrementQuantity = (index) => {
     if (parseInt(inputElement.value) > 0) {
         const newValue = parseInt(inputElement.value) - 1;
         inputElement.value = newValue.toString();
+        activityInformation._value.ticketTypes[index].quantity = newValue;
     }
 };
 
@@ -62,23 +58,74 @@ const incrementQuantity = (index) => {
     const inputElement = document.querySelector(`#quantityInput-${index}`);
     const newValue = parseInt(inputElement.value) + 1;
     inputElement.value = newValue.toString();
+    activityInformation._value.ticketTypes[index].quantity = newValue;
+
 };
 
-// const updateQuantity = (index, value) => {
-//     const inputElement = document.querySelector(`#quantityInput-${index}`);
-//     inputElement.value = parseInt(value);
-// };
+const updateQuantity = (index, value) => {
+    const quantity = parseInt(value);
+    // 更新 ticketTypeItem.quantity
+    activityInformation._value.ticketTypes[index].quantity = quantity;
+}
 
-// 计算总价
-const calculateTotal = () => {
-    let total = 0;
-    for (const ticketTypeItem of activityInformation.ticketTypes) {
-        total += ticketTypeItem.price * ticketTypeItem.quantity;
+const checkPayInformation = () => {
+    if (!termsAccepted.value) {
+        Swal.fire({
+            title: 'Error!',
+            text: '請閱讀並同意購票須知',
+            allowOutsideClick: false,
+            icon: 'error'
+        });
     }
-    return total;
-};
+    else {
+        let num = 0;
+        state.TicketInformation.tickets = [];
+        for (const [index, ticketTypeItem] of activityInformation._value.ticketTypes.entries()) {
+            if (ticketTypeItem.quantity > 0) {
+                state.TicketInformation.tickets.push({
+                    ticketTypeId: ticketTypeItem.id,
+                    quantity: ticketTypeItem.quantity,
+                });
+            }
+            num += ticketTypeItem.quantity;
+        }
+        console.log(num);
+        if (!num > 0) {
+            Swal.fire({
+                title: 'Error!',
+                text: '請填寫購票數量',
+                allowOutsideClick: false,
+                icon: 'error'
+            });
+        }
+        else {
+            toPayTicket();
+        }
+    }
+}
+//新增訂單
+const toPayTicket = async () => {
+    const orderData = state.TicketInformation;
+    try {
+        const headers = utilities.getHeaders()
+        const response = await api.createOrderAPI(headers, JSON.parse(JSON.stringify(orderData)))
+        console.log('活動已成功新增', response.data)
+        console.log(response.data.data.info.paymentUrl.web)
+        const url=response.data.data.info.paymentUrl.web
+        if(url)
+        window.location.href =url;
+        //router.push({ name: 'activityList', query: { orgId: props.orgId } })
+    } catch (error) {
+        console.error('購票失敗', error)
+        Swal.fire({
+            title: '購票失敗!',
+            text: '請聯繫客服',
+            allowOutsideClick: false,
+            icon: 'error'
+        });
+    }
 
-
+}
 </script>
 
 <template>
@@ -176,7 +223,7 @@ const calculateTotal = () => {
                                         <input type="number"
                                             class="quantity border border-gray-500 text-center w-16 py-1 price" min="0"
                                             value="0" :value="ticketTypeItem.quantity" :id="'quantityInput-' + index"
-                                            />
+                                            @input="updateQuantity(index, $event.target.value)" />
 
                                         <button class="border border-gray-500 px-2 py-1 bg-gray-200"
                                             @click="incrementQuantity(index)">
@@ -187,28 +234,23 @@ const calculateTotal = () => {
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-right py-2">總計：</td>
-                                <td class="py-2">
-                                    <span id="total">0</span>
-                                </td>
-                            </tr>
                         </tfoot>
                     </table>
                 </div>
 
                 <div class="flex justify-end">
                     <div class="flex items-center mt-4 mr-2">
-                        <input id="terms" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" />
+                        <input id="terms" type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"
+                            v-model="termsAccepted" />
                         <label for="terms" class="ml-2 block text-gray-900 text-sm">
                             我已閱讀並同意
-                            <a href="../activity/terms.html" class="link-secondary text-red400">購票須知</a>
+                            <a href="/activity/terms" class="link-secondary text-red400">購票須知</a>
                         </label>
                     </div>
 
                     <button
                         class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline flex items-center"
-                        type="button" @click="toPayTicket">
+                        type="button" @click="checkPayInformation">
                         前往付款
                         <span class="material-icons"> arrow_forward </span>
                     </button>

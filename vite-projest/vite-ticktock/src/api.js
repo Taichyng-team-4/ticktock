@@ -107,6 +107,13 @@ export function usersAPI(QueryString) {
   return axios.get(`${API_URL}/users/${QueryString}`)
 }
 
+
+// 新增訂單
+export function createOrderAPI(headers,orderData) {
+  console.log(orderData)
+
+  return axios.post(`${API_URL}/orders`,orderData, { headers })
+
 // 上傳圖片
 export function uploadImgAPI(data) {
   console.log('uploadImgAPI...')
@@ -117,4 +124,5 @@ export function uploadImgAPI(data) {
 export function getVenuesAPI() {
   console.log('getVenuesAPI...')
   return axios.get(`${API_URL}/venues/`)
+
 }
