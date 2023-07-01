@@ -139,7 +139,7 @@ onMounted(() => {
     </div>
   </div>
   <div class="bg-primary/10 my-10 py-10">
-    <div class="container px-16">
+    <div class="container px-16 m-auto">
       <h3 class="font-bold text-2xl text-center py-3">最新活動</h3>
       <div class="grid grid-cols-3 gap-3">
         <div v-for="activityItem in activityList" :key="activityItem.id">
