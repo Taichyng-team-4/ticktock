@@ -20,7 +20,8 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('../views/front_end/Search.vue')
+      component: () => import('../views/front_end/Search.vue'),
+      props:true
     },
     {
       path: '/qa',
@@ -101,12 +102,18 @@ const router = createRouter({
       path: '/about',
       name: 'about',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/activity/:id',
+      name: 'activity',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/activity/:id/purchase',
+      name: 'activity',
+      component: () => import('../views/activity/Purchase.vue')
     }
-    // {
-    //   path: '/activity/:id',
-    //   name: 'activity',
-    //   component: () => import('../views/AboutView.vue')
-    // }
+    
   ]
 })
 export default router

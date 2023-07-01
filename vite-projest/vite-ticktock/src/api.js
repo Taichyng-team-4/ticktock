@@ -5,20 +5,42 @@ const API_URL = 'https://ticktock.onrender.com/api/v1'
 
 // 登入請求
 export function loginAPI(email, password) {
-  console.log('login...')
-  return axios.post(`${API_URL}/auths/login`, { email: email, password: password })
+  console.log(API_URL + '/auths/login');
+  return axios.post(`${API_URL}/auths/login`, { email: email, password: password });
 }
 
 // 取得登入者資訊
 export function userProfileAPI(token) {
-  console.log('userProfile...')
-  return axios.get(`${API_URL}/profile`)
+  console.log('userProfile...');
+  return axios.get(`${API_URL}/profile`);
 }
 
 // 取得所有組織資訊
 export function orgsAPI(token) {
-  console.log('orgsAPI...')
-  return axios.get(`${API_URL}/orgs`)
+  console.log('orgsAPI...');
+  return axios.get(`${API_URL}/orgs`);
+}
+
+//取得活動資訊
+export function activitysAPI() {
+  const activityListAPI = `${API_URL}/activities?limit=3&pop=venueId`;
+  console.log(activityListAPI);
+  return axios.get(activityListAPI);
+}
+
+//取得活動分類資訊
+export function activityClassificationAPI(category) {
+  console.log(category);
+  const activityListAPI = `${API_URL}/activities?category=${category}&pop=venueId`;
+  console.log(activityListAPI);
+  return axios.get(activityListAPI);
+}
+
+//取得活動單一資訊
+export function activityAPI(activityId) {
+  const activityAPI = `${API_URL}/activities/${activityId}?pop=ticketTypeIds,venueId`;
+  console.log(activityAPI);
+  return axios.get(activityAPI);
 }
 
 // 取得使用者所有組織資訊
@@ -85,6 +107,12 @@ export function usersAPI(QueryString) {
   return axios.get(`${API_URL}/users/${QueryString}`)
 }
 
+
+// 新增訂單
+export function createOrderAPI(headers,orderData) {
+  console.log(orderData)
+  return axios.post(`${API_URL}/orders`,orderData, { headers })
+}
 // 上傳圖片
 export function uploadImgAPI(data) {
   console.log('uploadImgAPI...')
@@ -95,4 +123,20 @@ export function uploadImgAPI(data) {
 export function getVenuesAPI() {
   console.log('getVenuesAPI...')
   return axios.get(`${API_URL}/venues/`)
+
 }
+
+//取訂單
+export function ordersAPI(headers,userId) {
+  const userOrdersAPI = `${API_URL}/users/${userId}/orders/?pop=detail.activityId,detail.ticketTypeId`;
+  console.log(userOrdersAPI);
+  return axios.get(userOrdersAPI,{headers});
+}
+
+//退票
+export function delTicketAPI(headers,ticketId) {
+  const ticketAPI = `${API_URL}/tickets/${ticketId}`;
+  console.log(ticketAPI);
+  return axios.delete(ticketAPI,{headers});
+}
+
