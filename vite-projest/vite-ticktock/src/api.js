@@ -112,7 +112,7 @@ export function usersAPI(QueryString) {
 export function createOrderAPI(headers,orderData) {
   console.log(orderData)
   return axios.post(`${API_URL}/orders`,orderData, { headers })
-
+}
 // 上傳圖片
 export function uploadImgAPI(data) {
   console.log('uploadImgAPI...')
