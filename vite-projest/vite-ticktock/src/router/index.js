@@ -111,7 +111,7 @@ const router = createRouter({
     {
       path: '/activity/:id/purchase',
       name: 'activity',
-      component: () => import('../views/activity/purchase.vue')
+      component: () => import('../views/activity/Purchase.vue')
     }
     
   ]

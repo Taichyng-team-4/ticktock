@@ -111,10 +111,9 @@ const toPayTicket = async () => {
         const response = await api.createOrderAPI(headers, JSON.parse(JSON.stringify(orderData)))
         console.log('活動已成功新增', response.data)
         console.log(response.data.data.info.paymentUrl.web)
-        const url=response.data.data.info.paymentUrl.web
-        if(url)
-        window.location.href =url;
-        //router.push({ name: 'activityList', query: { orgId: props.orgId } })
+        const url = response.data.data.info.paymentUrl.web
+        if (url)
+            window.location.href = url;
     } catch (error) {
         console.error('購票失敗', error)
         Swal.fire({

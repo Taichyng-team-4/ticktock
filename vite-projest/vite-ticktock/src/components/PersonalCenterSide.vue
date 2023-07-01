@@ -12,7 +12,7 @@
           id="user"
           class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]"
         >
-          <a href="/personal_center/user" class="block">訂單管理</a>
+          <a href="/personal_center/userorder" class="block">訂單管理</a>
         </li>
         <li id="profile" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
           <a href="/personal_center/profile" class="block">帳號管理</a>

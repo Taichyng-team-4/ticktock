@@ -111,7 +111,6 @@ export function usersAPI(QueryString) {
 // 新增訂單
 export function createOrderAPI(headers,orderData) {
   console.log(orderData)
-
   return axios.post(`${API_URL}/orders`,orderData, { headers })
 
 // 上傳圖片
@@ -126,3 +125,18 @@ export function getVenuesAPI() {
   return axios.get(`${API_URL}/venues/`)
 
 }
+
+//取訂單
+export function ordersAPI(headers,userId) {
+  const userOrdersAPI = `${API_URL}/users/${userId}/orders/?pop=detail.activityId,detail.ticketTypeId`;
+  console.log(userOrdersAPI);
+  return axios.get(userOrdersAPI,{headers});
+}
+
+//退票
+export function delTicketAPI(headers,ticketId) {
+  const ticketAPI = `${API_URL}/tickets/${ticketId}`;
+  console.log(ticketAPI);
+  return axios.delete(ticketAPI,{headers});
+}
+
