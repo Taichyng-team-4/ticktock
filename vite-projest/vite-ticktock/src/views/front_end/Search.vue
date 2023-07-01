@@ -218,7 +218,7 @@ function goToPage(pageNumber) {
       <div class="grid grid-cols-3 gap-3">
         <div class="py-2" v-for="(activityItem) in paginatedItems" :key="activityItem.id">
           <a href="#">
-            <img src="https://picsum.photos/300/300" class="w-full" />
+            <img :src="activityItem.themeImg" class="w-full" />
             <div class="flex flex-row py-3">
               <p class="pr-2">{{ activityItem.startAt }}</p>
               <p class="pl-2">{{ activityItem.venue.name }}</p>

@@ -73,7 +73,7 @@
                 <div>
                     <div class="hidden md:block">
                         <ul class="flex space-x-4 text-nav  items-center">
-                            <li><a href="#" class=" hover:text-gray-200" @click.prevent="orderQueryClick">訂單查詢</a></li>
+                            <li><a href="/personal_center/userorder" class=" hover:text-gray-200" @click.prevent="orderQueryClick">訂單查詢</a></li>
                             <li><a href="#" class=" hover:text-gray-200" @click.prevent="createActivityClick">建立活動</a></li>
                             <div class="dropdown">
                                 <button class="dropbtn flex items-center justify-between">選擇組織
@@ -113,7 +113,7 @@
             </div>
             <div class="hidden mobile-menu">
                 <ul class=" text-nav mx-auto px-4 py-3 max-w-7xl  justify-between items-center">
-                    <li><a href="#" class=" hover:text-gray-200" @click.prevent="orderQueryClick">訂單查詢</a></li>
+                    <li><a href="/personal_center/userorder" class=" hover:text-gray-200" @click.prevent="orderQueryClick">訂單查詢</a></li>
                     <li><a href="#" class=" hover:text-gray-200" @click.prevent="createActivityClick">建立活動</a></li>
                     <div class="dropdown">
                         <button class="dropbtn flex items-center justify-between">選擇組織
