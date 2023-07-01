@@ -1,5 +1,6 @@
 <script setup>
 import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+import Nav from '../../components/Nav.vue'
 
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -33,6 +34,7 @@ const cancelCreate = () => {
 
 <template>
   <!-- <main> -->
+  <Nav />
 
   <div class="main flex items-center justify-center flex-col my-12">
     <div class="user_img p-5 bg-white border border-gray30 rounded">

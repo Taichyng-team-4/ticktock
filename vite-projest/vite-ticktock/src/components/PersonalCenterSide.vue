@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const currentPage = route.name
+</script>
 
 <template>
   <div class="side">
@@ -9,19 +13,48 @@
     <div class="mt-5 bg-white rounded">
       <ul class="subject_user">
         <li
-          id="user"
-          class="py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4 hover:bg-primary/[15%]"
+          id="userOrder"
+          :class="{
+            'py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4':
+              currentPage === 'userOrder',
+            'py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]':
+              currentPage !== 'userOrder'
+          }"
         >
-          <a href="/personal_center/user" class="block">訂單管理</a>
+          <a href="/personal_center/userOrder" class="block hover:text-primary">訂單管理</a>
         </li>
-        <li id="profile" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-          <a href="/personal_center/profile" class="block">帳號管理</a>
+        <li
+          id="profile"
+          :class="{
+            'py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4':
+              currentPage === 'profile',
+            'py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]':
+              currentPage !== 'profile'
+          }"
+        >
+          <a href="/personal_center/profile" class="block hover:text-primary">帳號管理</a>
         </li>
-        <li id="news" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-          <a href="/personal_center/news" class="block">訊息管理</a>
+        <li
+          id="news"
+          :class="{
+            'py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4':
+              currentPage === 'news',
+            'py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]':
+              currentPage !== 'news'
+          }"
+        >
+          <a href="/personal_center/news" class="block hover:text-primary">訊息管理</a>
         </li>
-        <li id="orgs" class="py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]">
-          <a href="/personal_center/orgs" class="block">組織管理</a>
+        <li
+          id="orgs"
+          :class="{
+            'py-2 px-7 text-xl font-bold cursor-pointer text-primary border-l-4':
+              currentPage === 'orgs',
+            'py-2 px-7 text-xl font-bold cursor-pointer hover:bg-primary/[15%]':
+              currentPage !== 'orgs'
+          }"
+        >
+          <a href="/personal_center/orgs" class="block hover:text-primary">組織管理</a>
         </li>
       </ul>
     </div>

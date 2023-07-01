@@ -1,11 +1,13 @@
 <script setup>
 import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+import Nav from '../../components/Nav.vue'
 </script>
 
 <template>
   <!-- <main> -->
 
-  <div class="px-10 mt-10 flex flex-nowrap">
+  <Nav />
+  <div class="px-10 pt-10 bg-gray20 flex flex-nowrap min-h-[calc(100vh-48px)]">
     <PersonalCenterSide />
     <div class="main ml-5 mb-5 w-5/6 bg-white">
       <ul class="flex flex-nowrap items-center">

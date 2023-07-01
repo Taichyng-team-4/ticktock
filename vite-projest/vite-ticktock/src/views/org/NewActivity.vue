@@ -78,7 +78,7 @@ const tickets = ref([
     saleStartAt: '2023/07/20',
     saleEndAt: '2023/08/05',
     price: 300,
-    total: 100
+    total: 30
   },
   {
     id: 2,
@@ -87,7 +87,7 @@ const tickets = ref([
     saleStartAt: '2023/07/20',
     saleEndAt: '2023/08/05',
     price: 500,
-    total: 50
+    total: 5
   }
 ])
 
@@ -274,6 +274,7 @@ const addActivity = async () => {
   <!-- <main> -->
 
   <OrgSide :orgId="orgId" />
+
   <div class="main bg-white ml-64 p-5" v-if="orgData">
     <div class="w-full">
       <div class="px-6 flex items-center justify-between">
@@ -288,7 +289,10 @@ const addActivity = async () => {
 
           <div class="flex flex-col py-2">
             <label>活動類型</label>
-            <select v-model="category" class="h-8 rounded border border-gray30 bg-white">
+            <select
+              v-model="category"
+              class="h-8 rounded border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+            >
               <option v-for="c in categorys" :key="c.eName" :value="c">{{ c.name }}</option>
             </select>
           </div>
@@ -298,19 +302,28 @@ const addActivity = async () => {
             <input
               v-model="activityData.name"
               type="text"
-              class="w-full h-8 rounded border border-gray30"
+              class="w-full h-8 p-2 rounded border border-gray30 focus:outline-none focus:bg-white focus:border-primary"
             />
           </div>
           <div class="flex flex-col py-2">
             <label for="">開始時間</label>
             <div class="grid grid-cols-3 gap-3">
-              <select v-model="startYear" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="startYear"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
               </select>
-              <select v-model="startMonth" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="startMonth"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
               </select>
-              <select v-model="startDay" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="startDay"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
               </select>
             </div>
@@ -318,13 +331,22 @@ const addActivity = async () => {
           <div class="flex flex-col py-2">
             <label for="">結束時間</label>
             <div class="grid grid-cols-3 gap-3">
-              <select v-model="endYear" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="endYear"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="year in years" :key="year" :value="year">{{ year }}</option>
               </select>
-              <select v-model="endMonth" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="endMonth"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="month in months" :key="month" :value="month">{{ month }}</option>
               </select>
-              <select v-model="endDay" class="h-8 rounded border border-gray30 bg-white">
+              <select
+                v-model="endDay"
+                class="h-8 rounded px-2 border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
               </select>
             </div>
@@ -363,7 +385,7 @@ const addActivity = async () => {
               cols="100"
               rows="10"
               placeholder="請簡單介紹你的活動"
-              class="rounded border border-gray30"
+              class="rounded border border-gray30 p-2 focus:outline-none focus:bg-white focus:border-primary"
             ></textarea>
           </div>
           <div class="flex flex-col py-2">
@@ -373,7 +395,7 @@ const addActivity = async () => {
               cols="100"
               rows="10"
               placeholder="請詳細描述你的活動"
-              class="rounded border border-gray30"
+              class="rounded border border-gray30 p-2 focus:outline-none focus:bg-white focus:border-primary"
             ></textarea>
           </div>
         </div>
@@ -417,7 +439,10 @@ const addActivity = async () => {
           </div>
           <div class="w-full p-2">
             <div class="w-full">
-              <select v-model="venue" class="h-8 w-full rounded border border-gray30 bg-white">
+              <select
+                v-model="venue"
+                class="h-8 w-full rounded border border-gray30 bg-white focus:outline-none focus:bg-white focus:border-primary"
+              >
                 <option v-for="v in venues" :key="v.id" :value="v">{{ v.name }}</option>
               </select>
             </div>
@@ -458,7 +483,7 @@ const addActivity = async () => {
         <div class="px-6 flex items-center justify-between">
           <h3 class="text-xl font-bold">票種設定</h3>
           <button
-            class="add_ticket bg-primary mx-2 px-3 py-1 rounded-full hover:text-white hover:bg-primary"
+            class="add_ticket bg-primary/70 mx-2 px-3 py-1 rounded-full hover:bg-primary"
             @click="showAddTicketBlock"
           >
             新增
@@ -489,14 +514,14 @@ const addActivity = async () => {
                 <td class="p-2">{{ ticket.total }}</td>
                 <td class="p-2">
                   <button
-                    class="border border-primary text-primary mx-2 p-2 py-1 rounded-md hover:text-white hover:bg-primary"
+                    class="border border-primary font-bold text-primary mx-2 p-2 py-1 rounded-md hover:text-white hover:bg-primary"
                     @click="editTicket(ticket)"
                   >
                     編輯
                   </button>
                   <button
                     @click="deleteTicket(ticket)"
-                    class="border border-primary text-primary mx-2 p-2 py-1 rounded-md hover:text-white hover:bg-primary"
+                    class="border border-secondary font-bold text-secondary mx-2 p-2 py-1 rounded-md hover:text-white hover:bg-secondary"
                   >
                     刪除
                   </button>
@@ -642,7 +667,7 @@ const addActivity = async () => {
         </div>
         <div class="flex justify-end">
           <button
-            class="bg-primary mx-2 px-3 py-1 rounded-full hover:text-white hover:bg-primary"
+            class="add_ticket bg-primary/70 mx-2 px-3 py-1 rounded-full hover:bg-primary"
             @click="addActivity"
           >
             確認
@@ -651,82 +676,99 @@ const addActivity = async () => {
       </div>
     </div>
   </div>
+
   <div
-    class="add_ticket_block absolute top-0 left-0 w-full h-full bg-gray30/[30%]"
+    class="fixed top-0 left-0 w-screen h-screen p-5 flex justify-center items-center bg-gray30/[30%]"
     v-if="showAddTicket"
   >
-    <div class="w-2/4 bg-white p-5 rounded absolute top-28 left-0 right-0 m-auto">
-      <h4 class="font-bold p-2">{{ editingTicket ? '編輯票種' : '新增票種' }}</h4>
-      <div class="flex flex-row">
-        <div class="flex flex-col px-2">
-          <label for="ticket_name">票種名稱</label>
-          <input
-            type="text"
-            name="ticket_name"
-            id="ticket_name"
-            class="bg-gray30"
-            v-model="ticketForm.name"
-          />
-        </div>
-        <div class="flex flex-col px-2">
-          <label for="price">價格</label>
-          <input type="text" name="price" id="price" class="bg-gray30" v-model="ticketForm.price" />
-        </div>
-        <div class="flex flex-col px-2">
-          <label for="sales_quantity">販售數量</label>
-          <input
-            type="text"
-            name="sales_quantity"
-            id="sales_quantity"
-            class="bg-gray30"
-            v-model="ticketForm.total"
-          />
-        </div>
-      </div>
-      <div class="flex flex-row">
-        <div class="flex flex-col px-2">
-          <p>販售時間</p>
-          <div>
+    <!-- Modal-Window -->
+    <div class="w-full max-w-sm bg-white rounded-md overflow-hidden z-10">
+      <div class="w-96 bg-white p-5 rounded drop-shadow-md absolute top-20 left-0 right-0 m-auto">
+        <h4 class="font-bold p-2 text-lg">{{ editingTicket ? '編輯票種' : '新增票種' }}</h4>
+        <div class="flex flex-col">
+          <div class="flex flex-col px-2">
+            <label for="ticket_name">票種名稱</label>
             <input
-              type="date"
-              name="start_date"
-              id="start_date"
-              class="bg-gray30 px-2"
-              :value="formatDate(ticketForm.saleStartAt, 'yyyy-MM-dd')"
-              @input="updateStartDate"
+              type="text"
+              name="ticket_name"
+              id="ticket_name"
+              class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+              v-model="ticketForm.name"
             />
+          </div>
+          <div class="flex flex-col px-2">
+            <label for="price">價格</label>
             <input
-              type="date"
-              name="end_date"
-              id="end_date"
-              class="bg-gray30 px-2"
-              :value="formatDate(ticketForm.saleEndAt, 'yyyy-MM-dd')"
-              @input="updateEndDate"
+              type="text"
+              name="price"
+              id="price"
+              class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+              v-model="ticketForm.price"
+            />
+          </div>
+          <div class="flex flex-col px-2">
+            <label for="sales_quantity">販售數量</label>
+            <input
+              type="text"
+              name="sales_quantity"
+              id="sales_quantity"
+              class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+              v-model="ticketForm.total"
             />
           </div>
         </div>
-        <div class="flex flex-col px-2">
-          <label for="zone">區域</label>
-          <input type="text" name="zone" id="area" class="bg-gray30" v-model="ticketForm.zone" />
+        <div class="flex flex-col">
+          <div class="flex flex-col px-2">
+            <p>販售時間</p>
+            <div class="grid grid-cols-2 gap-2">
+              <input
+                type="date"
+                name="start_date"
+                id="start_date"
+                class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+                :value="formatDate(ticketForm.saleStartAt, 'yyyy-MM-dd')"
+                @input="updateStartDate"
+              />
+              <input
+                type="date"
+                name="end_date"
+                id="end_date"
+                class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+                :value="formatDate(ticketForm.saleEndAt, 'yyyy-MM-dd')"
+                @input="updateEndDate"
+              />
+            </div>
+          </div>
+          <div class="flex flex-col px-2">
+            <label for="zone">區域</label>
+            <input
+              type="text"
+              name="zone"
+              id="area"
+              class="rounded-md mb-2 p-2 border border-primary focus:outline-none focus:bg-white focus:border-primary"
+              v-model="ticketForm.zone"
+            />
+          </div>
         </div>
+        <div class="py-5">
+          <p>1.您可以單獨指定開始或結束時間。如果沒有指定結束時間，會販售到活動結束時間。</p>
+          <p>2.每次最少/最多可以購買幾張票，預設是 1 張，最多 10 張。</p>
+        </div>
+        <button
+          class="font-bold border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary"
+          @click="saveTicket"
+        >
+          {{ editingTicket ? '更新' : '新增' }}
+        </button>
+        <button
+          class="add_ticket_clear font-bold border border-secondary text-secondary mx-2 px-2 py-1 rounded hover:text-white hover:bg-secondary"
+          @click="cancelTicket"
+        >
+          取消
+        </button>
       </div>
-      <div class="py-5">
-        <p>1.您可以單獨指定開始或結束時間。如果沒有指定結束時間，會販售到活動結束時間。</p>
-        <p>2.每次最少/最多可以購買幾張票，預設是 1 張，最多 10 張。</p>
-      </div>
-      <button
-        class="border border-primary text-primary mx-2 px-2 py-1 rounded hover:text-white hover:bg-primary"
-        @click="saveTicket"
-      >
-        {{ editingTicket ? '更新' : '新增' }}
-      </button>
-      <button
-        class="add_ticket_clear border border-secondary text-secondary mx-2 px-2 py-1 rounded hover:text-white hover:bg-secondary"
-        @click="cancelTicket"
-      >
-        取消
-      </button>
     </div>
   </div>
+
   <!-- </main> -->
 </template>

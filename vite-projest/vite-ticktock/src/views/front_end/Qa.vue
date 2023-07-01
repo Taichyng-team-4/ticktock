@@ -1,9 +1,11 @@
 <script setup>
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
 </script>
 
 <template>
   <!-- <main> -->
+  <Nav />
   <div class="px-16 mt-10 flex flex-col justify-center">
     <h3 class="text-2xl font-bold">常見問題</h3>
     <div class="py-5">

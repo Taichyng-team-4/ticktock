@@ -1,5 +1,6 @@
 <script setup>
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
 import { getActivitiesAPI } from '@/api.js'
 import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
@@ -60,6 +61,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <Nav />
   <div class="bg-white mb-10">
     <div class="container mx-auto max-w-screen-sm px-6">
       <div class="px-4 py-5 max-w-7xl flex justify-between items-center">

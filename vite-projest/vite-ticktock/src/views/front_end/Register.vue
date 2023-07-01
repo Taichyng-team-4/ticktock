@@ -1,10 +1,12 @@
 <script setup>
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
 </script>
 
 <template>
   <!-- <main> -->
 
+  <Nav />
   <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
     <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
       <div class="-mx-3">

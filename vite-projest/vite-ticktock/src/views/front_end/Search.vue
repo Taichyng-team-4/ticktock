@@ -1,10 +1,12 @@
 <script setup>
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
 </script>
 
 <template>
   <!-- <main> -->
 
+  <Nav />
   <div class="mx-auto px-16 mt-10 flex flex-col justify-center items-center w-full">
     <div class="w-full relative">
       <img src="https://picsum.photos/1200/250" class="w-full" />

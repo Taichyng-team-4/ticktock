@@ -1,5 +1,6 @@
 <script setup>
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
@@ -13,12 +14,11 @@ const loginClick = async () => {
   try {
     Swal.fire({
       title: '登入中..',
-      icon: 'info',
       showCancelButton: false,
       showConfirmButton: false,
       allowOutsideClick: false,
       allowEscapeKey: false,
-      onOpen: () => {
+      didOpen: () => {
         Swal.showLoading()
       }
     })
@@ -65,8 +65,8 @@ const loginClick = async () => {
 
     // 顯示 登入成功 Dialog
     Swal.fire({
-      title: 'Success!',
-      text: 'You have logged in successfully.',
+      title: '登入成功！',
+      // text: '您已登入成功',
       icon: 'success',
       showCancelButton: false,
       allowOutsideClick: false,
@@ -96,19 +96,22 @@ const loginClick = async () => {
 
 <template>
   <!-- <main> -->
-
-  <div class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col border-2">
+  <Nav />
+  <div class="bg-gray20 flex flex-col items-center justify-center min-h-screen">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
+      <div class="-mx-3 flex justify-center">
+        <h3 class="text-lg font-bold pb-3 text-gray50">登入</h3>
+      </div>
       <div class="-mx-3 md:flex">
         <div class="md:w-full px-3">
           <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            for="userNumber"
+            class="block uppercase tracking-wide text-gray50 text-sm font-bold mb-2"
+            for="email"
           >
             帳號
           </label>
           <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-72 text-gray40 border border-primary/60 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-primary"
             id="email"
             type="text"
             placeholder="Enter your email"
@@ -119,13 +122,13 @@ const loginClick = async () => {
       <div class="-mx-3 md:flex mb-6">
         <div class="md:w-full px-3">
           <label
-            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+            class="block uppercase tracking-wide text-gray40 text-sm font-bold mb-2"
             for="password"
           >
             密碼
           </label>
           <input
-            class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+            class="appearance-none block w-72 text-gray50 border border-primary/60 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-primary"
             id="password"
             type="password"
             placeholder="Enter your password"
@@ -133,25 +136,26 @@ const loginClick = async () => {
           />
         </div>
       </div>
-      <button
-        class="bg-green400 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="button"
-        @click.prevent="loginClick"
-      >
-        登入
-      </button>
-      <div class="flex justify-center items-center mt-4">
+
+      <div class="flex justify-end items-center">
         <a
-          class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+          class="inline-block align-baseline font-bold text-sm text-gray40/60 hover:text-primary"
           href="#"
           @click.prevent="switchForgetPasswordClick"
         >
           忘記密碼?
         </a>
       </div>
-      <hr />
       <button
-        class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="bg-primary/80 hover:bg-primary font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="button"
+        @click.prevent="loginClick"
+      >
+        登入
+      </button>
+      <hr class="text-gray40/60 my-4" />
+      <button
+        class="border border-navbar/70 hover:border-navbar font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="button"
         @click.prevent="switchRegisterClick"
       >
@@ -160,6 +164,5 @@ const loginClick = async () => {
     </div>
   </div>
 
-  <Footer />
   <!-- </main> -->
 </template>
