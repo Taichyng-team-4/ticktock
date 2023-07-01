@@ -8,7 +8,7 @@ import utilities from '@/utilities.js'
 
 const route = useRoute()
 const router = useRouter()
-const activityId = route.params.activityId // 從路由參數中取得 ActivityId
+const activityId = route.params.id // 從路由參數中取得 ActivityId
 console.log(activityId)
 const activityData = ref(null)
 // 票種設定
@@ -69,11 +69,11 @@ onMounted(async () => {
         <div class="text-center w-1/4">
           <hr style="border: 1px solid grey" />
         </div>
-        <label class="link-secondary text-gray40">2.選定票卷</label>
-        <div class="text-center w-1/4">
+        <label class="link-secondary font-bold text-gray40">2.選定票卷</label>
+        <!-- <div class="text-center w-1/4">
           <hr style="border: 1px solid grey" />
         </div>
-        <label class="link-secondary text-gray40">3.確認購票資訊</label>
+        <label class="link-secondary text-gray40">3.確認購票資訊</label> -->
       </div>
     </div>
   </div>
@@ -147,13 +147,13 @@ onMounted(async () => {
       <div class="flex justify-between mb-10">
         <h1 class="text-2xl mb-1 font-bold mt-10">活動票券</h1>
 
-        <button
-          class="bg-navbar hover:bg-blue-700 mt-4 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline flex items-center"
-          type="button"
+        <a
+          class="bg-navbar hover:text-gray50 mt-4 font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline flex items-center"
+          :href="`./${activityId}/purchase`"
         >
           前往購票
           <span class="material-icons"> arrow_forward </span>
-        </button>
+        </a>
       </div>
       <div class="flex flex-col md:flex-row gap-8 mt-3">
         <table class="table-auto w-full text-left">

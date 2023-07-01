@@ -1,0 +1,44 @@
+{
+  "hash": "4d973e88",
+  "browserHash": "67fcd30d",
+  "optimized": {
+    "vue": {
+      "src": "../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
+      "file": "vue.js",
+      "fileHash": "0a641396",
+      "needsInterop": false
+    },
+    "pinia": {
+      "src": "../../node_modules/pinia/dist/pinia.mjs",
+      "file": "pinia.js",
+      "fileHash": "6597df08",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "f7417c56",
+      "needsInterop": false
+    },
+    "vue-router": {
+      "src": "../../node_modules/vue-router/dist/vue-router.mjs",
+      "file": "vue-router.js",
+      "fileHash": "fd1de2e4",
+      "needsInterop": false
+    },
+    "@vuepic/vue-datepicker": {
+      "src": "../../node_modules/@vuepic/vue-datepicker/dist/vue-datepicker.js",
+      "file": "@vuepic_vue-datepicker.js",
+      "fileHash": "cf1d6e02",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-L3N4JKNV": {
+      "file": "chunk-L3N4JKNV.js"
+    },
+    "chunk-OWZKEKZD": {
+      "file": "chunk-OWZKEKZD.js"
+    }
+  }
+}
