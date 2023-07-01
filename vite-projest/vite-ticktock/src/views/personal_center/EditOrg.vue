@@ -1,5 +1,6 @@
 <script setup>
 import PersonalCenterSide from '../../components/PersonalCenterSide.vue'
+import Nav from '../../components/Nav.vue'
 
 import utilities from '@/utilities.js'
 import { ref, onMounted } from 'vue'
@@ -41,6 +42,7 @@ const cancelEdit = async () => {
 
 <template>
   <!-- <main> -->
+  <Nav />
   <div class="main flex items-center justify-center flex-col my-12">
     <div class="user_img p-5 bg-white border border-gray30 rounded">
       <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full" />

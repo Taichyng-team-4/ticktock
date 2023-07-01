@@ -6,6 +6,13 @@ import { startOfMonth, endOfMonth, addMonths, startOfYear, endOfYear, format } f
 import utilities from '@/utilities.js';
 import * as api from '@/api.js';
 import Footer from '../../components/footer.vue'
+import Nav from '../../components/Nav.vue'
+</script>
+
+<template>
+  <!-- <main> -->
+
+  <Nav />
 import { usePaginationStore } from '../../stores/paginationStore.js';
 
 //選擇日期區間

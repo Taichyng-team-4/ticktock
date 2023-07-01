@@ -35,7 +35,7 @@ const router = createRouter({
     },
     {
       path: '/personal_center/userOrder',
-      name: 'user',
+      name: 'userOrder',
       component: () => import('../views/personal_center/UserOrder.vue')
     },
     {
