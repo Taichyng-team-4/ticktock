@@ -288,8 +288,8 @@ function goToPage(pageNumber) {
       <h3 class="font-bold text-2xl text-center py-3">{{ state.categoryName }} 相關活動</h3>
       <div class="grid grid-cols-3 gap-3">
         <div class="py-2" v-for="activityItem in paginatedItems" :key="activityItem.id">
-          <a href="#">
-            <img :src="activityItem.themeImg" class="w-full" />
+          <a href="#" class="hover:text-gray50">
+            <img :src="activityItem.themeImg" class="w-full h-72 object-cover" />
             <div class="flex flex-row py-3">
               <p class="pr-2">{{ activityItem.startAt }}</p>
               <p class="pl-2">{{ activityItem.venue.name }}</p>

@@ -144,7 +144,7 @@ onMounted(() => {
       <div class="grid grid-cols-3 gap-3">
         <div v-for="activityItem in activityList" :key="activityItem.id">
           <a :href="`./activity/${activityItem.id}`" class="hover:text-gray50">
-            <img :src="activityItem.themeImg" class="w-full" />
+            <img :src="activityItem.themeImg" class="w-full h-72 object-cover" />
             <div class="flex flex-row py-3">
               <p class="pr-2">{{ activityItem.startAt }}</p>
               <p class="pl-2">{{ activityItem.venue.name }}</p>
