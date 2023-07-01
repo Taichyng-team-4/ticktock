@@ -146,20 +146,20 @@ const convertArrayToCSV = (array) => {
             <th>姓名</th>
             <th>信箱</th>
             <th>繳費方式</th>
-            <th>票數</th>
+            <!-- <th>票數</th> -->
             <th>金額</th>
-            <th>手續費</th>
+            <!-- <th>手續費</th> -->
           </tr>
         </thead>
         <tbody v-for="item in filteredPurchases">
           <tr class="border-t border-gray30 text-center" :data-activityId="item.activityId">
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
-            <td>??@gmail.com</td>
-            <td>???</td>
-            <td>?</td>
+            <td>123@gmail.com</td>
+            <td>ATM</td>
+            <!-- <td>1</td> -->
             <td>NT{{ item.amount }}</td>
-            <td>NT??</td>
+            <!-- <td>NT??</td> -->
           </tr>
         </tbody>
       </table>

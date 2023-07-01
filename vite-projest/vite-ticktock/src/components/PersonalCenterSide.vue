@@ -7,7 +7,10 @@ const currentPage = route.name
 <template>
   <div class="side">
     <div class="user_img p-5 bg-white rounded">
-      <img src="https://picsum.photos/100/100" class="w-48 h-48 rounded-full" />
+      <img
+        src="https://taichung-ticktock.s3.ap-northeast-1.amazonaws.com/3fff82bb-15ab-497f-a696-bd86dc67e809.png"
+        class="w-48 h-48 rounded-full"
+      />
       <h3 class="p-2 font-bold text-center text-2xl">Zoey</h3>
     </div>
     <div class="mt-5 bg-white rounded">
@@ -22,7 +25,6 @@ const currentPage = route.name
           }"
         >
           <a href="/personal_center/userOrder" class="block hover:text-primary">訂單管理</a>
-
         </li>
         <li
           id="profile"
